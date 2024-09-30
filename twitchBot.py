@@ -21,13 +21,6 @@ class TwitchBot():
         threading.Thread(target=self.__listen,name="Bot irc").start()
 
 
-        while True:
-            response = self.irc.recv(2048).decode("utf-8")
-            if response.startswith("PING"):
-                self.irc.send("PONG\n".encode("utf-8"))
-            else:
-                self.__parse_message(response)
-
     def __connect(self):
         self.irc = socket.socket()
         self.irc.connect((self.serveur, self.port))
