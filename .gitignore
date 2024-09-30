@@ -162,3 +162,5 @@ cython_debug/
 #.idea/
 
 pokemon.db
+inventory.json
+pokemon.json
