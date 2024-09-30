@@ -5,4 +5,6 @@ from twitchBot import TwitchBot
 if __name__ == '__main__':
     
 
-    bot = TwitchBot()
+    # bot = TwitchBot()
+    pc = PokeCommu()
+    pc.auto_trade()

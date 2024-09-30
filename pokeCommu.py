@@ -46,7 +46,8 @@ class PokeCommu():
         
     def trade_pokemon(self, pokemon_id):
 
-        response = requests.post(self.url_trade + pokemon_id, headers={'Authorization': self.token})
+        response = requests.post(self.url_trade + str(pokemon_id) + "/", headers={'Authorization': self.token})
+        print(response.content)
         if response.status_code == 200:
             return True
         else:
@@ -72,7 +73,9 @@ class PokeCommu():
             pokemons_to_trade = self.__get_all_pokemons_by_id(duplicated_pokemon['pokedexId'])
             pokemons_to_trade.sort(key=lambda x: x['lvl'])
 
-            print(f"Pokemon to trade: {pokemons_to_trade}")
+            print(f"Trading {pokemons_to_trade[0]['name']} lvl {pokemons_to_trade[0]['lvl']} id {pokemons_to_trade[0]['id']}")
+
+            return pokemons_to_trade[0]
 
     def __get_all_pokemons_by_id(self, id):
         return [pokemon for pokemon in self.pokemons if pokemon.get('pokedexId') == id]
