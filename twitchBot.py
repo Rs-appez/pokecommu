@@ -2,18 +2,22 @@ from decouple import config
 import socket
 import re
 import threading
+
+from unidecode import unidecode
+
+from pokeBusiness import PokeBusiness
 class TwitchBot():
     
     serveur = "irc.chat.twitch.tv"
     port = 6667
     nickname = "appez"
     token = config('TWITCH_TOKEN')
-    channel = "#rs_appez"
+    channel = "#ephemeriia"
 
-    def __init__(self):
+    def __init__(self, pkb : PokeBusiness = None):
+        self.pkb = pkb
 
         self.__start()
-
 
     def __start(self):
         self.__connect()
@@ -41,5 +45,13 @@ class TwitchBot():
         if r:
             username, channel, message = r.groups()
             print(username + ": " + message)
+
+            if username == "pokemoncommunitygame" and self.pkb:
+                if "sauvage apparaît" in message:
+                    print("Un pokémon sauvage apparaît")
+                    pokemon_name = unidecode(message.split(" ")[3])
+                    print(pokemon_name)
+                    # pokemon = self.pkb.catch_pokemon(pokemon_name)
+                    
 
     
