@@ -14,7 +14,7 @@ class PokemonDB:
             Column('id', Integer, primary_key=True),
             Column('name_fr', String),
             Column('name_en', String),
-            Column('type', String),
+            Column('types', String),
             Column('stats', String),
             Column('height', Integer),
             Column('weight', Integer)
@@ -28,7 +28,7 @@ class PokemonDB:
             id=pokemon['id'],
             name_fr=pokemon['name_fr'],
             name_en=pokemon['name_en'],
-            type=json.dumps(pokemon['type']),  # Convert to JSON string
+            types=json.dumps(pokemon['types']),  # Convert to JSON string
             stats=json.dumps(pokemon['stats']),  # Convert to JSON string
             height=pokemon['height'],
             weight=pokemon['weight']
@@ -41,7 +41,7 @@ class PokemonDB:
         result = self.connection.execute(query).fetchone()
         if result:
             result_dict = dict(result._mapping)
-            result_dict['type'] = json.loads(result_dict['type'])  # Convert back to dictionary
+            result_dict['types'] = json.loads(result_dict['types'])  # Convert back to dictionary
             result_dict['stats'] = json.loads(result_dict['stats'])  # Convert back to dictionary
             return result_dict
         return None
