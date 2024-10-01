@@ -11,6 +11,8 @@ class PokemonData():
 
     def get_pokemon_data(self, pokemon_name):
 
+        pokemon_name = unidecode(pokemon_name.replace('♀', '-f').replace('♂', '-m')).lower()
+
         pokemon = self.db.get_pokemon(pokemon_name)
 
         if pokemon:
@@ -19,10 +21,9 @@ class PokemonData():
             return self.__get_pokemon_from_api(pokemon_name)
 
     def __get_pokemon_from_api(self, pokemon_name):
-        pokemon_name = unidecode(pokemon_name).lower()
+        pokemon_name = pokemon_name
         response = requests.get(self.api_url + pokemon_name)
         if response.status_code == 200:
-
             return self.__save_pokemon(response.json())
         else:
             return None
@@ -30,7 +31,7 @@ class PokemonData():
 
     def __save_pokemon(self, pokemon_data):
 
-        name_fr = unidecode(pokemon_data['name']['fr'])
+        name_fr = unidecode(pokemon_data['name']['fr'].replace('♀', '-f').replace('♂', '-m'))
 
         height = float (pokemon_data['height'].replace(' m', '').replace(',', '.'))
         weight = float (pokemon_data['weight'].replace(' kg', '').replace(',', '.'))
