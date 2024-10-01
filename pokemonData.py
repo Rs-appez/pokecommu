@@ -20,6 +20,7 @@ class PokemonData():
             return self.__get_pokemon_from_api(pokemon_name)
 
     def __get_pokemon_from_api(self, pokemon_name):
+        pokemon_name = unidecode(pokemon_name).lower()
         response = requests.get(self.api_url + pokemon_name)
         if response.status_code == 200:
 
