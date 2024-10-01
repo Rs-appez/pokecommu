@@ -13,6 +13,7 @@ class PokeCommu():
 
     def __init__(self):
         self.pokemons = []
+        self.pokemons_shiny = []
         self.inventory = []
 
         self.refresh_all()
@@ -30,6 +31,8 @@ class PokeCommu():
             for pokemon in response.json()["allPokemon"]:
                 if not pokemon['isShiny']:
                     self.pokemons.append(pokemon)
+                else:
+                    self.pokemons_shiny.append(pokemon)
             return True
         else:
             return False
