@@ -50,8 +50,13 @@ class TwitchBot():
                 if "sauvage apparaît" in message:
                     print("Un pokémon sauvage apparaît")
                     pokemon_name = unidecode(message.split(" ")[3])
-                    print(pokemon_name)
-                    # pokemon = self.pkb.catch_pokemon(pokemon_name)
+                    ball = self.pkb.catch_pokemon(pokemon_name)
+                    if ball:
+                        self.send_message(f"!pokecatch {ball}")
+
+    
+    def send_message(self, message):
+        self.irc.send(f"PRIVMSG {self.channel} :{message}\n".encode("utf-8"))
                     
 
     
