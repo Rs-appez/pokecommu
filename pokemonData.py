@@ -1,6 +1,5 @@
 import requests
 from pokemonDB import PokemonDB
-import json
 
 from unidecode import unidecode
 class PokemonData():
@@ -36,11 +35,13 @@ class PokemonData():
         height = float (pokemon_data['height'].replace(' m', '').replace(',', '.'))
         weight = float (pokemon_data['weight'].replace(' kg', '').replace(',', '.'))
 
+        types = [unidecode(type['name']) for type in pokemon_data['types']]
+
         pokemon = {
             'id': int (pokemon_data['pokedex_id']),
             'name_fr': name_fr,
             'name_en': pokemon_data['name']['en'],
-            'type': pokemon_data['types'],
+            'types': types,
             'stats': pokemon_data['stats'],
             'height': height,
             'weight': weight
