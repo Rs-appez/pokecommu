@@ -1,17 +1,15 @@
-from pokemonData import PokemonData
-from pokeCommu import PokeCommu
 from twitchBot import TwitchBot
 from pokeBusiness import PokeBusiness
 
 if __name__ == '__main__':
     
-    # pkb = PokeBusiness()
+    pkb = PokeBusiness()
 
-    # bot = TwitchBot(pkb)
+    # print(pkb.catch_pokemon("Nidoran♂"))
 
-    pkd = PokemonData()
+    bot = TwitchBot(pkb)
 
-    print(pkd.get_pokemon_data("Insecateur"))
+
     
     # pc = PokeCommu()
     # pc.auto_trade()
