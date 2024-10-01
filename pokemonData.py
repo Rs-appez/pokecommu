@@ -30,14 +30,15 @@ class PokemonData():
 
     def __save_pokemon(self, pokemon_data):
 
-        name = unidecode(pokemon_data['name']['fr'])
+        name_fr = unidecode(pokemon_data['name']['fr'])
 
         height = float (pokemon_data['height'].replace(' m', '').replace(',', '.'))
         weight = float (pokemon_data['weight'].replace(' kg', '').replace(',', '.'))
 
         pokemon = {
             'id': int (pokemon_data['pokedex_id']),
-            'name': name,
+            'name_fr': name_fr,
+            'name_en': pokemon_data['name']['en'],
             'type': pokemon_data['types'],
             'stats': pokemon_data['stats'],
             'height': height,

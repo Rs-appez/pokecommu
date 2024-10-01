@@ -11,7 +11,8 @@ class PokemonDB:
         # Define the table schema
         self.pokemon = sqlalchemy.Table('pokemon', self.metadata,
             Column('id', Integer, primary_key=True),
-            Column('name', String),
+            Column('name_fr', String),
+            Column('name_en', String),
             Column('type', String),
             Column('stats', String),
             Column('height', Integer),
@@ -24,7 +25,8 @@ class PokemonDB:
     def save_pokemon(self, pokemon):
         query = sqlalchemy.insert(self.pokemon).values(
             id=pokemon['id'],
-            name=pokemon['name'],
+            name_fr=pokemon['name_fr'],
+            name_en=pokemon['name_en'],
             type=json.dumps(pokemon['type']),  # Convert to JSON string
             stats=json.dumps(pokemon['stats']),  # Convert to JSON string
             height=pokemon['height'],
@@ -34,7 +36,7 @@ class PokemonDB:
         self.connection.commit()
 
     def get_pokemon(self, name):
-        query = sqlalchemy.select(self.pokemon).where(self.pokemon.c.name == name)
+        query = sqlalchemy.select(self.pokemon).where(self.pokemon.c.name_fr == name)
         result = self.connection.execute(query).fetchone()
         if result:
             result_dict = dict(result._mapping)
