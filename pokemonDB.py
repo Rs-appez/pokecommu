@@ -1,5 +1,6 @@
 import sqlalchemy
 from sqlalchemy import Column, Integer, String
+from sqlalchemy import func
 import json
 
 class PokemonDB:
@@ -36,7 +37,7 @@ class PokemonDB:
         self.connection.commit()
 
     def get_pokemon(self, name):
-        query = sqlalchemy.select(self.pokemon).where(self.pokemon.c.name_fr == name)
+        query = sqlalchemy.select(self.pokemon).where(func.lower(self.pokemon.c.name_fr) == func.lower(name))
         result = self.connection.execute(query).fetchone()
         if result:
             result_dict = dict(result._mapping)
