@@ -39,7 +39,7 @@ class PokeCommu():
         if response.status_code == 200:
             for ball in response.json()["allItems"]:
                 if ball["type"] == 2 :
-                    self.inventory.append({"name" : ball["name"], "amount" : ball["amount"]} )
+                    self.inventory.append(ball)
             return True
         else:
             return False
