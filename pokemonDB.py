@@ -37,7 +37,8 @@ class PokemonDB:
         query = sqlalchemy.select(self.pokemon).where(self.pokemon.c.name == name)
         result = self.connection.execute(query).fetchone()
         if result:
-            result = dict(result)
-            result['type'] = json.loads(result['type'])  # Convert back to dictionary
-            result['stats'] = json.loads(result['stats'])  # Convert back to dictionary
-        return result
+            result_dict = dict(result._mapping)
+            result_dict['type'] = json.loads(result_dict['type'])  # Convert back to dictionary
+            result_dict['stats'] = json.loads(result_dict['stats'])  # Convert back to dictionary
+            return result_dict
+        return None
