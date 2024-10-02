@@ -54,15 +54,13 @@ class PokeBusiness():
             self.__wait(80)
             return best_ball
     
-        stats = poke_data['stats']
-
-        if stats['weight'] > 204.8:
+        if poke_data['weight'] > 204.8:
             if self.__check_ball_in_inventary('heavy_ball'):
                 best_ball = 'Heavy Ball'
                 self.__wait()
                 return best_ball
             
-        if stats['weight'] <= 9.9:
+        if poke_data['weight'] <= 9.9:
             if self.__check_ball_in_inventary('feather_ball'):
                 best_ball = 'Feather Ball'
                 self.__wait()
@@ -91,7 +89,7 @@ class PokeBusiness():
                 return best_ball
             
         # 80% with stats
-
+        stats = poke_data['stats']
 
         if stats['vit'] > 100:
             if self.__check_ball_in_inventary('fast_ball'):
