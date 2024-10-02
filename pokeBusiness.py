@@ -38,6 +38,11 @@ class PokeBusiness():
                     best_ball = 'Cherish Ball'
                     self.__wait()
                     return best_ball
+            
+            if self.__check_ball_in_inventary('repeat_ball'):
+                best_ball = 'Repeat Ball'
+                self.__wait()
+                return best_ball
 
         if self.__check_ball_in_inventary('quick_ball'):
             best_ball = 'Quick Ball'
@@ -48,6 +53,20 @@ class PokeBusiness():
             best_ball = 'Timer Ball'
             self.__wait(80)
             return best_ball
+    
+        stats = poke_data['stats']
+
+        if stats['weight'] > 204.8:
+            if self.__check_ball_in_inventary('heavy_ball'):
+                best_ball = 'Heavy Ball'
+                self.__wait()
+                return best_ball
+            
+        if stats['weight'] <= 9.9:
+            if self.__check_ball_in_inventary('feather_ball'):
+                best_ball = 'Feather Ball'
+                self.__wait()
+                return best_ball
         
         # Check type ball
         types = [type for type in poke_data['types']]
@@ -73,7 +92,6 @@ class PokeBusiness():
             
         # 80% with stats
 
-        stats = poke_data['stats']
 
         if stats['vit'] > 100:
             if self.__check_ball_in_inventary('fast_ball'):
