@@ -3,8 +3,6 @@ import socket
 import re
 import threading
 
-from unidecode import unidecode
-
 from pokeBusiness import PokeBusiness
 class TwitchBot():
     
@@ -49,7 +47,7 @@ class TwitchBot():
             if username == "pokemoncommunitygame" and self.pkb:
                 if "sauvage apparaît" in message:
                     print("Un pokémon sauvage apparaît")
-                    pokemon_name = unidecode(message.split(" ")[3])
+                    pokemon_name = message.split(" ")[3]
                     ball = self.pkb.catch_pokemon(pokemon_name)
                     if ball:
                         self.send_message(f"!pokecatch {ball}")
