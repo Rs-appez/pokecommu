@@ -74,6 +74,7 @@ class PokeCommu():
 
         if duplicated_pokemon:
             pokemons_to_trade = self.__get_all_pokemons_by_id(duplicated_pokemon['pokedexId'])
+            pokemons_to_trade = [pokemon for pokemon in pokemons_to_trade if not pokemon['locked']]
             pokemons_to_trade.sort(key=lambda x: x['lvl'])
 
             print(f"Trading {pokemons_to_trade[0]['name']} lvl {pokemons_to_trade[0]['lvl']} id {pokemons_to_trade[0]['id']}")
