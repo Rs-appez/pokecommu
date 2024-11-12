@@ -35,34 +35,34 @@ class PokeBusiness():
             # Check if the pokemon is shiny
             if not [poke for poke in pokemons_shiny if poke['name'] == poke_data['name_en']]:
                 if self.__check_ball_in_inventary('cherish_ball'):
-                    best_ball = 'Cherish Ball'
+                    best_ball = 'cherishball'
                     self.__wait()
                     return best_ball
             
             if self.__check_ball_in_inventary('repeat_ball'):
-                best_ball = 'Repeat Ball'
+                best_ball = 'repeatball'
                 self.__wait()
                 return best_ball
 
         if self.__check_ball_in_inventary('quick_ball'):
-            best_ball = 'Quick Ball'
+            best_ball = 'quickball'
             self.__wait(random.randint(1, 5))
             return best_ball
         
         if self.__check_ball_in_inventary('timer_ball'):
-            best_ball = 'Timer Ball'
+            best_ball = 'timerball'
             self.__wait(80)
             return best_ball
     
         if poke_data['weight'] > 204.8:
             if self.__check_ball_in_inventary('heavy_ball'):
-                best_ball = 'Heavy Ball'
+                best_ball = 'heavyball'
                 self.__wait()
                 return best_ball
             
         if poke_data['weight'] <= 9.9:
             if self.__check_ball_in_inventary('feather_ball'):
-                best_ball = 'Feather Ball'
+                best_ball = 'featherball'
                 self.__wait()
                 return best_ball
         
@@ -72,19 +72,19 @@ class PokeBusiness():
         # 80%
         if 'Ice' in types:
             if self.__check_ball_in_inventary('frozen_ball'):
-                best_ball = 'Frozen Ball'
+                best_ball = 'frozenball'
                 self.__wait()
                 return best_ball
             
         if 'Dark' in types:
             if self.__check_ball_in_inventary('night_ball'):
-                best_ball = 'Night Ball'
+                best_ball = 'nightball'
                 self.__wait()
                 return best_ball
             
         if 'Ghost' in types:
             if self.__check_ball_in_inventary('phantom_ball'):
-                best_ball = 'Phantom Ball'
+                best_ball = 'phantomball'
                 self.__wait()
                 return best_ball
             
@@ -93,19 +93,19 @@ class PokeBusiness():
 
         if stats['vit'] > 100:
             if self.__check_ball_in_inventary('fast_ball'):
-                best_ball = 'Fast Ball'
+                best_ball = 'fastball'
                 self.__wait()
                 return best_ball
             
         if stats['hp'] > 100:
             if self.__check_ball_in_inventary('heal_ball'):
-                best_ball = 'Heal Ball'
+                best_ball = 'healball'
                 self.__wait()
                 return best_ball
             
         
         if self.__check_ball_in_inventary('ultra_ball'):
-            best_ball = 'Ultra Ball'
+            best_ball = 'ultraball'
             self.__wait()
             return best_ball
 
@@ -113,57 +113,57 @@ class PokeBusiness():
 
         if any(t in types for t in ['Poison', 'Psychic']):
             if self.__check_ball_in_inventary('cipher_ball'):
-                best_ball = 'Cipher Ball'
+                best_ball = 'cipherball'
                 self.__wait()
                 return best_ball
     
         if any(t in types for t in ['Steel', 'Electric']):
             if self.__check_ball_in_inventary('magnet_ball'):
-                best_ball = 'Magnet Ball'
+                best_ball = 'magnetball'
                 self.__wait()
                 return best_ball
         
         if any(t in types for t in ['Water', 'Bug']):
             if self.__check_ball_in_inventary('net_ball'):
-                best_ball = 'Net Ball'
+                best_ball = 'netball'
                 self.__wait()
                 return best_ball
             
         # 55%
         if self.__check_ball_in_inventary('great_ball'):
-            best_ball = 'Great Ball'
+            best_ball = 'greatball'
             self.__wait()
             return best_ball
         
         if self.__check_ball_in_inventary('stone_ball'):
-            best_ball = 'Stone Ball'
+            best_ball = 'stoneball'
             self.__wait()
             return best_ball
         
         if self.__check_ball_in_inventary('luxury_ball'):
-            best_ball = 'Luxury Ball'
+            best_ball = 'luxuryball'
             self.__wait()
             return best_ball
 
         # 40%
         if self.__check_ball_in_inventary('level_ball'):
-            best_ball = 'Level Ball'
+            best_ball = 'levelball'
             self.__wait()
             return best_ball
 
         # 30%
         if self.__check_ball_in_inventary('clone_ball'):
-            best_ball = 'Clone Ball'
+            best_ball = 'cloneball'
             self.__wait()
             return best_ball
         
         if self.__check_ball_in_inventary('poke_ball'):
-            best_ball = 'Poke Ball'
+            best_ball = 'pokeball'
             self.__wait()
             return best_ball
         
         if self.__check_ball_in_inventary('premier_ball'):
-            best_ball = 'Premier Ball'
+            best_ball = 'premierball'
             self.__wait()
             return best_ball
         
