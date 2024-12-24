@@ -179,7 +179,7 @@ class PokeBusiness:
 
         return False
 
-    def __wait(self, time: int = None):
+    def __wait(self, time: int = 0):
 
         if not time:
             time = random.randint(5, 80)
@@ -192,7 +192,10 @@ class PokeBusiness:
 
     def auto_trade(self, type=None):
         pokemon = self.__find_pokemon_to_trade(type)
-        self.pokeCommu.trade_pokemon(pokemon["id"])
+        if pokemon:
+            self.pokeCommu.trade_pokemon(pokemon["id"])
+        else:
+            print("No pokemon to trade")
 
     def __get_first_duplicated_pokemon(self, type=None):
         seen = set()
@@ -202,7 +205,7 @@ class PokeBusiness:
             data = self.pokemon_data.get_pokemon_data_id(name)
             if name in seen:
                 return pokemon
-            if type and not type in data["types"]:
+            if type and data and not type in data["types"]:
                 continue
             seen.add(name)
         return None
