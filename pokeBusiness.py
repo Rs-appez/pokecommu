@@ -198,7 +198,7 @@ class PokeBusiness:
         seen = set()
         for pokemon in self.pokeCommu.pokemons:
 
-            name = pokemon.get("pokedexId")
+            name = pokemon.get("order")
             data = self.pokemon_data.get_pokemon_data_id(name)
             if name in seen:
                 return pokemon

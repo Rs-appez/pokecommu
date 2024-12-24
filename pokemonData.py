@@ -35,8 +35,10 @@ class PokemonData:
             return self.__get_pokemon_from_api(str(id))
 
     def __get_pokemon_from_api(self, pokemon_name):
-        pokemon_name = pokemon_name
+
+        print(f"Fetch data from the API for {pokemon_name}")
         response = requests.get(self.api_url + pokemon_name)
+        print("Pokemon fetched")
         if response.status_code == 200:
             return self.__save_pokemon(response.json())
         else:
@@ -44,6 +46,7 @@ class PokemonData:
 
     def __save_pokemon(self, pokemon_data):
 
+        print(pokemon_data)
         name_fr = unidecode(
             pokemon_data["name"]["fr"].replace("♀", "-f").replace("♂", "-m")
         )
