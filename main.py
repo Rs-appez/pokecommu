@@ -8,6 +8,3 @@ if __name__ == "__main__":
     # print(pkb.catch_pokemon("Nidoran♂"))
 
     bot = TwitchBot(pkb)
-
-    # pc = PokeCommu()
-    # pc.auto_trade()
