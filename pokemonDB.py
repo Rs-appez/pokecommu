@@ -68,3 +68,33 @@ class PokemonDB:
             )  # Convert back to dictionary
             return result_dict
         return None
+
+class TypeDB():
+
+    def __init__(self):
+
+        self.engine = sqlalchemy.create_engine("sqlite:///pokemon.db")
+        self.connection = self.engine.connect()
+        self.metadata = sqlalchemy.MetaData()
+
+        # Define the table schema
+        self.types = sqlalchemy.Table(
+            "types",
+            self.metadata,
+            Column("id", Integer, primary_key=True),
+            Column("name_fr", String),
+            Column("name_en", String),
+        )
+
+        # Create the table if it doesn't exist
+        self.metadata.create_all(self.engine)
+
+
+    def save_type(self, type):
+        query = sqlalchemy.insert(self.types).values(
+            id=type["id"],
+            name_fr=type["name_fr"],
+            name_en=type["name_en"],
+        )
+        self.connection.execute(query)
+        self.connection.commit()
