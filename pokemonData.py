@@ -46,7 +46,6 @@ class PokemonData:
 
     def __save_pokemon(self, pokemon_data):
 
-        print(pokemon_data)
         name_fr = unidecode(
             pokemon_data["name"]["fr"].replace("♀", "-f").replace("♂", "-m")
         )
