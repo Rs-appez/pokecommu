@@ -50,7 +50,8 @@ class PokeBusiness:
 
         if self.__check_ball_in_inventary("timer_ball"):
             best_ball = "timerball"
-            self.__wait(80)
+            self.__wait(random.randint(1, 5))
+            self.__wait(70)
             return best_ball
 
         if poke_data["weight"] > 204.8:
