@@ -12,7 +12,7 @@ class TwitchBot:
     port = 6667
     nickname = "rs_appez"
     token = config("TWITCH_TOKEN")
-    channel = "#deemonrider"
+    channel = "#rs_appez"
 
     def __init__(self, pkb: PokeBusiness):
         self.pkb = pkb
