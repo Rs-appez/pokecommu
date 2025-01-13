@@ -69,7 +69,8 @@ class PokemonDB:
             return result_dict
         return None
 
-class TypeDB():
+
+class TypeDB:
 
     def __init__(self):
 
@@ -89,7 +90,6 @@ class TypeDB():
         # Create the table if it doesn't exist
         self.metadata.create_all(self.engine)
 
-
     def save_type(self, type):
         query = sqlalchemy.insert(self.types).values(
             id=type["id"],
@@ -98,3 +98,13 @@ class TypeDB():
         )
         self.connection.execute(query)
         self.connection.commit()
+
+    def get_type(self, name):
+        query = sqlalchemy.select(self.types).where(
+            func.lower(self.types.c.name_fr) == func.lower(name)
+        )
+        result = self.connection.execute(query).fetchone()
+        if result:
+            result_dict = dict(result._mapping)
+            return result_dict
+        return None

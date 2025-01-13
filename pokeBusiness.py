@@ -11,7 +11,7 @@ class PokeBusiness:
 
     def catch_pokemon(self, pokemon):
 
-        poke_data = self.pokemon_data.get_pokemon_data(pokemon)
+        poke_data = self.pokemon_data.get_pokemon(pokemon, "en")
 
         if poke_data:
             ball = self.find_best_ball(poke_data)
