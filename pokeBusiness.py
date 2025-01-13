@@ -198,16 +198,18 @@ class PokeBusiness:
         else:
             print("No pokemon to trade")
 
-    def __get_first_duplicated_pokemon(self, type=None):
+    def __get_first_duplicated_pokemon(self, poke_type=None):
         seen = set()
         for pokemon in self.pokeCommu.pokemons:
 
             name = pokemon.get("order")
-            data = self.pokemon_data.get_pokemon_data_id(name)
+            data = self.pokemon_data.get_pokemon(name, "num")
             if name in seen:
                 return pokemon
-            if type and data and not type in data["types"]:
-                continue
+            if data:
+                types = data.en_types + data.fr_types
+                if poke_type and not poke_type in types:
+                    continue
             seen.add(name)
         return None
 

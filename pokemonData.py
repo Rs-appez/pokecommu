@@ -3,19 +3,21 @@ from pokemon import Pokemon
 
 class PokemonData:
 
-    def get_pokemon(self, pokemon, lang):
+    def get_pokemon(self, pokemon, lang) -> Pokemon | None:
+
+        pokemon_object = None
+
+        if lang == "num":
+            pokemon = int(pokemon)
 
         if type(pokemon) is str:
 
             if lang == "fr":
-                pokemon = Pokemon(name_fr=pokemon)
+                pokemon_object = Pokemon(name_fr=pokemon)
             elif lang == "en":
-                pokemon = Pokemon(name_en=pokemon)
+                pokemon_object = Pokemon(name_en=pokemon)
 
         elif type(pokemon) is int:
-            pokemon = Pokemon(id=pokemon)
+            pokemon_object = Pokemon(id=pokemon)
 
-        else:
-            pokemon = None
-
-        return pokemon
+        return pokemon_object
