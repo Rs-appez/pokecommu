@@ -66,13 +66,13 @@ class Pokemon:
 
     def __get_pokemon_data_id(self):
 
-        pokemon = self.db.get_pokemon_id(id)
+        pokemon = self.db.get_pokemon_id(self.id)
 
         if pokemon:
             return pokemon
 
         else:
-            return self.__get_pokemon_from_api(str(id))
+            return self.__get_pokemon_from_api(str(self.id))
 
     def __get_pokemon_from_api(self, pokemon_name):
 
