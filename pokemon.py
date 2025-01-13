@@ -42,9 +42,9 @@ class Pokemon:
             self.fr_types = pokemon["types"]
 
             for type in self.fr_types:
-                type_en = self.type_db.get_type(type)
-                if type_en:
-                    self.en_types.append(type_en)
+                type_data = self.type_db.get_type(type)
+                if type_data:
+                    self.en_types.append(type_data["name_en"])
 
     def __get_pokemon_data(self):
 

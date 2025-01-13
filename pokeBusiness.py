@@ -207,8 +207,8 @@ class PokeBusiness:
             if name in seen:
                 return pokemon
             if data:
-                types = data.en_types + data.fr_types
-                if poke_type and not poke_type in types:
+                types = map(str.lower, data.en_types + data.fr_types)
+                if poke_type and not poke_type.lower() in types:
                     continue
             seen.add(name)
         return None
