@@ -64,13 +64,14 @@ class PokeCommu:
         else:
             return False
 
-    def buy_item(self, item, amount=1):
+    def buy_item(self, item, amount=1, refresh=True):
 
         data = {"amount": amount, "item_name": item}
 
         response = requests.post(self.url_purchase, headers=self.header, data=data)
 
-        print(response.json())
         if response.status_code == 200:
+            if refresh:
+                self.get_inventory()
             return True
         return False
