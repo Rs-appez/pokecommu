@@ -194,6 +194,8 @@ class PokeBusiness:
     def auto_trade(self, type=None):
         pokemon = self.__find_pokemon_to_trade(type)
         if pokemon:
+            print(pokemon)
+            return
             self.pokeCommu.trade_pokemon(pokemon["id"])
         else:
             print("No pokemon to trade")
@@ -213,7 +215,7 @@ class PokeBusiness:
             seen.add(name)
         return None
 
-    def __find_pokemon_to_trade(self, type=None):
+    def __find_pokemon_to_trade(self, type=None, selector="avgIV"):
         duplicated_pokemon = self.__get_first_duplicated_pokemon(type)
 
         if duplicated_pokemon:
@@ -223,10 +225,10 @@ class PokeBusiness:
             pokemons_to_trade = [
                 pokemon for pokemon in pokemons_to_trade if not pokemon["locked"]
             ]
-            pokemons_to_trade.sort(key=lambda x: x["lvl"])
+            pokemons_to_trade.sort(key=lambda x: x[selector])
 
             print(
-                f"Trading {pokemons_to_trade[0]['name']} lvl {pokemons_to_trade[0]['lvl']} id {pokemons_to_trade[0]['id']}"
+                f"Trading {pokemons_to_trade[0]['name']} lvl {pokemons_to_trade[0]['lvl']} avgIV {pokemons_to_trade[0]['avgIV']} id {pokemons_to_trade[0]['id']}"
             )
 
             return pokemons_to_trade[0]
