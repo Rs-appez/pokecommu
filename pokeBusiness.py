@@ -194,8 +194,6 @@ class PokeBusiness:
     def auto_trade(self, type=None):
         pokemon = self.__find_pokemon_to_trade(type)
         if pokemon:
-            print(pokemon)
-            return
             self.pokeCommu.trade_pokemon(pokemon["id"])
         else:
             print("No pokemon to trade")
