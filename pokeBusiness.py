@@ -33,6 +33,17 @@ class PokeBusiness:
             if not [
                 poke for poke in pokemons_shiny if poke["name"] == poke_data["name_en"]
             ]:
+                # 80%
+                if self.__check_ball_in_inventary("ultra_cherish_ball"):
+                    best_ball = "ultracherishball"
+                    self.__wait()
+                    return best_ball
+                # 55%
+                if self.__check_ball_in_inventary("great_cherish_ball"):
+                    best_ball = "greatcherishball"
+                    self.__wait()
+                    return best_ball
+                # 30%
                 if self.__check_ball_in_inventary("cherish_ball"):
                     best_ball = "cherishball"
                     self.__wait()
