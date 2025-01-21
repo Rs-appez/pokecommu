@@ -20,6 +20,76 @@ class PokeBusiness:
             else:
                 return None
 
+    def auto_trade(self, type=None):
+        pokemon = self.__find_pokemon_to_trade(type)
+        if pokemon:
+            self.pokeCommu.trade_pokemon(pokemon["id"])
+        else:
+            print("No pokemon to trade")
+
+    def __check_ball_in_inventary(self, ball):
+
+        balls = self.pokeCommu.inventory
+
+        if [b for b in balls if b["sprite_name"] == ball]:
+            ball = [b for b in balls if b["sprite_name"] == ball][0]
+            if ball["amount"] > 0:
+                ball["amount"] -= 1
+                return True
+
+        return False
+
+    def __wait(self, time: int = 0):
+
+        if not time:
+            time = random.randint(5, 80)
+
+        asyncio.run(self.__wait_coroutine(time))
+
+    async def __wait_coroutine(self, time: int):
+        await asyncio.sleep(time)
+        return True
+
+    def __get_first_duplicated_pokemon(self, poke_type=None):
+        seen = set()
+        for pokemon in self.pokeCommu.pokemons:
+
+            name = pokemon.get("order")
+            data = self.pokemon_data.get_pokemon(name, "num")
+            if name in seen:
+                return pokemon
+            if data:
+                types = map(str.lower, data.en_types + data.fr_types)
+                if poke_type and not poke_type.lower() in types:
+                    continue
+            seen.add(name)
+        return None
+
+    def __find_pokemon_to_trade(self, type=None, selector="avgIV"):
+        duplicated_pokemon = self.__get_first_duplicated_pokemon(type)
+
+        if duplicated_pokemon:
+            pokemons_to_trade = self.__get_all_pokemons_by_id(
+                duplicated_pokemon["pokedexId"]
+            )
+            pokemons_to_trade = [
+                pokemon for pokemon in pokemons_to_trade if not pokemon["locked"]
+            ]
+            pokemons_to_trade.sort(key=lambda x: x[selector])
+
+            print(
+                f"Trading {pokemons_to_trade[0]['name']} lvl {pokemons_to_trade[0]['lvl']} avgIV {pokemons_to_trade[0]['avgIV']} id {pokemons_to_trade[0]['id']}"
+            )
+
+            return pokemons_to_trade[0]
+
+    def __get_all_pokemons_by_id(self, id):
+        return [
+            pokemon
+            for pokemon in self.pokeCommu.pokemons
+            if pokemon.get("pokedexId") == id
+        ]
+
     def find_best_ball(self, poke_data):
 
         best_ball = None
@@ -178,73 +248,3 @@ class PokeBusiness:
             return best_ball
 
         return best_ball
-
-    def __check_ball_in_inventary(self, ball):
-
-        balls = self.pokeCommu.inventory
-
-        if [b for b in balls if b["sprite_name"] == ball]:
-            ball = [b for b in balls if b["sprite_name"] == ball][0]
-            if ball["amount"] > 0:
-                ball["amount"] -= 1
-                return True
-
-        return False
-
-    def __wait(self, time: int = 0):
-
-        if not time:
-            time = random.randint(5, 80)
-
-        asyncio.run(self.__wait_coroutine(time))
-
-    async def __wait_coroutine(self, time: int):
-        await asyncio.sleep(time)
-        return True
-
-    def auto_trade(self, type=None):
-        pokemon = self.__find_pokemon_to_trade(type)
-        if pokemon:
-            self.pokeCommu.trade_pokemon(pokemon["id"])
-        else:
-            print("No pokemon to trade")
-
-    def __get_first_duplicated_pokemon(self, poke_type=None):
-        seen = set()
-        for pokemon in self.pokeCommu.pokemons:
-
-            name = pokemon.get("order")
-            data = self.pokemon_data.get_pokemon(name, "num")
-            if name in seen:
-                return pokemon
-            if data:
-                types = map(str.lower, data.en_types + data.fr_types)
-                if poke_type and not poke_type.lower() in types:
-                    continue
-            seen.add(name)
-        return None
-
-    def __find_pokemon_to_trade(self, type=None, selector="avgIV"):
-        duplicated_pokemon = self.__get_first_duplicated_pokemon(type)
-
-        if duplicated_pokemon:
-            pokemons_to_trade = self.__get_all_pokemons_by_id(
-                duplicated_pokemon["pokedexId"]
-            )
-            pokemons_to_trade = [
-                pokemon for pokemon in pokemons_to_trade if not pokemon["locked"]
-            ]
-            pokemons_to_trade.sort(key=lambda x: x[selector])
-
-            print(
-                f"Trading {pokemons_to_trade[0]['name']} lvl {pokemons_to_trade[0]['lvl']} avgIV {pokemons_to_trade[0]['avgIV']} id {pokemons_to_trade[0]['id']}"
-            )
-
-            return pokemons_to_trade[0]
-
-    def __get_all_pokemons_by_id(self, id):
-        return [
-            pokemon
-            for pokemon in self.pokeCommu.pokemons
-            if pokemon.get("pokedexId") == id
-        ]
