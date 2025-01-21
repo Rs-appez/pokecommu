@@ -210,13 +210,13 @@ class PokeBusiness:
                 return best_ball
 
         # 55%
-        if self.__check_ball_in_inventary("great_ball"):
-            best_ball = "greatball"
+        if self.__check_ball_in_inventary("stone_ball"):
+            best_ball = "stoneball"
             self.__wait()
             return best_ball
 
-        if self.__check_ball_in_inventary("stone_ball"):
-            best_ball = "stoneball"
+        if self.__check_ball_in_inventary("great_ball"):
+            best_ball = "greatball"
             self.__wait()
             return best_ball
 
