@@ -28,6 +28,7 @@ class PokeBusiness:
                 print(
                     f"GET : {poke_data['name']} id {poke_data['id']} lvl {poke_data['lvl']} avgIV {poke_data['avgIav']}"
                 )
+                # get pokemon for printing fetched pokemon if is a new one
                 new_pokemon = self.pokemon_data.get_pokemon(poke_data, "num")
         else:
             print("No pokemon to trade")
