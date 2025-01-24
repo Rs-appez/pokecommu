@@ -55,6 +55,11 @@ class PokemonDB:
             return result_dict
         return None
 
+    def get_all_pokemon(self):
+        query = sqlalchemy.select(self.pokemon)
+        result = self.connection.execute(query).fetchall()
+        return [dict(row._mapping) for row in result]
+
     def get_pokemon_id(self, id):
         query = sqlalchemy.select(self.pokemon).where(self.pokemon.c.id == id)
         result = self.connection.execute(query).fetchone()
