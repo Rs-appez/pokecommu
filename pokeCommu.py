@@ -59,8 +59,19 @@ class PokeCommu:
             self.url_trade + str(pokemon_id) + "/", headers=self.header
         )
         if response.status_code == 200:
+
             poke_id = response.json()["pokemon"]["order"]
-            return poke_id
+            poke_name = response.json()["pokemon"]["name"]
+            poke_level = response.json()["pokemon"]["lvl"]
+            poke_avgIV = response.json()["pokemon"]["avgIV"]
+
+            poke_data = {
+                "id": poke_id,
+                "name": poke_name,
+                "lvl": poke_level,
+                "avgIV": poke_avgIV,
+            }
+            return poke_data
         else:
             return 0
 

@@ -23,13 +23,12 @@ class PokeBusiness:
     def auto_trade(self, type=None):
         pokemon = self.__find_pokemon_to_trade(type)
         if pokemon:
-            poke_id = self.pokeCommu.trade_pokemon(pokemon["id"])
-            if poke_id:
-                if not self.pokemon_data.get_pokemon(poke_id, "num"):
-                    print("!!! NEW POKEMON !!!")
+            poke_data = self.pokeCommu.trade_pokemon(pokemon["id"])
+            if poke_data:
                 print(
-                    f"GET : {pokemon['name']} lvl {pokemon['lvl']} avgIV {pokemon['avgIV']} "
+                    f"GET : {poke_data['name']} id {poke_data['id']} lvl {poke_data['lvl']} avgIV {poke_data['avgIav']}"
                 )
+                new_pokemon = self.pokemon_data.get_pokemon(poke_data, "num")
         else:
             print("No pokemon to trade")
 
