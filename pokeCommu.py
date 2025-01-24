@@ -58,11 +58,11 @@ class PokeCommu:
         response = requests.post(
             self.url_trade + str(pokemon_id) + "/", headers=self.header
         )
-        print(response.content)
         if response.status_code == 200:
-            return True
+            poke_id = response.json()["pokemon"]["order"]
+            return poke_id
         else:
-            return False
+            return 0
 
     def buy_item(self, item, amount=1, refresh=True):
 
