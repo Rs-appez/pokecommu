@@ -26,10 +26,12 @@ class PokeBusiness:
             poke_data = self.pokeCommu.trade_pokemon(pokemon["id"])
             if poke_data:
                 print(
-                    f"GET : {poke_data['name']} id {poke_data['id']} lvl {poke_data['lvl']} avgIV {poke_data['avgIav']}"
+                    f"GET : {poke_data['name']} id {poke_data['id']} lvl {poke_data['lvl']} avgIV {poke_data['avgIv']}"
                 )
                 # get pokemon for printing fetched pokemon if is a new one
                 new_pokemon = self.pokemon_data.get_pokemon(poke_data, "num")
+            else:
+                print("Trade failed")
         else:
             print("No pokemon to trade")
 
