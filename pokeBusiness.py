@@ -20,8 +20,8 @@ class PokeBusiness:
             else:
                 return None
 
-    def auto_trade(self, type=None):
-        pokemon = self.__find_pokemon_to_trade(type)
+    def auto_trade(self, type=None, level=None):
+        pokemon = self.__find_pokemon_to_trade(type, level)
         if pokemon:
             poke_data = self.pokeCommu.trade_pokemon(pokemon["id"])
             if poke_data:
@@ -58,7 +58,7 @@ class PokeBusiness:
         await asyncio.sleep(time)
         return True
 
-    def __get_first_duplicated_pokemon(self, poke_type=None):
+    def __get_first_duplicated_pokemon(self, poke_type=None, level=None):
         seen = set()
         for pokemon in self.pokeCommu.pokemons:
 
@@ -67,14 +67,28 @@ class PokeBusiness:
             if name in seen:
                 return pokemon
             if data:
-                types = map(str.lower, data.en_types + data.fr_types)
-                if poke_type and not poke_type.lower() in types:
-                    continue
+                # check type
+                if poke_type:
+                    types = map(str.lower, data.en_types + data.fr_types)
+                    if not poke_type.lower() in types:
+                        continue
+                # check level
+                if level:
+                    if not pokemon.get("lvl") < int(level):
+                        continue
+
             seen.add(name)
         return None
 
-    def __find_pokemon_to_trade(self, type=None, selector="avgIV"):
-        duplicated_pokemon = self.__get_first_duplicated_pokemon(type)
+    def __find_pokemon_to_trade(self, type=None, level=None, selector=""):
+        # select selector
+        if level:
+            selector = "lvl"
+
+        if not selector:
+            selector = "avgIV"
+
+        duplicated_pokemon = self.__get_first_duplicated_pokemon(type, level)
 
         if duplicated_pokemon:
             pokemons_to_trade = self.__get_all_pokemons_by_id(
