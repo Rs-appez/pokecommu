@@ -62,9 +62,10 @@ class PokeBusiness:
         seen = set()
         for pokemon in self.pokeCommu.pokemons:
 
-            name = pokemon.get("order")
-            data = self.pokemon_data.get_pokemon(name, "num")
-            if name in seen:
+            id = pokemon.get("pokedexId")
+            order = pokemon.get("order")
+            data = self.pokemon_data.get_pokemon(order, "num")
+            if id in seen:
                 return pokemon
             if data:
                 # check type
@@ -77,7 +78,7 @@ class PokeBusiness:
                     if not pokemon.get("lvl") < int(level):
                         continue
 
-            seen.add(name)
+            seen.add(id)
         return None
 
     def __find_pokemon_to_trade(self, type=None, level=None, selector=""):
