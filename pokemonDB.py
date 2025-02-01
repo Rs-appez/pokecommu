@@ -39,9 +39,17 @@ class PokemonDB:
         self.connection.execute(query)
         self.connection.commit()
 
-    def get_pokemon(self, name):
+    def get_pokemon(self, name, lang):
+
+        if lang == "fr":
+            name_column = self.pokemon.c.name_fr
+        elif lang == "en":
+            name_column = self.pokemon.c.name_en
+        else:
+            return None
+
         query = sqlalchemy.select(self.pokemon).where(
-            func.lower(self.pokemon.c.name_fr) == func.lower(name)
+            func.lower(name_column) == func.lower(name)
         )
         result = self.connection.execute(query).fetchone()
         if result:

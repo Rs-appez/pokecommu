@@ -28,8 +28,10 @@ class Pokemon:
 
         if not self.id == 0:
             pokemon = self.__get_pokemon_data_id()
-        elif self.fr_name != None or self.en_name != None:
-            pokemon = self.__get_pokemon_data()
+        elif self.fr_name != None:
+            pokemon = self.__get_pokemon_data("fr")
+        elif self.en_name != None:
+            pokemon = self.__get_pokemon_data("en")
         else:
             pokemon = None
 
@@ -46,18 +48,20 @@ class Pokemon:
                 if type_data:
                     self.en_types.append(type_data["name_en"])
 
-    def __get_pokemon_data(self):
+    def __get_pokemon_data(self, lang):
 
-        pokemon_name = self.fr_name if self.fr_name else self.en_name
-
-        if not pokemon_name:
+        if lang == "fr":
+            pokemon_name = self.fr_name
+        elif lang == "en":
+            pokemon_name = self.en_name
+        else:
             return
 
         pokemon_name = unidecode(
             pokemon_name.replace("♀", "-f").replace("♂", "-m")
         ).lower()
 
-        pokemon = self.db.get_pokemon(pokemon_name)
+        pokemon = self.db.get_pokemon(pokemon_name, lang)
 
         if pokemon:
             return pokemon
