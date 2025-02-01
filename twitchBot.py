@@ -6,7 +6,7 @@ import websocket
 from pokeBusiness import PokeBusiness
 
 
-class TwitchBotAPI:
+class TwitchBot:
 
     nickname = config("NICKNAME")
     token = config("TWITCH_TOKEN")
