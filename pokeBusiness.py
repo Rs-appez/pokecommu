@@ -113,7 +113,7 @@ class PokeBusiness:
             if pokemon.get("pokedexId") == id
         ]
 
-    def find_best_ball(self, poke_data):
+    def find_best_ball(self, pokemon):
 
         best_ball = None
 
@@ -121,11 +121,9 @@ class PokeBusiness:
         pokemons_shiny = self.pokeCommu.pokemons_shiny
 
         # Check if the pokemon is already caught
-        if [poke for poke in pokemons if poke["name"] == poke_data.name_en]:
+        if [poke for poke in pokemons if poke["name"] == pokemon.en_name]:
             # Check if the pokemon is shiny
-            if not [
-                poke for poke in pokemons_shiny if poke["name"] == poke_data.name_en
-            ]:
+            if not [poke for poke in pokemons_shiny if poke["name"] == pokemon.en_name]:
                 # 80%
                 if self.__check_ball_in_inventary("ultra_cherish_ball"):
                     best_ball = "ultracherishball"
@@ -158,20 +156,20 @@ class PokeBusiness:
             self.__wait(70)
             return best_ball
 
-        if poke_data.weight > 204.8:
+        if pokemon.weight > 204.8:
             if self.__check_ball_in_inventary("heavy_ball"):
                 best_ball = "heavyball"
                 self.__wait()
                 return best_ball
 
-        if poke_data.weight <= 9.9:
+        if pokemon.weight <= 9.9:
             if self.__check_ball_in_inventary("feather_ball"):
                 best_ball = "featherball"
                 self.__wait()
                 return best_ball
 
         # Check type ball
-        types = [type for type in poke_data.types]
+        types = [type for type in pokemon.types]
 
         # 80%
         if "Ice" in types:
@@ -193,7 +191,7 @@ class PokeBusiness:
                 return best_ball
 
         # 80% with stats
-        stats = poke_data.stats
+        stats = pokemon.stats
 
         if stats["vit"] > 100:
             if self.__check_ball_in_inventary("fast_ball"):
