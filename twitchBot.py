@@ -66,11 +66,20 @@ class TwitchBot:
             if username == "pokemoncommunitygame" and self.pkb:
                 if "A wild" in message:
                     print("Un pokémon sauvage apparaît")
-                    pokemon_name = message.split(" ")[4]
+
+                    pokemon_name = ""
+                    message_array = message.split(" ")[4:]
+
+                    for m in message_array:
+                        if m != "appears":
+                            pokemon_name += m + " "
+                        else:
+                            break
                     print(pokemon_name)
-                    ball = self.pkb.catch_pokemon(pokemon_name)
+                    ball = self.pkb.catch_pokemon(pokemon_name.strip())
                     if ball:
                         self.__send_message(f"!pokecatch {ball}")
 
     def __send_message(self, message):
-        self.ws.send(f"PRIVMSG {self.channel} :{message}\n")
+        if self.ws:
+            self.ws.send(f"PRIVMSG {self.channel} :{message}\n")
