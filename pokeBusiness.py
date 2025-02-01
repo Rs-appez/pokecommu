@@ -121,10 +121,10 @@ class PokeBusiness:
         pokemons_shiny = self.pokeCommu.pokemons_shiny
 
         # Check if the pokemon is already caught
-        if [poke for poke in pokemons if poke["name"] == poke_data["name_en"]]:
+        if [poke for poke in pokemons if poke["name"] == poke_data.name_en]:
             # Check if the pokemon is shiny
             if not [
-                poke for poke in pokemons_shiny if poke["name"] == poke_data["name_en"]
+                poke for poke in pokemons_shiny if poke["name"] == poke_data.name_en
             ]:
                 # 80%
                 if self.__check_ball_in_inventary("ultra_cherish_ball"):
@@ -158,20 +158,20 @@ class PokeBusiness:
             self.__wait(70)
             return best_ball
 
-        if poke_data["weight"] > 204.8:
+        if poke_data.weight > 204.8:
             if self.__check_ball_in_inventary("heavy_ball"):
                 best_ball = "heavyball"
                 self.__wait()
                 return best_ball
 
-        if poke_data["weight"] <= 9.9:
+        if poke_data.weight <= 9.9:
             if self.__check_ball_in_inventary("feather_ball"):
                 best_ball = "featherball"
                 self.__wait()
                 return best_ball
 
         # Check type ball
-        types = [type for type in poke_data["types"]]
+        types = [type for type in poke_data.types]
 
         # 80%
         if "Ice" in types:
@@ -193,7 +193,7 @@ class PokeBusiness:
                 return best_ball
 
         # 80% with stats
-        stats = poke_data["stats"]
+        stats = poke_data.stats
 
         if stats["vit"] > 100:
             if self.__check_ball_in_inventary("fast_ball"):
