@@ -61,16 +61,16 @@ class TwitchBot:
         r = re.search(r":(.*)\!.*@.*\.tmi\.twitch\.tv PRIVMSG #(.*) :(.*)", message)
         if r:
             username, channel, message = r.groups()
-            print(username + ": " + message)
+            username = username.split(":")[-1]
 
             if username == "pokemoncommunitygame" and self.pkb:
                 if "A wild" in message:
                     print("Un pokémon sauvage apparaît")
-                    pokemon_name = message.split(" ")[3]
+                    pokemon_name = message.split(" ")[4]
                     print(pokemon_name)
-                    return
-                    # ball = self.pkb.catch_pokemon(pokemon_name)
-                    # if ball:
+                    ball = self.pkb.catch_pokemon(pokemon_name)
+                    if ball:
+                        self.__send_message(f"!pokecatch {ball}")
 
     def __send_message(self, message):
         self.ws.send(f"PRIVMSG {self.channel} :{message}\n")
