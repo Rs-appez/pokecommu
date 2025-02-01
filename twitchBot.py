@@ -1,46 +1,61 @@
 from decouple import config
-import socket
-import re
 import threading
+import re
+import websocket
 
 from pokeBusiness import PokeBusiness
 
 
-class TwitchBot:
+class TwitchBotAPI:
 
-    serveur = "irc.chat.twitch.tv"
-    port = 6667
-    nickname = "rs_appez"
+    nickname = config("NICKNAME")
     token = config("TWITCH_TOKEN")
-    channel = "#rs_appez"
+    channel = f"#{config('CHANNEL')}"
 
     def __init__(self, pkb: PokeBusiness):
         self.pkb = pkb
+        self.session_id = None
+        self.ws = None
 
         self.__start()
 
     def __start(self):
-        self.__connect()
-
-        threading.Thread(target=self.__listen, name="Bot irc").start()
+        threading.Thread(target=self.__connect, name="Bot").start()
 
     def __connect(self):
-        self.irc = socket.socket()
-        self.irc.connect((self.serveur, self.port))
-        self.irc.send(f"PASS oauth:{self.token}\n".encode("utf-8"))
-        self.irc.send(f"NICK {self.nickname}\n".encode("utf-8"))
-        self.irc.send(f"JOIN {self.channel}\n".encode("utf-8"))
 
-    def __listen(self):
-        print("connected")
-        while True:
-            response = self.irc.recv(2048).decode("utf-8")
-            if response.startswith("PING"):
-                self.irc.send("PONG\n".encode("utf-8"))
-            else:
-                if response:
-                    print(response)
-                self.__parse_message(response)
+        self.ws = websocket.WebSocketApp(
+            f"wss://irc-ws.chat.twitch.tv:443",
+            on_message=self.__on_message,
+            on_error=self.__on_error,
+            on_close=self.__on_close,
+        )
+        self.ws.on_open = self.__on_open
+        self.ws.run_forever()
+
+    def __on_message(self, ws, message):
+
+        if message.startswith("PING"):
+            print("PING")
+            ws.send("PONG\n")
+
+        else:
+            if message:
+                self.__parse_message(message)
+
+    def __on_error(self, ws, error):
+        print(f"Error: {error}")
+
+    def __on_close(self, ws, close_status_code, close_msg):
+        print("### closed ###")
+
+    def __on_open(self, ws):
+        print("### opened ###")
+        ws.send("CAP REQ :twitch.tv/membership twitch.tv/tags twitch.tv/commands")
+        ws.send(f"PASS oauth:{self.token}")
+        ws.send(f"NICK {self.nickname}")
+
+        ws.send(f"JOIN {self.channel}")
 
     def __parse_message(self, message):
         r = re.search(r":(.*)\!.*@.*\.tmi\.twitch\.tv PRIVMSG #(.*) :(.*)", message)
@@ -54,9 +69,8 @@ class TwitchBot:
                     pokemon_name = message.split(" ")[3]
                     print(pokemon_name)
                     return
-                    ball = self.pkb.catch_pokemon(pokemon_name)
-                    if ball:
-                        self.send_message(f"!pokecatch {ball}")
+                    # ball = self.pkb.catch_pokemon(pokemon_name)
+                    # if ball:
 
-    def send_message(self, message):
-        self.irc.send(f"PRIVMSG {self.channel} :{message}\n".encode("utf-8"))
+    def __send_message(self, message):
+        self.ws.send(f"PRIVMSG {self.channel} :{message}\n")
