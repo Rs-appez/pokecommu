@@ -190,6 +190,24 @@ class PokeBusiness:
                 self.__wait()
                 return best_ball
 
+        if any(t in types for t in ["Poison", "Psychic"]):
+            if self.__check_ball_in_inventary("cipher_ball"):
+                best_ball = "cipherball"
+                self.__wait()
+                return best_ball
+
+        if any(t in types for t in ["Steel", "Electric"]):
+            if self.__check_ball_in_inventary("magnet_ball"):
+                best_ball = "magnetball"
+                self.__wait()
+                return best_ball
+
+        if any(t in types for t in ["Water", "Bug"]):
+            if self.__check_ball_in_inventary("net_ball"):
+                best_ball = "netball"
+                self.__wait()
+                return best_ball
+
         # 80% with stats
         stats = pokemon.stats
 
@@ -209,26 +227,6 @@ class PokeBusiness:
             best_ball = "ultraball"
             self.__wait()
             return best_ball
-
-        # 70%
-
-        if any(t in types for t in ["Poison", "Psychic"]):
-            if self.__check_ball_in_inventary("cipher_ball"):
-                best_ball = "cipherball"
-                self.__wait()
-                return best_ball
-
-        if any(t in types for t in ["Steel", "Electric"]):
-            if self.__check_ball_in_inventary("magnet_ball"):
-                best_ball = "magnetball"
-                self.__wait()
-                return best_ball
-
-        if any(t in types for t in ["Water", "Bug"]):
-            if self.__check_ball_in_inventary("net_ball"):
-                best_ball = "netball"
-                self.__wait()
-                return best_ball
 
         # 55%
         if self.__check_ball_in_inventary("stone_ball"):
