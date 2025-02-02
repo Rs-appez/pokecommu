@@ -169,7 +169,7 @@ class PokeBusiness:
                 return best_ball
 
         # Check type ball
-        types = [type for type in pokemon.types]
+        types = [type for type in pokemon.en_types]
 
         # 80%
         if "Ice" in types:
