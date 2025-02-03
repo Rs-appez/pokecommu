@@ -37,6 +37,10 @@ class Pokemon:
 
         if pokemon:
 
+            self.id = pokemon["id"]
+            self.fr_name = pokemon["name_fr"]
+            self.en_name = pokemon["name_en"]
+
             self.stats = pokemon["stats"]
             self.height = pokemon["height"]
             self.weight = pokemon["weight"]
