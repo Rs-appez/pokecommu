@@ -85,7 +85,10 @@ class Pokemon:
     def __get_pokemon_from_api(self, pokemon_name):
 
         print(f"Fetch data from the API for {pokemon_name}")
+
+        pokemon_name = pokemon_name.replace(" ", "")
         response = requests.get(self.api_url + pokemon_name)
+
         print("Pokemon fetched")
         if response.status_code == 200:
             return self.__save_pokemon(response.json())
