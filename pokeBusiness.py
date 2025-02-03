@@ -222,6 +222,12 @@ class PokeBusiness:
                 self.__wait()
                 return best_ball
 
+        if any(t in types for t in ["Flying", "Fighting"]):
+            if self.__check_ball_in_inventary("mach_ball"):
+                best_ball = "machball"
+                self.__wait()
+                return best_ball
+
         if any(t in types for t in ["Poison", "Psychic"]):
             if self.__check_ball_in_inventary("cipher_ball"):
                 best_ball = "cipherball"
