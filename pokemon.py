@@ -61,15 +61,14 @@ class Pokemon:
         else:
             return
 
-        pokemon_name = unidecode(
-            pokemon_name.replace("♀", "-f").replace("♂", "-m")
-        ).lower()
+        pokemon_name = pokemon_name.replace("♀", "-f").replace("♂", "-m")
 
         pokemon = self.db.get_pokemon(pokemon_name, lang)
 
         if pokemon:
             return pokemon
         else:
+            pokemon_name = unidecode(pokemon_name)
             return self.__get_pokemon_from_api(pokemon_name)
 
     def __get_pokemon_data_id(self):
@@ -97,9 +96,8 @@ class Pokemon:
 
     def __save_pokemon(self, pokemon_data):
 
-        name_fr = unidecode(
-            pokemon_data["name"]["fr"].replace("♀", "-f").replace("♂", "-m")
-        )
+        name_fr = pokemon_data["name"]["fr"].replace("♀", "-f").replace("♂", "-m")
+        name_en = pokemon_data["name"]["en"].replace("♀", "-f").replace("♂", "-m")
 
         height = float(pokemon_data["height"].replace(" m", "").replace(",", "."))
         weight = float(pokemon_data["weight"].replace(" kg", "").replace(",", "."))
@@ -109,7 +107,7 @@ class Pokemon:
         pokemon = {
             "id": int(pokemon_data["pokedex_id"]),
             "name_fr": name_fr,
-            "name_en": pokemon_data["name"]["en"],
+            "name_en": name_en,
             "types": types,
             "stats": pokemon_data["stats"],
             "height": height,
