@@ -47,6 +47,8 @@ class TwitchBot:
         print(f"Error: {error}")
 
     def __on_close(self, ws, close_status_code, close_msg):
+        print(f"code : {close_status_code}")
+        print(f"msg : {close_msg}")
         print("### closed ###")
 
     def __on_open(self, ws):
@@ -56,6 +58,8 @@ class TwitchBot:
         ws.send(f"NICK {self.nickname}")
 
         ws.send(f"JOIN {self.channel}")
+
+        print(f"###connected to {self.channel} channel###")
 
     def __parse_message(self, message):
         r = re.search(r":(.*)\!.*@.*\.tmi\.twitch\.tv PRIVMSG #(.*) :(.*)", message)
