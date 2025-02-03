@@ -20,16 +20,16 @@ class PokeBusiness:
             else:
                 return None
 
-    def auto_trade(self, type=None, level=None):
-        pokemon = self.__find_pokemon_to_trade(type, level)
+    def auto_trade(self, type=None, level=None, speed=None, sort=None):
+        pokemon = self.__find_pokemon_to_trade(type, level, speed, sort)
+        print(pokemon)
+        return
         if pokemon:
             poke_data = self.pokeCommu.trade_pokemon(pokemon["id"])
             if poke_data:
                 print(
                     f"GET : {poke_data['name']} id {poke_data['id']} lvl {poke_data['lvl']} avgIV {poke_data['avgIV']}"
                 )
-                # get pokemon for printing fetched pokemon if is a new one
-                new_pokemon = self.pokemon_data.get_pokemon(poke_data["id"], "num")
             else:
                 print("Trade failed")
         else:
@@ -58,7 +58,9 @@ class PokeBusiness:
         await asyncio.sleep(time)
         return True
 
-    def __get_first_duplicated_pokemon(self, poke_type=None, level=None):
+    def __get_first_duplicated_pokemon(
+        self, poke_type=None, level=None, speed=None, sort=None
+    ):
         seen = set()
         for pokemon in self.pokeCommu.pokemons:
 
@@ -75,21 +77,46 @@ class PokeBusiness:
                         continue
                 # check level
                 if level:
-                    if not pokemon.get("lvl") < int(level):
-                        continue
+                    if sort == "gt":
+                        if not pokemon.get("lvl") > int(level):
+                            continue
+                    else:
+                        if not pokemon.get("lvl") < int(level):
+                            continue
+
+                # check speed
+                if speed:
+                    if sort == "gt":
+                        if not pokemon.get("speed") >= int(speed):
+                            continue
+                    else:
+                        if not pokemon.get("speed") <= int(speed):
+                            continue
 
             seen.add(id)
         return None
 
-    def __find_pokemon_to_trade(self, type=None, level=None, selector=""):
+    def __find_pokemon_to_trade(
+        self, type=None, level=None, speed=None, sort=None, selector=""
+    ):
         # select selector
         if level:
             selector = "lvl"
+        if speed:
+            selector = "speed"
 
         if not selector:
             selector = "avgIV"
 
-        duplicated_pokemon = self.__get_first_duplicated_pokemon(type, level)
+        # sort order
+        if sort == "gt":
+            reverse = True
+        else:
+            reverse = False
+
+        duplicated_pokemon = self.__get_first_duplicated_pokemon(
+            type, level, speed, sort=sort
+        )
 
         if duplicated_pokemon:
             pokemons_to_trade = self.__get_all_pokemons_by_id(
@@ -98,7 +125,7 @@ class PokeBusiness:
             pokemons_to_trade = [
                 pokemon for pokemon in pokemons_to_trade if not pokemon["locked"]
             ]
-            pokemons_to_trade.sort(key=lambda x: x[selector])
+            pokemons_to_trade.sort(key=lambda x: x[selector], reverse=reverse)
 
             print(
                 f"Trading {pokemons_to_trade[0]['name']} lvl {pokemons_to_trade[0]['lvl']} avgIV {pokemons_to_trade[0]['avgIV']} id {pokemons_to_trade[0]['id']}"
