@@ -204,6 +204,12 @@ class PokeBusiness:
                 self.__wait()
                 return best_ball
 
+        if "Normal" in types:
+            if self.__check_ball_in_inventary("basic_ball"):
+                best_ball = "basicball"
+                self.__wait()
+                return best_ball
+
         if "Dark" in types:
             if self.__check_ball_in_inventary("night_ball"):
                 best_ball = "nightball"
