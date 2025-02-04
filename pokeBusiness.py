@@ -22,7 +22,6 @@ class PokeBusiness:
 
     def auto_trade(self, type=None, level=None, speed=None, sort=None):
         pokemon = self.__find_pokemon_to_trade(type, level, speed, sort)
-        print(pokemon)
         if pokemon:
             poke_data = self.pokeCommu.trade_pokemon(pokemon["id"])
             if poke_data:
