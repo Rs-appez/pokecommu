@@ -10,7 +10,6 @@ class PokeBusiness:
         self.pokeCommu = PokeCommu()
 
     def catch_pokemon(self, pokemon):
-
         poke_data = self.pokemon_data.get_pokemon(pokemon, "en")
 
         if poke_data:
@@ -34,7 +33,6 @@ class PokeBusiness:
             print("No pokemon to trade")
 
     def __check_ball_in_inventary(self, ball):
-
         balls = self.pokeCommu.inventory
 
         if [b for b in balls if b["sprite_name"] == ball]:
@@ -46,7 +44,6 @@ class PokeBusiness:
         return False
 
     def __wait(self, time: int = 0):
-
         if not time:
             time = random.randint(5, 80)
 
@@ -61,7 +58,6 @@ class PokeBusiness:
     ):
         seen = set()
         for pokemon in self.pokeCommu.pokemons:
-
             id = pokemon.get("pokedexId")
             order = pokemon.get("order")
             data = self.pokemon_data.get_pokemon(order, "num")
@@ -139,7 +135,6 @@ class PokeBusiness:
         ]
 
     def find_best_ball(self, pokemon):
-
         best_ball = None
 
         pokemons = self.pokeCommu.pokemons
@@ -164,6 +159,11 @@ class PokeBusiness:
                     best_ball = "cherishball"
                     self.__wait()
                     return best_ball
+
+            if self.__check_ball_in_inventary("stone_ball"):
+                best_ball = "stoneball"
+                self.__wait()
+                return best_ball
 
             if self.__check_ball_in_inventary("repeat_ball"):
                 best_ball = "repeatball"
