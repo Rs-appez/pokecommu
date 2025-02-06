@@ -47,8 +47,9 @@ class PokeCommu:
     def get_inventory(self):
         response = requests.get(self.url_inventory, headers=self.header)
         if response.status_code == 200:
-            self.cash = response.json()["cash"]
-            for ball in response.json()["allItems"]:
+            json_response = response.json()
+            self.cash = json_response["cash"]
+            for ball in json_response["allItems"]:
                 if ball["type"] == 2:
                     self.inventory.append(ball)
             return True
