@@ -3,7 +3,6 @@ import requests
 
 
 class PokeCommu:
-
     url = "https://poketwitch.bframework.de/api/game/ext/"
 
     url_trainer = url + "trainer/"
@@ -22,6 +21,8 @@ class PokeCommu:
         self.pokemons = []
         self.pokemons_shiny = []
         self.inventory = []
+
+        self.cash = 0
 
         self.refresh_all()
 
@@ -46,6 +47,7 @@ class PokeCommu:
     def get_inventory(self):
         response = requests.get(self.url_inventory, headers=self.header)
         if response.status_code == 200:
+            self.cash = response.json()["cash"]
             for ball in response.json()["allItems"]:
                 if ball["type"] == 2:
                     self.inventory.append(ball)
@@ -54,12 +56,10 @@ class PokeCommu:
             return False
 
     def trade_pokemon(self, pokemon_id):
-
         response = requests.post(
             self.url_trade + str(pokemon_id) + "/", headers=self.header
         )
         if response.status_code == 200:
-
             poke_id = response.json()["pokemon"]["order"]
             poke_name = response.json()["pokemon"]["name"]
             poke_level = response.json()["pokemon"]["lvl"]
@@ -76,7 +76,6 @@ class PokeCommu:
             return 0
 
     def buy_item(self, item, amount=1, refresh=True):
-
         data = {"amount": amount, "item_name": item}
 
         response = requests.post(self.url_purchase, headers=self.header, data=data)
