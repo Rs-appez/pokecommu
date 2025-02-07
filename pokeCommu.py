@@ -85,6 +85,7 @@ class PokeCommu:
         response = requests.post(self.url_purchase, headers=self.header, data=data)
 
         if response.status_code == 200:
+            print(f"Bought {amount} {item}")
             if refresh:
                 self.get_inventory()
             return True
