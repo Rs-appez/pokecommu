@@ -19,8 +19,10 @@ class PokeBusiness:
             else:
                 return None
 
-    def auto_trade(self, type=None, level=None, speed=None, sort=None):
-        pokemon = self.__find_pokemon_to_trade(type, level, speed, sort)
+    def auto_trade(self, type=None, level=None, speed=None, sort=None, defSpe=None):
+        pokemon = self.__find_pokemon_to_trade(
+            type=type, level=level, speed=speed, sort=sort, defSpe=defSpe
+        )
         if pokemon:
             poke_data = self.pokeCommu.trade_pokemon(pokemon["id"])
             if poke_data:
@@ -54,7 +56,7 @@ class PokeBusiness:
         return True
 
     def __get_first_duplicated_pokemon(
-        self, poke_type=None, level=None, speed=None, sort=None
+        self, poke_type=None, level=None, speed=None, defSpe=None, sort=None
     ):
         seen = set()
         for pokemon in self.pokeCommu.pokemons:
@@ -77,7 +79,6 @@ class PokeBusiness:
                     else:
                         if not pokemon.get("lvl") < int(level):
                             continue
-
                 # check speed
                 if speed:
                     if sort == "gt":
@@ -86,18 +87,28 @@ class PokeBusiness:
                     else:
                         if not pokemon.get("speed") <= int(speed):
                             continue
+                # check special defense
+                if defSpe:
+                    if sort == "gt":
+                        if not pokemon.get("special_defense") >= int(defSpe):
+                            continue
+                    else:
+                        if not pokemon.get("special_defense") <= int(defSpe):
+                            continue
 
             seen.add(id)
         return None
 
     def __find_pokemon_to_trade(
-        self, type=None, level=None, speed=None, sort=None, selector=""
+        self, type=None, level=None, speed=None, sort=None, defSpe=None, selector=""
     ):
         # select selector
         if level:
             selector = "lvl"
         if speed:
             selector = "speed"
+        if defSpe:
+            selector = "special_defense"
 
         if not selector:
             selector = "avgIV"
@@ -109,7 +120,7 @@ class PokeBusiness:
             reverse = False
 
         duplicated_pokemon = self.__get_first_duplicated_pokemon(
-            type, level, speed, sort=sort
+            poke_type=type, level=level, speed=speed, defSpe=defSpe, sort=sort
         )
 
         if duplicated_pokemon:

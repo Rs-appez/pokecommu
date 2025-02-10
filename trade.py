@@ -7,6 +7,7 @@ if __name__ == "__main__":
     type = None
     level = None
     speed = None
+    defSpe = None
 
     sort = None
 
@@ -19,9 +20,11 @@ if __name__ == "__main__":
             level = arg[6:]
         if arg.startswith("speed="):
             speed = arg[6:]
+        if arg.startswith("defSpe="):
+            defSpe = arg[7:]
 
         if arg.startswith("sort="):
             sort = arg[5:]
 
     pb = PokeBusiness()
-    pb.auto_trade(type=type, level=level, speed=speed, sort=sort)
+    pb.auto_trade(type=type, level=level, speed=speed, sort=sort, defSpe=defSpe)
