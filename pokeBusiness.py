@@ -151,6 +151,8 @@ class PokeBusiness:
         pokemons = self.pokeCommu.pokemons
         pokemons_shiny = self.pokeCommu.pokemons_shiny
 
+        types = [type for type in pokemon.en_types]
+        stats = pokemon.stats
         # Check if the pokemon is already caught
         if [poke for poke in pokemons if poke["name"] == pokemon.en_name]:
             # Check if the pokemon is shiny
@@ -205,7 +207,6 @@ class PokeBusiness:
                 return best_ball
 
         # Check type ball
-        types = [type for type in pokemon.en_types]
 
         # 80%
         if "Ice" in types:
@@ -250,6 +251,12 @@ class PokeBusiness:
                 self.__wait()
                 return best_ball
 
+        if any(t in types for t in ["Fairy", "Dragon"]):
+            if self.__check_ball_in_inventary("fantasy_ball"):
+                best_ball = "fantasyball"
+                self.__wait()
+                return best_ball
+
         if any(t in types for t in ["Water", "Bug"]):
             if self.__check_ball_in_inventary("net_ball"):
                 best_ball = "netball"
@@ -257,7 +264,6 @@ class PokeBusiness:
                 return best_ball
 
         # 80% with stats
-        stats = pokemon.stats
 
         if stats["vit"] > 100:
             if self.__check_ball_in_inventary("fast_ball"):
