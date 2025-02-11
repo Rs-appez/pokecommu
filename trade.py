@@ -3,13 +3,13 @@ import sys
 from pokeBusiness import PokeBusiness
 
 if __name__ == "__main__":
-
     type = None
     level = None
     speed = None
     defSpe = None
 
     sort = None
+    base = False
 
     args = sys.argv
 
@@ -25,6 +25,10 @@ if __name__ == "__main__":
 
         if arg.startswith("sort="):
             sort = arg[5:]
+        if arg.startswith("base"):
+            base = True
 
     pb = PokeBusiness()
-    pb.auto_trade(type=type, level=level, speed=speed, sort=sort, defSpe=defSpe)
+    pb.auto_trade(
+        type=type, level=level, speed=speed, sort=sort, defSpe=defSpe, base=base
+    )

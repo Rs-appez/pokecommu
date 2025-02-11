@@ -19,9 +19,11 @@ class PokeBusiness:
             else:
                 return None
 
-    def auto_trade(self, type=None, level=None, speed=None, sort=None, defSpe=None):
+    def auto_trade(
+        self, type=None, level=None, speed=None, sort=None, defSpe=None, base=None
+    ):
         pokemon = self.__find_pokemon_to_trade(
-            type=type, level=level, speed=speed, sort=sort, defSpe=defSpe
+            type=type, level=level, speed=speed, sort=sort, defSpe=defSpe, base=base
         )
         if pokemon:
             poke_data = self.pokeCommu.trade_pokemon(pokemon["id"])
@@ -56,20 +58,21 @@ class PokeBusiness:
         return True
 
     def __get_first_duplicated_pokemon(
-        self, poke_type=None, level=None, speed=None, defSpe=None, sort=None
+        self, poke_type=None, level=None, speed=None, defSpe=None, sort=None, base=False
     ):
         seen = set()
         for pokemon in self.pokeCommu.pokemons:
             id = pokemon.get("pokedexId")
             order = pokemon.get("order")
             data = self.pokemon_data.get_pokemon(order, "num")
+
             if id in seen:
                 return pokemon
             if data:
                 # check type
                 if poke_type:
                     types = map(str.lower, data.en_types + data.fr_types)
-                    if not poke_type.lower() in types:
+                    if poke_type.lower() not in types:
                         continue
                 # check level
                 if level:
@@ -89,18 +92,30 @@ class PokeBusiness:
                             continue
                 # check special defense
                 if defSpe:
+                    if base:
+                        stat = data.stats["spe_def"]
+                    else:
+                        stat = pokemon.get("special_defense")
+
                     if sort == "gt":
-                        if not pokemon.get("special_defense") >= int(defSpe):
+                        if stat <= int(defSpe):
                             continue
                     else:
-                        if not pokemon.get("special_defense") <= int(defSpe):
+                        if stat >= int(defSpe):
                             continue
 
             seen.add(id)
         return None
 
     def __find_pokemon_to_trade(
-        self, type=None, level=None, speed=None, sort=None, defSpe=None, selector=""
+        self,
+        type=None,
+        level=None,
+        speed=None,
+        sort=None,
+        defSpe=None,
+        base=None,
+        selector="",
     ):
         # select selector
         if level:
@@ -120,7 +135,12 @@ class PokeBusiness:
             reverse = False
 
         duplicated_pokemon = self.__get_first_duplicated_pokemon(
-            poke_type=type, level=level, speed=speed, defSpe=defSpe, sort=sort
+            poke_type=type,
+            level=level,
+            speed=speed,
+            defSpe=defSpe,
+            sort=sort,
+            base=base,
         )
 
         if duplicated_pokemon:
