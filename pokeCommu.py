@@ -94,8 +94,9 @@ class PokeCommu:
     def __auto_buy_ultraball(self):
         if [b for b in self.inventory if b["sprite_name"] == "ultra_ball"]:
             ball = [b for b in self.inventory if b["sprite_name"] == "ultra_ball"][0]
-            if ball["amount"] < 20:
-                if self.cash >= 20000:
-                    self.buy_item("ultra_ball", 20, True)
-                if self.cash >= 10000:
-                    self.buy_item("ultra_ball", 10, True)
+            if ball["amount"] > 20:
+                return
+        if self.cash >= 20000:
+            self.buy_item("ultra_ball", 20, True)
+        if self.cash >= 10000:
+            self.buy_item("ultra_ball", 10, True)
