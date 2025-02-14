@@ -38,8 +38,6 @@ class PokeBusiness:
             hp=hp,
             base=base,
         )
-        print(pokemon)
-        return
         if pokemon:
             poke_data = self.pokeCommu.trade_pokemon(pokemon["id"])
             if poke_data:
