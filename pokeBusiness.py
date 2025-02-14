@@ -20,11 +20,26 @@ class PokeBusiness:
                 return None
 
     def auto_trade(
-        self, type=None, level=None, speed=None, sort=None, defSpe=None, base=None
+        self,
+        type=None,
+        level=None,
+        speed=None,
+        sort=None,
+        hp=None,
+        defSpe=None,
+        base=None,
     ):
         pokemon = self.__find_pokemon_to_trade(
-            type=type, level=level, speed=speed, sort=sort, defSpe=defSpe, base=base
+            type=type,
+            level=level,
+            speed=speed,
+            sort=sort,
+            defSpe=defSpe,
+            hp=hp,
+            base=base,
         )
+        print(pokemon)
+        return
         if pokemon:
             poke_data = self.pokeCommu.trade_pokemon(pokemon["id"])
             if poke_data:
@@ -58,7 +73,14 @@ class PokeBusiness:
         return True
 
     def __get_first_duplicated_pokemon(
-        self, poke_type=None, level=None, speed=None, defSpe=None, sort=None, base=False
+        self,
+        poke_type=None,
+        level=None,
+        speed=None,
+        defSpe=None,
+        hp=None,
+        sort=None,
+        base=False,
     ):
         seen = set()
         for pokemon in self.pokeCommu.pokemons:
@@ -103,6 +125,19 @@ class PokeBusiness:
                     else:
                         if stat >= int(defSpe):
                             continue
+                # check hp
+                if hp:
+                    if base:
+                        stat = data.stats["hp"]
+                    else:
+                        stat = pokemon.get("hp")
+
+                    if sort == "gt":
+                        if stat <= int(hp):
+                            continue
+                    else:
+                        if stat >= int(hp):
+                            continue
 
             seen.add(id)
         return None
@@ -113,6 +148,7 @@ class PokeBusiness:
         level=None,
         speed=None,
         sort=None,
+        hp=None,
         defSpe=None,
         base=None,
         selector="",
@@ -124,6 +160,8 @@ class PokeBusiness:
             selector = "speed"
         if defSpe:
             selector = "special_defense"
+        if hp:
+            selector = "hp"
 
         if not selector:
             selector = "avgIV"
@@ -139,6 +177,7 @@ class PokeBusiness:
             level=level,
             speed=speed,
             defSpe=defSpe,
+            hp=hp,
             sort=sort,
             base=base,
         )
