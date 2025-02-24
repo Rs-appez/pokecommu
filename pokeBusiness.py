@@ -314,6 +314,12 @@ class PokeBusiness:
                 self.__wait()
                 return best_ball
 
+        if any(t in types for t in ["Fire", "Grass"]):
+            if self.__check_ball_in_inventary("sun_ball"):
+                best_ball = "sunball"
+                self.__wait()
+                return best_ball
+
         if any(t in types for t in ["Water", "Bug"]):
             if self.__check_ball_in_inventary("net_ball"):
                 best_ball = "netball"
