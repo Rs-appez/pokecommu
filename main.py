@@ -8,3 +8,4 @@ if __name__ == "__main__":
     # print(pkb.catch_pokemon("Nidoran♂"))
 
     bot = TwitchBot(pkb)
+    e
