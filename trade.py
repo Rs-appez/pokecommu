@@ -17,7 +17,6 @@ if __name__ == "__main__":
     sort = None
     base = False
 
-    print(args)
     for arg in args[1:]:
         match arg:
             case _ if arg.startswith("type="):
