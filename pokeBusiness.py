@@ -326,6 +326,12 @@ class PokeBusiness:
                 self.__wait()
                 return best_ball
 
+        if any(t in types for t in ["Rock", "Ground"]):
+            if self.__check_ball_in_inventary("geo_ball"):
+                best_ball = "geoball"
+                self.__wait()
+                return best_ball
+
         # 80% with stats
 
         if stats["vit"] > 100:
