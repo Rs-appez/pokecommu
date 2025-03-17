@@ -26,6 +26,7 @@ class PokeBusiness:
         speed=None,
         sort=None,
         hp=None,
+        bst=None,
         defSpe=None,
         base=None,
     ):
@@ -36,6 +37,7 @@ class PokeBusiness:
             sort=sort,
             defSpe=defSpe,
             hp=hp,
+            bst=bst,
             base=base,
         )
         if pokemon:
@@ -77,6 +79,7 @@ class PokeBusiness:
         speed=None,
         defSpe=None,
         hp=None,
+        bst=None,
         sort=None,
         base=False,
     ):
@@ -136,6 +139,15 @@ class PokeBusiness:
                     else:
                         if stat >= int(hp):
                             continue
+                # check bst
+                if bst:
+                    stat = pokemon.get("baseStats")
+                    if sort == "gt":
+                        if stat <= int(bst):
+                            continue
+                    else:
+                        if stat >= int(bst):
+                            continue
 
             seen.add(id)
         return None
@@ -147,6 +159,7 @@ class PokeBusiness:
         speed=None,
         sort=None,
         hp=None,
+        bst=None,
         defSpe=None,
         base=None,
         selector="",
@@ -160,6 +173,8 @@ class PokeBusiness:
             selector = "special_defense"
         if hp:
             selector = "hp"
+        if bst:
+            selector = "baseStats"
 
         if not selector:
             selector = "avgIV"
@@ -176,6 +191,7 @@ class PokeBusiness:
             speed=speed,
             defSpe=defSpe,
             hp=hp,
+            bst=bst,
             sort=sort,
             base=base,
         )

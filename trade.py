@@ -12,6 +12,7 @@ if __name__ == "__main__":
     speed = None
     hp = None
     defSpe = None
+    bst = None
 
     # sort args
     sort = None
@@ -19,6 +20,7 @@ if __name__ == "__main__":
 
     for arg in args[1:]:
         match arg:
+            # type args
             case _ if arg.startswith("type="):
                 type = arg[5:]
             case _ if arg.startswith("level="):
@@ -29,6 +31,10 @@ if __name__ == "__main__":
                 defSpe = arg[7:]
             case _ if arg.startswith("hp="):
                 hp = arg[3:]
+            case _ if arg.startswith("bst="):
+                bst = arg[4:]
+
+            # sort args
             case _ if arg.startswith("sort="):
                 sort = arg[5:]
             case "base":
@@ -38,5 +44,12 @@ if __name__ == "__main__":
                 sys.exit(1)
 
     pb.auto_trade(
-        type=type, level=level, speed=speed, sort=sort, hp=hp, defSpe=defSpe, base=base
+        type=type,
+        level=level,
+        speed=speed,
+        sort=sort,
+        hp=hp,
+        bst=bst,
+        defSpe=defSpe,
+        base=base,
     )
