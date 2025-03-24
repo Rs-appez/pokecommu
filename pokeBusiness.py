@@ -7,7 +7,11 @@ class PokeBusiness:
     def __init__(self):
         self.pokemon_data = PokemonData()
         self.pokeCommu = PokeCommu()
-        self.ballBusiness = BallBusiness(self.pokeCommu.inventory)
+        self.ballBusiness = BallBusiness(
+            self.pokeCommu.inventory,
+            self.pokeCommu.pokemons,
+            self.pokeCommu.pokemons_shiny,
+        )
 
     def catch_pokemon(self, pokemon):
         poke_data = self.pokemon_data.get_pokemon(pokemon, "en")
@@ -50,7 +54,6 @@ class PokeBusiness:
                 print("Trade failed")
         else:
             print("No pokemon to trade")
-
 
     def __get_first_duplicated_pokemon(
         self,

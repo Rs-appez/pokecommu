@@ -3,16 +3,16 @@ import random
 
 
 class BallBusiness:
-    def __init__(self, inventory):
+    def __init__(self, inventory, pokemons, shinies):
         self.inventory = inventory
+        self.pokemons = pokemons
+        self.shinies = shinies
 
     def find_best_ball(self, pokemon):
-        pokemons = self.pokeCommu.pokemons
-        pokemons_shiny = self.pokeCommu.pokemons_shiny
 
         # Check if the pokemon is already caught
-        if any(poke["name"] == pokemon.en_name for poke in pokemons):
-            if not any(poke["name"] == pokemon.en_name for poke in pokemons_shiny):
+        if any(poke["name"] == pokemon.en_name for poke in self.pokemons):
+            if not any(poke["name"] == pokemon.en_name for poke in self.shinies):
                 if best_ball := self.__check_cherish_ball():
                     return best_ball
             if best_ball := self.__check_drop_ball():
