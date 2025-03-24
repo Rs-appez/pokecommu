@@ -74,6 +74,7 @@ class TwitchBot:
                     pokemon_name = ""
                     message_array = message.split(" ")[4:]
 
+                    # handle spaces in pokemon names
                     for m in message_array:
                         if m != "appears":
                             pokemon_name += m + " "
