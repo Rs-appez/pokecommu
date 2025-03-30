@@ -1,15 +1,16 @@
 import asyncio
 import random
 
+from pokeCommu import PokeCommu
+
 
 class BallBusiness:
-    def __init__(self, inventory, pokemons, shinies):
-        self.inventory = inventory
-        self.pokemons = pokemons
-        self.shinies = shinies
+    def __init__(self, pokeCommu: PokeCommu):
+        self.inventory = pokeCommu.inventory
+        self.pokemons = pokeCommu.pokemons
+        self.shinies = pokeCommu.shinies
 
     def find_best_ball(self, pokemon):
-
         # Check if the pokemon is already caught
         if any(poke["name"] == pokemon.en_name for poke in self.pokemons):
             if not any(poke["name"] == pokemon.en_name for poke in self.shinies):
