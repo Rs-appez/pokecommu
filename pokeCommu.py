@@ -1,5 +1,8 @@
+from itertools import chain
 from decouple import config
 import requests
+
+from pokemon import Pokemon
 
 
 class PokeCommu:
@@ -88,6 +91,14 @@ class PokeCommu:
             print(f"Bought {amount} {item}")
             if refresh:
                 self.get_inventory()
+            return True
+        return False
+
+    def is_pokemon_in_inventory(self, pokemon: Pokemon) -> bool:
+        if any(
+            poke["name"] == pokemon.en_name
+            for poke in chain(self.pokemons, self.pokemons_shiny)
+        ):
             return True
         return False
 
