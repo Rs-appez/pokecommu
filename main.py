@@ -9,9 +9,10 @@ if __name__ == "__main__":
     for arg in args[1:]:
         match arg:
             case _ if arg.startswith("all="):
-                try:
-                    cath_all = bool(arg[4:])
-                except ValueError:
+
+                if arg[4:].lower() in ["true", "false"]:
+                    cath_all = arg[4:].lower() == "true"
+                else:
                     print(f"Invalid argument: {arg}")
                     sys.exit(1)
             case _:
