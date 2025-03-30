@@ -4,14 +4,11 @@ from ballBusiness import BallBusiness
 
 
 class PokeBusiness:
-    def __init__(self):
+    def __init__(self, catch_all=True):
+        self.catch_all = catch_all
         self.pokemon_data = PokemonData()
         self.pokeCommu = PokeCommu()
-        self.ballBusiness = BallBusiness(
-            self.pokeCommu.inventory,
-            self.pokeCommu.pokemons,
-            self.pokeCommu.pokemons_shiny,
-        )
+        self.ballBusiness = BallBusiness(self.pokeCommu)
 
     def catch_pokemon(self, pokemon):
         poke_data = self.pokemon_data.get_pokemon(pokemon, "en")
