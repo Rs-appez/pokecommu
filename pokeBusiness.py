@@ -14,6 +14,12 @@ class PokeBusiness:
         poke_data = self.pokemon_data.get_pokemon(pokemon, "en")
 
         if poke_data:
+            # Check if the pokemon is already caught when not catching all
+            if not self.catch_all:
+                if self.pokeCommu.is_pokemon_in_inventory(poke_data):
+                    print(f"{poke_data.en_name} already caught")
+                    return None
+
             ball = self.ballBusiness.find_best_ball(poke_data)
             if ball:
                 return ball
