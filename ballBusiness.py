@@ -8,7 +8,7 @@ class BallBusiness:
     def __init__(self, pokeCommu: PokeCommu):
         self.inventory = pokeCommu.inventory
         self.pokemons = pokeCommu.pokemons
-        self.shinies = pokeCommu.shinies
+        self.shinies = pokeCommu.pokemons_shiny
 
     def find_best_ball(self, pokemon):
         # Check if the pokemon is already caught
