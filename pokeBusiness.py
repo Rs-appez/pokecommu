@@ -80,9 +80,9 @@ class PokeBusiness:
             if data:
                 # check type
                 if poke_type:
-                    types = map(str.lower, data.en_types + data.fr_types)
-                    if poke_type.lower() not in types:
+                    if data.has_type(poke_type):
                         continue
+
                 # check level
                 if level:
                     if sort == "gt":
