@@ -24,6 +24,10 @@ class Pokemon:
 
         self.__get_pokemon()
 
+    def has_type(self, type_name):
+        types = map(str.lower, self.en_types + self.fr_types)
+        return type_name.lower() in types
+
     def __get_pokemon(self):
 
         if not self.id == 0:
