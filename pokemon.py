@@ -28,9 +28,9 @@ class Pokemon:
 
         if not self.id == 0:
             pokemon = self.__get_pokemon_data_id()
-        elif self.fr_name != None:
+        elif self.fr_name is not None:
             pokemon = self.__get_pokemon_data("fr")
-        elif self.en_name != None:
+        elif self.en_name is not None:
             pokemon = self.__get_pokemon_data("en")
         else:
             pokemon = None
