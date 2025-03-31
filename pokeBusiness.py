@@ -4,8 +4,9 @@ from ballBusiness import BallBusiness
 
 
 class PokeBusiness:
-    def __init__(self, catch_all=True):
+    def __init__(self, catch_all=True, poke_type=None):
         self.catch_all = catch_all
+        self.poke_type = poke_type
         self.pokemon_data = PokemonData()
         self.pokeCommu = PokeCommu()
         self.ballBusiness = BallBusiness(self.pokeCommu)
@@ -16,7 +17,15 @@ class PokeBusiness:
         if poke_data:
             # Check if the pokemon is already caught when not catching all
             if not self.catch_all:
-                if self.pokeCommu.is_pokemon_in_inventory(poke_data):
+                is_in_inventory = self.pokeCommu.is_pokemon_in_inventory(
+                    poke_data)
+
+                if self.poke_type:
+                    if not poke_data.has_type(self.poke_type) and is_in_inventory:
+                        print(f"{poke_data.en_name} is not {self.poke_type}")
+                        return None
+
+                if is_in_inventory:
                     print(f"{poke_data.en_name} already caught")
                     return None
 
