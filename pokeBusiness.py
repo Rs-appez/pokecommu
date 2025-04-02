@@ -25,7 +25,7 @@ class PokeBusiness:
                         print(f"{poke_data.en_name} is not {self.poke_type}")
                         return None
 
-                if is_in_inventory:
+                elif is_in_inventory:
                     print(f"{poke_data.en_name} already caught")
                     return None
 
