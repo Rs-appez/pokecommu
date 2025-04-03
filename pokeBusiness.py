@@ -2,11 +2,15 @@ from pokeCommu import PokeCommu
 from pokemonData import PokemonData
 from ballBusiness import BallBusiness
 
+import random
+
 
 class PokeBusiness:
-    def __init__(self, catch_all=True, poke_type=None):
+    def __init__(self, catch_all=True, poke_type=None, partial=False):
         self.catch_all = catch_all
         self.poke_type = poke_type
+        self.partial = partial
+        self.is_partial = False
         self.pokemon_data = PokemonData()
         self.pokeCommu = PokeCommu()
         self.ballBusiness = BallBusiness(self.pokeCommu)
@@ -15,10 +19,15 @@ class PokeBusiness:
         poke_data = self.pokemon_data.get_pokemon(pokemon, "en")
 
         if poke_data:
+            # sometime bypass if partial is set
+            if self.partial:
+                if random.randint(0, 100) < 33:
+                    print(f"Partial catch {poke_data.en_name}")
+                    self.is_partial = True
+
             # Check if the pokemon is already caught when not catching all
-            if not self.catch_all:
-                is_in_inventory = self.pokeCommu.is_pokemon_in_inventory(
-                    poke_data)
+            if not self.catch_all and not self.is_partial:
+                is_in_inventory = self.pokeCommu.is_pokemon_in_inventory(poke_data)
 
                 if self.poke_type:
                     if not poke_data.has_type(self.poke_type) and is_in_inventory:
@@ -28,6 +37,8 @@ class PokeBusiness:
                 elif is_in_inventory:
                     print(f"{poke_data.en_name} already caught")
                     return None
+
+            self.is_partial = False
 
             ball = self.ballBusiness.find_best_ball(poke_data)
             if ball:
