@@ -1,3 +1,4 @@
+#!venv/bin/python3
 import sys
 from twitchBot import TwitchBot
 from pokeBusiness import PokeBusiness
