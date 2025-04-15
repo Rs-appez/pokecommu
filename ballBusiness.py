@@ -50,17 +50,17 @@ class BallBusiness:
         # 80%
         if self.check_ball_in_inventary("ultra_cherish_ball"):
             best_ball = "ultracherishball"
-            self.__wait()
+            self.wait()
             return best_ball
         # 55%
         if self.check_ball_in_inventary("great_cherish_ball"):
             best_ball = "greatcherishball"
-            self.__wait()
+            self.wait()
             return best_ball
         # 30%
         if self.check_ball_in_inventary("cherish_ball"):
             best_ball = "cherishball"
-            self.__wait()
+            self.wait()
             return best_ball
         return None
 
@@ -68,27 +68,27 @@ class BallBusiness:
         # 55%
         if self.check_ball_in_inventary("stone_ball"):
             best_ball = "stoneball"
-            self.__wait()
+            self.wait()
             return best_ball
         return None
 
     def __check_duplicate_ball(self):
         if self.check_ball_in_inventary("repeat_ball"):
             best_ball = "repeatball"
-            self.__wait()
+            self.wait()
             return best_ball
         return None
 
     def __check_time_ball(self):
         if self.check_ball_in_inventary("quick_ball"):
             best_ball = "quickball"
-            self.__wait(random.randint(1, 5))
+            self.wait(random.randint(1, 5))
             return best_ball
 
         if self.check_ball_in_inventary("timer_ball"):
             best_ball = "timerball"
-            self.__wait(random.randint(1, 5))
-            self.__wait(70)
+            self.wait(random.randint(1, 5))
+            self.wait(70)
             return best_ball
         return None
 
@@ -96,13 +96,13 @@ class BallBusiness:
         if weight > 204.8:
             if self.check_ball_in_inventary("heavy_ball"):
                 best_ball = "heavyball"
-                self.__wait()
+                self.wait()
                 return best_ball
 
         if weight <= 9.9:
             if self.check_ball_in_inventary("feather_ball"):
                 best_ball = "featherball"
-                self.__wait()
+                self.wait()
                 return best_ball
         return None
 
@@ -132,7 +132,7 @@ class BallBusiness:
             if ball := type_ball_mapping.get(t):
                 if self.check_ball_in_inventary(ball):
                     best_ball = ball.replace("_ball", "ball")
-                    self.__wait()
+                    self.wait()
                     return best_ball
 
         return None
@@ -141,13 +141,13 @@ class BallBusiness:
         if stats["vit"] > 100:
             if self.check_ball_in_inventary("fast_ball"):
                 best_ball = "fastball"
-                self.__wait()
+                self.wait()
                 return best_ball
 
         if stats["hp"] > 100:
             if self.check_ball_in_inventary("heal_ball"):
                 best_ball = "healball"
-                self.__wait()
+                self.wait()
                 return best_ball
 
         return None
@@ -155,7 +155,7 @@ class BallBusiness:
     def __check_ultra_ball(self):
         if self.check_ball_in_inventary("ultra_ball"):
             best_ball = "ultraball"
-            self.__wait()
+            self.wait()
             return best_ball
         return None
 
@@ -163,38 +163,38 @@ class BallBusiness:
         # 55%
         if self.check_ball_in_inventary("great_ball"):
             best_ball = "greatball"
-            self.__wait()
+            self.wait()
             return best_ball
 
         if self.check_ball_in_inventary("luxury_ball"):
             best_ball = "luxuryball"
-            self.__wait()
+            self.wait()
             return best_ball
 
         # 40%
         if self.check_ball_in_inventary("level_ball"):
             best_ball = "levelball"
-            self.__wait()
+            self.wait()
             return best_ball
 
         # 30%
         if self.check_ball_in_inventary("clone_ball"):
             best_ball = "cloneball"
-            self.__wait()
+            self.wait()
             return best_ball
 
         if self.check_ball_in_inventary("poke_ball"):
             best_ball = " "
-            self.__wait()
+            self.wait()
             return best_ball
 
         if self.check_ball_in_inventary("premier_ball"):
             best_ball = " "
-            self.__wait()
+            self.wait()
             return best_ball
         return None
 
-    def __wait(self, time: int = 0):
+    def wait(self, time: int = 0):
         if not time:
             time = random.randint(5, 80)
 
