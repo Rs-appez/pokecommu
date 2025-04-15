@@ -7,7 +7,6 @@ from pokeBusiness import PokeBusiness
 
 
 class TwitchBot:
-
     nickname = config("NICKNAME")
     token = config("TWITCH_TOKEN")
     channel = f"#{config('CHANNEL')}"
@@ -23,7 +22,6 @@ class TwitchBot:
         threading.Thread(target=self.__connect, name="Bot").start()
 
     def __connect(self):
-
         self.ws = websocket.WebSocketApp(
             f"wss://irc-ws.chat.twitch.tv:443",
             on_message=self.__on_message,
@@ -34,7 +32,6 @@ class TwitchBot:
         self.ws.run_forever()
 
     def __on_message(self, ws, message):
-
         if message.startswith("PING"):
             print("PING")
             ws.send("PONG\n")
@@ -69,6 +66,9 @@ class TwitchBot:
 
             if username == "pokemoncommunitygame" and self.pkb:
                 if "A wild" in message:
+                    priority = False
+                    if "TwitchLit" not in message:
+                        priority = True
                     print("Un pokémon sauvage apparaît")
 
                     pokemon_name = ""
@@ -82,7 +82,7 @@ class TwitchBot:
                             break
                     print(pokemon_name)
                     pokemon_name = re.sub(r"\(.*?\)", "", pokemon_name).strip()
-                    ball = self.pkb.catch_pokemon(pokemon_name)
+                    ball = self.pkb.catch_pokemon(pokemon_name, priority)
                     if ball:
                         self.__send_message(f"!pokecatch {ball}")
 
