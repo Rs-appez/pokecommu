@@ -1,3 +1,4 @@
+#! venv/bin/python3
 import sys
 
 from pokemon import Pokemon
