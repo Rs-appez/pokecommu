@@ -7,6 +7,7 @@ if __name__ == "__main__":
     args = sys.argv
     cath_all = True
     partial = False
+    special = False
 
     poke_type = None
     ball_type = None
@@ -27,12 +28,19 @@ if __name__ == "__main__":
             case "partial":
                 cath_all = False
                 partial = True
+            case "special":
+                cath_all = False
+                special = True
             case _:
                 print(f"Invalid argument: {arg}")
                 sys.exit(1)
 
     pkb = PokeBusiness(
-        catch_all=cath_all, poke_type=poke_type, ball_type=ball_type, partial=partial
+        catch_all=cath_all,
+        poke_type=poke_type,
+        ball_type=ball_type,
+        partial=partial,
+        special=special,
     )
 
     bot = TwitchBot(pkb)

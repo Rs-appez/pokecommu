@@ -6,11 +6,19 @@ import random
 
 
 class PokeBusiness:
-    def __init__(self, catch_all=True, poke_type=None, ball_type=None, partial=False):
+    def __init__(
+        self,
+        catch_all=True,
+        poke_type=None,
+        ball_type=None,
+        partial=False,
+        special=False,
+    ):
         self.catch_all = catch_all
         self.poke_type = poke_type
         self.ball_type = ball_type
         self.partial = partial
+        self.special = special
         self.is_partial = False
         self.pokemon_data = PokemonData()
         self.pokeCommu = PokeCommu()
@@ -31,7 +39,11 @@ class PokeBusiness:
                     self.is_partial = True
 
             # Check if the pokemon is already caught when not catching all
-            if not self.catch_all and not self.is_partial and not priority:
+            if (
+                not self.catch_all
+                and not self.is_partial
+                and not (priority and self.special)
+            ):
                 if self.poke_type:
                     if not poke_data.has_type(self.poke_type) and is_in_inventory:
                         print(f"{poke_data.en_name} is not {self.poke_type}")
@@ -46,7 +58,7 @@ class PokeBusiness:
             use_custom_ball = (
                 self.ball_type
                 and self.ballBusiness.check_ball_in_inventary(f"{self.ball_type}_ball")
-                and not priority
+                and not (priority and self.special)
             )
             print("use_custom_ball : ", use_custom_ball)
 
