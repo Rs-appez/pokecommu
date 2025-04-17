@@ -82,7 +82,7 @@ class PokeBusiness:
 
     def auto_trade(
         self,
-        type=None,
+        poke_type=None,
         level=None,
         speed=None,
         sort=None,
@@ -92,7 +92,7 @@ class PokeBusiness:
         base=None,
     ):
         pokemon = self.__find_pokemon_to_trade(
-            type=type,
+            poke_type=poke_type,
             level=level,
             speed=speed,
             sort=sort,
@@ -134,7 +134,7 @@ class PokeBusiness:
             if data:
                 # check type
                 if poke_type:
-                    if data.has_type(poke_type):
+                    if not data.has_type(poke_type):
                         continue
 
                 # check level
@@ -194,7 +194,7 @@ class PokeBusiness:
 
     def __find_pokemon_to_trade(
         self,
-        type=None,
+        poke_type=None,
         level=None,
         speed=None,
         sort=None,
@@ -226,7 +226,7 @@ class PokeBusiness:
             reverse = False
 
         duplicated_pokemon = self.__get_first_duplicated_pokemon(
-            poke_type=type,
+            poke_type=poke_type,
             level=level,
             speed=speed,
             defSpe=defSpe,

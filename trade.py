@@ -8,7 +8,7 @@ if __name__ == "__main__":
     pb = PokeBusiness()
 
     # type args
-    type = None
+    poke_type = None
     level = None
     speed = None
     hp = None
@@ -23,7 +23,7 @@ if __name__ == "__main__":
         match arg:
             # type args
             case _ if arg.startswith("type="):
-                type = arg[5:]
+                poke_type = arg[5:]
             case _ if arg.startswith("level="):
                 level = arg[6:]
             case _ if arg.startswith("speed="):
@@ -45,7 +45,7 @@ if __name__ == "__main__":
                 sys.exit(1)
 
     pb.auto_trade(
-        type=type,
+        poke_type=poke_type,
         level=level,
         speed=speed,
         sort=sort,
