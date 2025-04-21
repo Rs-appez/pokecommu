@@ -1,11 +1,10 @@
 #!venv/bin/python3
 import sys
 
-from pokeBusiness import PokeBusiness
+from tradeBusiness import TradeBusiness
 
 if __name__ == "__main__":
     args = sys.argv
-    pb = PokeBusiness()
 
     # type args
     poke_type = None
@@ -13,6 +12,7 @@ if __name__ == "__main__":
     speed = None
     hp = None
     defSpe = None
+    defense = None
     bst = None
 
     # sort args
@@ -28,6 +28,8 @@ if __name__ == "__main__":
                 level = arg[6:]
             case _ if arg.startswith("speed="):
                 speed = arg[6:]
+            case _ if arg.startswith("def="):
+                defense = arg[4:]
             case _ if arg.startswith("defSpe="):
                 defSpe = arg[7:]
             case _ if arg.startswith("hp="):
@@ -44,13 +46,15 @@ if __name__ == "__main__":
                 print(f"Invalid argument: {arg}")
                 sys.exit(1)
 
-    pb.auto_trade(
+    tb = TradeBusiness(
         poke_type=poke_type,
         level=level,
         speed=speed,
         sort=sort,
         hp=hp,
         bst=bst,
+        defense=defense,
         defSpe=defSpe,
         base=base,
     )
+    tb.auto_trade()
