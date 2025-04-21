@@ -96,7 +96,7 @@ class PokeCommu:
         return False
 
     def is_pokemon_in_inventory(self, pokemon: Pokemon) -> bool:
-        poke_name = pokemon.en_name
+        poke_name = pokemon.en_name.capitalize()
         if pokemon.form:
             poke_name = f"{pokemon.form.capitalize()} {poke_name}"
 
