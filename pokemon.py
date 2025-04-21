@@ -5,16 +5,16 @@ from pokemonDB import PokemonDB, TypeDB
 
 
 class Pokemon:
-
     db = PokemonDB()
     type_db = TypeDB()
     api_url = "https://tyradex.vercel.app/api/v1/pokemon/"
 
-    def __init__(self, name_fr=None, name_en=None, id=0):
-
+    def __init__(self, name_fr=None, name_en=None, id=0, form=None):
         self.fr_name = name_fr
         self.en_name = name_en
         self.id = id
+
+        self.form = form
 
         self.fr_types = []
         self.en_types = []
@@ -29,7 +29,6 @@ class Pokemon:
         return type_name.lower() in types
 
     def __get_pokemon(self):
-
         if not self.id == 0:
             pokemon = self.__get_pokemon_data_id()
         elif self.fr_name is not None:
@@ -40,7 +39,6 @@ class Pokemon:
             pokemon = None
 
         if pokemon:
-
             self.id = pokemon["id"]
             self.fr_name = pokemon["name_fr"]
             self.en_name = pokemon["name_en"]
@@ -57,7 +55,6 @@ class Pokemon:
                     self.en_types.append(type_data["name_en"])
 
     def __get_pokemon_data(self, lang):
-
         if lang == "fr":
             pokemon_name = self.fr_name
         elif lang == "en":
@@ -76,7 +73,6 @@ class Pokemon:
             return self.__get_pokemon_from_api(pokemon_name)
 
     def __get_pokemon_data_id(self):
-
         pokemon = self.db.get_pokemon_id(self.id)
 
         if pokemon:
@@ -86,7 +82,6 @@ class Pokemon:
             return self.__get_pokemon_from_api(str(self.id))
 
     def __get_pokemon_from_api(self, pokemon_name):
-
         print(f"Fetch data from the API for {pokemon_name}")
 
         pokemon_name = pokemon_name.replace(" ", "")
@@ -99,12 +94,15 @@ class Pokemon:
             return None
 
     def __save_pokemon(self, pokemon_data):
+        name_fr = pokemon_data["name"]["fr"].replace(
+            "♀", "-f").replace("♂", "-m")
+        name_en = pokemon_data["name"]["en"].replace(
+            "♀", "-f").replace("♂", "-m")
 
-        name_fr = pokemon_data["name"]["fr"].replace("♀", "-f").replace("♂", "-m")
-        name_en = pokemon_data["name"]["en"].replace("♀", "-f").replace("♂", "-m")
-
-        height = float(pokemon_data["height"].replace(" m", "").replace(",", "."))
-        weight = float(pokemon_data["weight"].replace(" kg", "").replace(",", "."))
+        height = float(pokemon_data["height"].replace(
+            " m", "").replace(",", "."))
+        weight = float(pokemon_data["weight"].replace(
+            " kg", "").replace(",", "."))
 
         types = [unidecode(type["name"]) for type in pokemon_data["types"]]
 
