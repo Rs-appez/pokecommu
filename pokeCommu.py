@@ -85,7 +85,8 @@ class PokeCommu:
     def buy_item(self, item, amount=1, refresh=True):
         data = {"amount": amount, "item_name": item}
 
-        response = requests.post(self.url_purchase, headers=self.header, data=data)
+        response = requests.post(
+            self.url_purchase, headers=self.header, data=data)
 
         if response.status_code == 200:
             print(f"Bought {amount} {item}")
@@ -95,8 +96,12 @@ class PokeCommu:
         return False
 
     def is_pokemon_in_inventory(self, pokemon: Pokemon) -> bool:
+        poke_name = pokemon.en_name
+        if pokemon.form:
+            poke_name = f"{pokemon.form.capitalize()} {poke_name}"
+
         if any(
-            poke["name"] == pokemon.en_name
+            poke["name"] == poke_name
             for poke in chain(self.pokemons, self.pokemons_shiny)
         ):
             return True
@@ -104,7 +109,8 @@ class PokeCommu:
 
     def __auto_buy_ultraball(self):
         if [b for b in self.inventory if b["sprite_name"] == "ultra_ball"]:
-            ball = [b for b in self.inventory if b["sprite_name"] == "ultra_ball"][0]
+            ball = [b for b in self.inventory if b["sprite_name"]
+                    == "ultra_ball"][0]
             if ball["amount"] > 20:
                 return
         if self.cash >= 20000:
