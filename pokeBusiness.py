@@ -31,6 +31,7 @@ class PokeBusiness:
 
         if poke_data:
             is_in_inventory = self.pokeCommu.is_pokemon_in_inventory(poke_data)
+            print(f"Pokemon in inventory : {is_in_inventory}")
 
             # sometime bypass if partial is set
             if self.partial:
