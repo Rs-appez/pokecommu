@@ -17,8 +17,8 @@ class Pokemon:
         reg_form: str = None,
         spe_form: str = None,
     ):
-        self.fr_name = name_fr.capitalize() if name_fr else None
-        self.en_name = name_en.capitalize() if name_en else None
+        self.fr_name = name_fr
+        self.en_name = name_en
         self.id = id
 
         self.reg_form = reg_form
@@ -40,12 +40,12 @@ class Pokemon:
         return type_name.lower() in types
 
     def get_pcg_name(self) -> str:
-        name = self.en_name
+        name = self.en_name.capitalize()
 
         if self.reg_form:
-            name = f"{self.reg_form} {name}"
+            name = f"{self.reg_form.capitalize()} {name}"
         if self.spe_form:
-            name = f"{name} ({self.spe_form})"
+            name = f"{name} ({self.spe_form.capitalize()})"
 
         return name
 
@@ -61,8 +61,8 @@ class Pokemon:
 
         if pokemon:
             self.id = pokemon["id"]
-            self.fr_name = pokemon["name_fr"].capitalize()
-            self.en_name = pokemon["name_en"].capitalize()
+            self.fr_name = pokemon["name_fr"]
+            self.en_name = pokemon["name_en"]
 
             self.stats = pokemon["stats"]
             self.height = pokemon["height"]
