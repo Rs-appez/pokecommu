@@ -25,7 +25,6 @@ class PokemonData:
 
             pokemon = pokemon.strip()
 
-            print(f"Pokemon: |{pokemon}|")
             if lang == "fr":
                 pokemon_object = Pokemon(name_fr=pokemon, reg_form=reg_form)
             elif lang == "en":
