@@ -17,12 +17,15 @@ class PokemonData:
 
             reg_form = self.__get_reg_form(pokemon)
             if reg_form:
-                pokemon = pokemon.replace(reg_form, "", 1).strip()
+                pokemon = pokemon.replace(reg_form, "", 1)
 
             spe_form = self.__get_spe_form(pokemon)
             if spe_form:
-                pokemon = pokemon.replace(f"({spe_form})", "", 1).strip()
+                pokemon = pokemon.replace(f"({spe_form})", "", 1)
 
+            pokemon = pokemon.strip()
+
+            print(f"Pokemon: |{pokemon}|")
             if lang == "fr":
                 pokemon_object = Pokemon(name_fr=pokemon, reg_form=reg_form)
             elif lang == "en":
