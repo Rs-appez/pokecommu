@@ -9,12 +9,15 @@ class Pokemon:
     type_db = TypeDB()
     api_url = "https://tyradex.vercel.app/api/v1/pokemon/"
 
-    def __init__(self, name_fr=None, name_en=None, id=0, reg_form=None):
+    def __init__(
+        self, name_fr=None, name_en=None, id=0, reg_form=None, spe_form=None
+    ):
         self.fr_name = name_fr
         self.en_name = name_en
         self.id = id
 
         self.reg_form = reg_form
+        self.spe_form = spe_form
 
         self.fr_types = []
         self.en_types = []
@@ -27,6 +30,16 @@ class Pokemon:
     def has_type(self, type_name):
         types = map(str.lower, self.en_types + self.fr_types)
         return type_name.lower() in types
+
+    def get_pcg_name(self) -> str:
+        name = self.en_name.capitalize()
+
+        if self.reg_form:
+            name = f"{self.reg_form.capitalize()} {name}"
+        if self.spe_form:
+            name = f"{name} ({self.spe_form.capitalize()})"
+
+        return name
 
     def __get_pokemon(self):
         if not self.id == 0:
