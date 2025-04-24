@@ -27,6 +27,9 @@ class Pokemon:
 
         self.__get_pokemon()
 
+    def __str__(self):
+        return f"{self.id} - {self.get_pcg_name()}"
+
     def has_type(self, type_name):
         types = map(str.lower, self.en_types + self.fr_types)
         return type_name.lower() in types
