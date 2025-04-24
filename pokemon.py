@@ -10,10 +10,15 @@ class Pokemon:
     api_url = "https://tyradex.vercel.app/api/v1/pokemon/"
 
     def __init__(
-        self, name_fr=None, name_en=None, id=0, reg_form=None, spe_form=None
+        self,
+        name_fr: str = None,
+        name_en: str = None,
+        id: int = 0,
+        reg_form: str = None,
+        spe_form: str = None,
     ):
-        self.fr_name = name_fr
-        self.en_name = name_en
+        self.fr_name = name_fr.capitalize() if name_fr else None
+        self.en_name = name_en.capitalize() if name_en else None
         self.id = id
 
         self.reg_form = reg_form
@@ -35,12 +40,12 @@ class Pokemon:
         return type_name.lower() in types
 
     def get_pcg_name(self) -> str:
-        name = self.en_name.capitalize()
+        name = self.en_name
 
         if self.reg_form:
-            name = f"{self.reg_form.capitalize()} {name}"
+            name = f"{self.reg_form} {name}"
         if self.spe_form:
-            name = f"{name} ({self.spe_form.capitalize()})"
+            name = f"{name} ({self.spe_form})"
 
         return name
 
@@ -56,8 +61,8 @@ class Pokemon:
 
         if pokemon:
             self.id = pokemon["id"]
-            self.fr_name = pokemon["name_fr"]
-            self.en_name = pokemon["name_en"]
+            self.fr_name = pokemon["name_fr"].capitalize()
+            self.en_name = pokemon["name_en"].capitalize()
 
             self.stats = pokemon["stats"]
             self.height = pokemon["height"]
