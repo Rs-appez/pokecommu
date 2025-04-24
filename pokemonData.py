@@ -20,8 +20,6 @@ class PokemonData:
                 pokemon = pokemon.replace(reg_form, "", 1).strip()
 
             spe_form = self.__get_spe_form(pokemon)
-            print("spe_form : ", spe_form)
-
             if spe_form:
                 pokemon = pokemon.replace(f"({spe_form})", "", 1).strip()
 
