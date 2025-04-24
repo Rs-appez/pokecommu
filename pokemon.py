@@ -9,12 +9,12 @@ class Pokemon:
     type_db = TypeDB()
     api_url = "https://tyradex.vercel.app/api/v1/pokemon/"
 
-    def __init__(self, name_fr=None, name_en=None, id=0, form=None):
+    def __init__(self, name_fr=None, name_en=None, id=0, reg_form=None):
         self.fr_name = name_fr
         self.en_name = name_en
         self.id = id
 
-        self.form = form
+        self.reg_form = reg_form
 
         self.fr_types = []
         self.en_types = []
