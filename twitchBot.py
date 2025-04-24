@@ -81,7 +81,6 @@ class TwitchBot:
                         else:
                             break
                     print(pokemon_name)
-                    pokemon_name = re.sub(r"\(.*?\)", "", pokemon_name).strip()
                     ball = self.pkb.catch_pokemon(pokemon_name, priority)
                     if ball:
                         self.__send_message(f"!pokecatch {ball}")
