@@ -106,7 +106,7 @@ class PokeCommu:
     def is_pokemon_in_inventory(self, pokemon: Pokemon) -> bool:
         poke_name = pokemon.get_pcg_name()
         if poke_name in self.pokemon_exceptions:
-            return True
+            return False
 
         if any(
             poke["name"] == poke_name
