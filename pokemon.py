@@ -16,6 +16,7 @@ class Pokemon:
         id: int = 0,
         reg_form: str = None,
         spe_form: str = None,
+        pcg: bool = False,
     ):
         self.fr_name = name_fr
         self.en_name = name_en
@@ -23,6 +24,7 @@ class Pokemon:
 
         self.reg_form = reg_form
         self.spe_form = spe_form
+        self.pcg = pcg
 
         self.fr_types = []
         self.en_types = []
@@ -46,6 +48,8 @@ class Pokemon:
             name = f"{self.reg_form.capitalize()} {name}"
         if self.spe_form:
             name = f"{name} ({self.spe_form.capitalize()})"
+        if self.pcg:
+            name = f"PCG {name}"
 
         return name
 
@@ -115,15 +119,11 @@ class Pokemon:
             return None
 
     def __save_pokemon(self, pokemon_data):
-        name_fr = pokemon_data["name"]["fr"].replace(
-            "♀", "-f").replace("♂", "-m")
-        name_en = pokemon_data["name"]["en"].replace(
-            "♀", "-f").replace("♂", "-m")
+        name_fr = pokemon_data["name"]["fr"].replace("♀", "-f").replace("♂", "-m")
+        name_en = pokemon_data["name"]["en"].replace("♀", "-f").replace("♂", "-m")
 
-        height = float(pokemon_data["height"].replace(
-            " m", "").replace(",", "."))
-        weight = float(pokemon_data["weight"].replace(
-            " kg", "").replace(",", "."))
+        height = float(pokemon_data["height"].replace(" m", "").replace(",", "."))
+        weight = float(pokemon_data["weight"].replace(" kg", "").replace(",", "."))
 
         types = [unidecode(type["name"]) for type in pokemon_data["types"]]
 

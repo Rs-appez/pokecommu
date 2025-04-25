@@ -23,13 +23,15 @@ class PokemonData:
             if spe_form:
                 pokemon = pokemon.replace(f"({spe_form})", "", 1)
 
+            pcg = pokemon.startswith("pcg")
+
             pokemon = pokemon.strip()
 
             if lang == "fr":
                 pokemon_object = Pokemon(name_fr=pokemon, reg_form=reg_form)
             elif lang == "en":
                 pokemon_object = Pokemon(
-                    name_en=pokemon, reg_form=reg_form, spe_form=spe_form
+                    name_en=pokemon, reg_form=reg_form, spe_form=spe_form, pcg=pcg
                 )
 
         elif type(pokemon) is int:
