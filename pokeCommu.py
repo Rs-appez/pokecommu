@@ -20,6 +20,15 @@ class PokeCommu:
     token = config("PCG_TOKEN")
     header = {"Authorization": token}
 
+    pokemon_exceptions = [
+        "Unown",
+        "Vivillon",
+        "Deerling",
+        "Flogres",
+        "Furfrou",
+        "Sawsbuck",
+    ]
+
     def __init__(self):
         self.pokemons = []
         self.pokemons_shiny = []
@@ -85,8 +94,7 @@ class PokeCommu:
     def buy_item(self, item, amount=1, refresh=True):
         data = {"amount": amount, "item_name": item}
 
-        response = requests.post(
-            self.url_purchase, headers=self.header, data=data)
+        response = requests.post(self.url_purchase, headers=self.header, data=data)
 
         if response.status_code == 200:
             print(f"Bought {amount} {item}")
@@ -97,6 +105,8 @@ class PokeCommu:
 
     def is_pokemon_in_inventory(self, pokemon: Pokemon) -> bool:
         poke_name = pokemon.get_pcg_name()
+        if poke_name in self.pokemon_exceptions:
+            return True
 
         if any(
             poke["name"] == poke_name
@@ -107,8 +117,7 @@ class PokeCommu:
 
     def __auto_buy_ultraball(self):
         if [b for b in self.inventory if b["sprite_name"] == "ultra_ball"]:
-            ball = [b for b in self.inventory if b["sprite_name"]
-                    == "ultra_ball"][0]
+            ball = [b for b in self.inventory if b["sprite_name"] == "ultra_ball"][0]
             if ball["amount"] > 20:
                 return
         if self.cash >= 20000:
