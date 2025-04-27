@@ -42,12 +42,15 @@ class Pokemon:
         return type_name.lower() in types
 
     def get_pcg_name(self) -> str:
-        name = self.en_name.capitalize()
+        name = self.en_name
 
         if self.reg_form:
-            name = f"{self.reg_form.capitalize()} {name}"
+            name = f"{self.reg_form} {name}"
         if self.spe_form:
-            name = f"{name} ({self.spe_form.capitalize()})"
+            name = f"{name} ({self.spe_form})"
+
+        name = name.title()
+
         if self.pcg:
             name = f"PCG {name}"
 
