@@ -40,8 +40,9 @@ class PokemonData:
         return pokemon_object
 
     def __get_reg_form(self, pokemon):
+        name_split = pokemon.split(" ")
         for form in self.regional_forms:
-            if pokemon.startswith(form):
+            if name_split[0] == form:
                 return form
 
     def __get_spe_form(self, pokemon):
