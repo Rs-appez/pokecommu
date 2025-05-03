@@ -91,6 +91,7 @@ class Pokemon:
             return
 
         pokemon_name = pokemon_name.replace("♀", "-f").replace("♂", "-m")
+        pokemon_name = pokemon_name.replace("’", "'")
 
         pokemon = self.db.get_pokemon(pokemon_name, lang)
 
