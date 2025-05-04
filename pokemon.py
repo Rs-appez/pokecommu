@@ -43,14 +43,12 @@ class Pokemon:
 
     def get_pcg_name(self) -> str:
         name = self.en_name
+        name = name.replace("'", "’")
 
         if self.reg_form:
             name = f"{self.reg_form} {name}"
         if self.spe_form:
             name = f"{name} ({self.spe_form})"
-
-        name = name.title()
-
         if self.pcg:
             name = f"PCG {name}"
 
@@ -123,11 +121,15 @@ class Pokemon:
             return None
 
     def __save_pokemon(self, pokemon_data):
-        name_fr = pokemon_data["name"]["fr"].replace("♀", "-f").replace("♂", "-m")
-        name_en = pokemon_data["name"]["en"].replace("♀", "-f").replace("♂", "-m")
+        name_fr = pokemon_data["name"]["fr"].replace(
+            "♀", "-f").replace("♂", "-m")
+        name_en = pokemon_data["name"]["en"].replace(
+            "♀", "-f").replace("♂", "-m")
 
-        height = float(pokemon_data["height"].replace(" m", "").replace(",", "."))
-        weight = float(pokemon_data["weight"].replace(" kg", "").replace(",", "."))
+        height = float(pokemon_data["height"].replace(
+            " m", "").replace(",", "."))
+        weight = float(pokemon_data["weight"].replace(
+            " kg", "").replace(",", "."))
 
         types = [unidecode(type["name"]) for type in pokemon_data["types"]]
 

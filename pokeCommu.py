@@ -21,12 +21,12 @@ class PokeCommu:
     header = {"Authorization": token}
 
     pokemon_exceptions = [
-        "Unown",
-        "Vivillon",
-        "Deerling",
-        "Flogres",
-        "Furfrou",
-        "Sawsbuck",
+        "unown",
+        "vivillon",
+        "deerling",
+        "flogres",
+        "furfrou",
+        "sawsbuck",
     ]
 
     def __init__(self):
@@ -51,6 +51,7 @@ class PokeCommu:
         response = requests.get(self.url_poke, headers=self.header)
         if response.status_code == 200:
             for pokemon in response.json()["allPokemon"]:
+                pokemon["name"] = pokemon["name"].lower()
                 if not pokemon["isShiny"]:
                     self.pokemons.append(pokemon)
                 else:
@@ -104,7 +105,7 @@ class PokeCommu:
         return False
 
     def is_pokemon_in_inventory(self, pokemon: Pokemon) -> bool:
-        poke_name = pokemon.get_pcg_name()
+        poke_name = pokemon.get_pcg_name().lower()
         if poke_name in self.pokemon_exceptions:
             return False
 
