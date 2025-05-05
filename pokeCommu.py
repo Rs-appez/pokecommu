@@ -31,6 +31,7 @@ class PokeCommu:
 
     def __init__(self):
         self.pokemons = []
+        self.pokemons_locked = []
         self.pokemons_shiny = []
         self.inventory = []
 
@@ -52,10 +53,12 @@ class PokeCommu:
         if response.status_code == 200:
             for pokemon in response.json()["allPokemon"]:
                 pokemon["name"] = pokemon["name"].lower()
-                if not pokemon["isShiny"]:
-                    self.pokemons.append(pokemon)
-                else:
+                if pokemon["locked"]:
+                    self.pokemons_locked.append(pokemon)
+                elif pokemon["isShiny"]:
                     self.pokemons_shiny.append(pokemon)
+                else:
+                    self.pokemons.append(pokemon)
             return True
         else:
             return False
@@ -95,7 +98,8 @@ class PokeCommu:
     def buy_item(self, item, amount=1, refresh=True):
         data = {"amount": amount, "item_name": item}
 
-        response = requests.post(self.url_purchase, headers=self.header, data=data)
+        response = requests.post(
+            self.url_purchase, headers=self.header, data=data)
 
         if response.status_code == 200:
             print(f"Bought {amount} {item}")
@@ -111,14 +115,15 @@ class PokeCommu:
 
         if any(
             poke["name"] == poke_name
-            for poke in chain(self.pokemons, self.pokemons_shiny)
+            for poke in chain(self.pokemons, self.pokemons_shiny, self.pokemons_locked)
         ):
             return True
         return False
 
     def __auto_buy_ultraball(self):
         if [b for b in self.inventory if b["sprite_name"] == "ultra_ball"]:
-            ball = [b for b in self.inventory if b["sprite_name"] == "ultra_ball"][0]
+            ball = [b for b in self.inventory if b["sprite_name"]
+                    == "ultra_ball"][0]
             if ball["amount"] > 20:
                 return
         if self.cash >= 20000:
