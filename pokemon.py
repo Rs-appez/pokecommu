@@ -46,9 +46,9 @@ class Pokemon:
         name = name.replace("'", "’")
 
         if self.reg_form:
-            name = f"{self.reg_form} {name}"
+            name = f"{self.reg_form.capitalize()} {name}"
         if self.spe_form:
-            name = f"{name} ({self.spe_form})"
+            name = f"{name} ({self.spe_form.capitalize()})"
         if self.pcg:
             name = f"PCG {name}"
 
