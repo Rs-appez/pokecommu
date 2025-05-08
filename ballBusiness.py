@@ -12,8 +12,8 @@ class BallBusiness:
 
     def find_best_ball(self, pokemon):
         # Check if the pokemon is already caught
-        if any(poke["name"] == pokemon.en_name for poke in self.pokemons):
-            if not any(poke["name"] == pokemon.en_name for poke in self.shinies):
+        if any(poke["name"] == pokemon.get_pcg_name() for poke in self.pokemons):
+            if not any(poke["name"] == pokemon.get_pcg_name() for poke in self.shinies):
                 if best_ball := self.__check_cherish_ball():
                     return best_ball
             if best_ball := self.__check_drop_ball():
