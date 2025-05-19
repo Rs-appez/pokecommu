@@ -6,14 +6,12 @@ from pokeCommu import PokeCommu
 
 class BallBusiness:
     def __init__(self, pokeCommu: PokeCommu):
-        self.inventory = pokeCommu.inventory
-        self.pokemons = pokeCommu.pokemons
-        self.shinies = pokeCommu.pokemons_shiny
+        self.pokeCommu = pokeCommu
 
     def find_best_ball(self, pokemon):
         # Check if the pokemon is already caught
-        if any(poke["name"] == pokemon.get_pcg_name() for poke in self.pokemons):
-            if not any(poke["name"] == pokemon.get_pcg_name() for poke in self.shinies):
+        if self.pokeCommu.is_pokemon_in_inventory(pokemon):
+            if self.pokeCommu.is_shiny_in_inventory(pokemon):
                 if best_ball := self.__check_cherish_ball():
                     return best_ball
             if best_ball := self.__check_drop_ball():
@@ -37,14 +35,8 @@ class BallBusiness:
 
         return None
 
-    def check_ball_in_inventary(self, ball):
-        if [b for b in self.inventory if b["sprite_name"] == ball]:
-            ball = [b for b in self.inventory if b["sprite_name"] == ball][0]
-            if ball["amount"] > 0:
-                ball["amount"] -= 1
-                return True
-
-        return False
+    def check_ball_in_inventary(self, ball) -> bool:
+        return self.pokeCommu.check_ball_in_inventary(ball)
 
     def __check_cherish_ball(self):
         # 80%
