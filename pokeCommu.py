@@ -120,6 +120,15 @@ class PokeCommu:
             return True
         return False
 
+    def check_ball_in_inventary(self, ball) -> bool:
+        if [b for b in self.inventory if b["sprite_name"] == ball]:
+            ball = [b for b in self.inventory if b["sprite_name"] == ball][0]
+            if ball["amount"] > 0:
+                ball["amount"] -= 1
+                return True
+
+        return False
+
     def __auto_buy_ultraball(self):
         if [b for b in self.inventory if b["sprite_name"] == "ultra_ball"]:
             ball = [b for b in self.inventory if b["sprite_name"]
