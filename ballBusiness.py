@@ -36,7 +36,7 @@ class BallBusiness:
         return None
 
     def check_ball_in_inventary(self, ball) -> bool:
-        return self.pokeCommu.check_ball_in_inventary(ball)
+        return self.pokeCommu.remove_ball_from_inventory(ball)
 
     def __check_cherish_ball(self):
         # 80%

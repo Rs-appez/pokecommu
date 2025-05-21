@@ -123,15 +123,19 @@ class PokeCommu:
     def is_shiny_in_inventory(self, pokemon: Pokemon) -> bool:
         poke_name = pokemon.get_pcg_name().lower()
 
-        if any(
-            poke["name"] == poke_name
-            for poke in self.pokemons_shiny
-        ):
+        if any(poke["name"] == poke_name for poke in self.pokemons_shiny):
             return True
         return False
 
-
     def check_ball_in_inventary(self, ball) -> bool:
+        if [b for b in self.inventory if b["sprite_name"] == ball]:
+            ball = [b for b in self.inventory if b["sprite_name"] == ball][0]
+            if ball["amount"] > 0:
+                return True
+
+        return False
+
+    def remove_ball_from_inventory(self, ball) -> bool:
         if [b for b in self.inventory if b["sprite_name"] == ball]:
             ball = [b for b in self.inventory if b["sprite_name"] == ball][0]
             if ball["amount"] > 0:
