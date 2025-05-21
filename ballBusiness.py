@@ -11,7 +11,7 @@ class BallBusiness:
     def find_best_ball(self, pokemon):
         # Check if the pokemon is already caught
         if self.pokeCommu.is_pokemon_in_inventory(pokemon):
-            if self.pokeCommu.is_shiny_in_inventory(pokemon):
+            if not self.pokeCommu.is_shiny_in_inventory(pokemon):
                 if best_ball := self.__check_cherish_ball():
                     return best_ball
             if best_ball := self.__check_drop_ball():
