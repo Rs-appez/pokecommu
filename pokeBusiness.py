@@ -50,10 +50,7 @@ class PokeBusiness:
                 and not self.is_partial
                 and not (priority and self.special)
             ):
-                if not self.check_pokemon_stats(poke_data, is_in_inventory):
-                    return None
-
-                elif is_in_inventory:
+                if not self.check_pokemon_stats(poke_data) and is_in_inventory:
                     print(f"{poke_data.en_name} already caught")
                     return None
 
@@ -84,10 +81,8 @@ class PokeBusiness:
             else:
                 return None
 
-    def check_pokemon_stats(self, pokemon: Pokemon, is_in_inventory=None) -> bool:
-        if not is_in_inventory:
-            is_in_inventory = self.pokeCommu.is_pokemon_in_inventory(pokemon)
-        if pokemon and is_in_inventory:
+    def check_pokemon_stats(self, pokemon: Pokemon) -> bool:
+        if pokemon:
             if self.poke_type is not None:
                 if not pokemon.has_type(self.poke_type):
                     print(f"{pokemon.en_name} is not {self.poke_type}")
