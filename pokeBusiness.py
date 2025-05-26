@@ -21,6 +21,7 @@ class PokeBusiness:
         self.poke_type = poke_type
         self.poke_weight = poke_weight
         self.ball_type = ball_type
+        self.greater = greater
         self.partial = partial
         self.special = special
         self.is_partial = False
