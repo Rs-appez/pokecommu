@@ -42,6 +42,48 @@ class TradeBusiness:
         else:
             print("No pokemon to trade")
 
+    def __find_pokemon_to_trade(self):
+        selector = ""
+        # select selector
+        if self.level:
+            selector = "lvl"
+        if self.speed:
+            selector = "speed"
+        if self.defSpe:
+            selector = "special_defense"
+        if self.defense:
+            selector = "defense"
+        if self.hp:
+            selector = "hp"
+        if self.bst:
+            selector = "baseStats"
+
+        if not selector:
+            selector = "avgIV"
+
+        # sort order
+        if self.sort == "gt":
+            reverse = True
+        else:
+            reverse = False
+
+        duplicated_pokemon = self.__get_first_duplicated_pokemon()
+
+        if duplicated_pokemon:
+            pokemons_to_trade = self.__get_all_pokemons_by_id(
+                duplicated_pokemon["pokedexId"]
+            )
+            pokemons_to_trade = [
+                pokemon for pokemon in pokemons_to_trade if not pokemon["locked"]
+            ]
+            pokemons_to_trade.sort(key=lambda x: x[selector], reverse=reverse)
+
+            print(
+                f"Trading {pokemons_to_trade[0]['name']} lvl {pokemons_to_trade[0]['lvl']} avgIV {pokemons_to_trade[0]['avgIV']} id {pokemons_to_trade[0]['id']}"
+            )
+
+            return pokemons_to_trade[0]
+
     def __get_first_duplicated_pokemon(self):
         seen = set()
         for pokemon in self.pokeCommu.pokemons:
@@ -129,48 +171,6 @@ class TradeBusiness:
 
             seen.add(id)
         return None
-
-    def __find_pokemon_to_trade(self):
-        selector = ""
-        # select selector
-        if self.level:
-            selector = "lvl"
-        if self.speed:
-            selector = "speed"
-        if self.defSpe:
-            selector = "special_defense"
-        if self.defense:
-            selector = "defense"
-        if self.hp:
-            selector = "hp"
-        if self.bst:
-            selector = "baseStats"
-
-        if not selector:
-            selector = "avgIV"
-
-        # sort order
-        if self.sort == "gt":
-            reverse = True
-        else:
-            reverse = False
-
-        duplicated_pokemon = self.__get_first_duplicated_pokemon()
-
-        if duplicated_pokemon:
-            pokemons_to_trade = self.__get_all_pokemons_by_id(
-                duplicated_pokemon["pokedexId"]
-            )
-            pokemons_to_trade = [
-                pokemon for pokemon in pokemons_to_trade if not pokemon["locked"]
-            ]
-            pokemons_to_trade.sort(key=lambda x: x[selector], reverse=reverse)
-
-            print(
-                f"Trading {pokemons_to_trade[0]['name']} lvl {pokemons_to_trade[0]['lvl']} avgIV {pokemons_to_trade[0]['avgIV']} id {pokemons_to_trade[0]['id']}"
-            )
-
-            return pokemons_to_trade[0]
 
     def __get_all_pokemons_by_id(self, id):
         return [
