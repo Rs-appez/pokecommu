@@ -33,7 +33,7 @@ if __name__ == "__main__":
 
     for arg in args[1:]:
         match arg:
-            case "help" | "-h":
+            case "help" | "-h" | "--help" | "-help":
                 print("Usage: python trade.py [args]\nArgs:\n")
                 for arg, desc in help_args:
                     print(f"  {arg:<20} {desc}")
