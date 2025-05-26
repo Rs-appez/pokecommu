@@ -77,12 +77,13 @@ class TradeBusiness:
                 pokemon for pokemon in pokemons_to_trade if not pokemon["locked"]
             ]
             pokemons_to_trade.sort(key=lambda x: x[selector], reverse=reverse)
+            pokemon_to_trade = pokemons_to_trade[0]
 
             print(
-                f"Trading {pokemons_to_trade[0]['name']} lvl {pokemons_to_trade[0]['lvl']} avgIV {pokemons_to_trade[0]['avgIV']} id {pokemons_to_trade[0]['id']}"
+                f"Trading {pokemon_to_trad['name']} lvl {pokemon_to_trade['lvl']} avgIV {pokemon_to_trade['avgIV']} id {pokemon_to_trade['id']}"
             )
 
-            return pokemons_to_trade[0]
+            return pokemon_to_trade
 
     def __get_first_duplicated_pokemon(self):
         seen = set()
