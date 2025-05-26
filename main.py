@@ -3,6 +3,16 @@ import sys
 from twitchBot import TwitchBot
 from pokeBusiness import PokeBusiness
 
+help_args = [
+    ("all=<true|false>", "Catch all pokemon (default true)"),
+    ("type=<type>", "Type of the pokemon"),
+    ("weight=<weight>", "Weight of the pokemon"),
+    ("ball=<ball_type>", "Type of the ball to use"),
+    ("partial", "Catch partial pokemon (default false)"),
+    ("special", "Catch special pokemon (default false)"),
+    ("gt,lt", "Use greater/less than for weight comparison (default greater than)"),
+]
+
 if __name__ == "__main__":
     args = sys.argv
     cath_all = True
@@ -16,6 +26,11 @@ if __name__ == "__main__":
 
     for arg in args[1:]:
         match arg:
+            case "help" | "-h" | "--help" | "-help":
+                print("Usage: python main.py [args]\nArgs:\n")
+                for arg, desc in help_args:
+                    print(f"  {arg:<20} {desc}")
+                sys.exit(0)
             case _ if arg.startswith("all="):
                 if arg[4:].lower() in ["true", "false"]:
                     cath_all = arg[4:].lower() == "true"
