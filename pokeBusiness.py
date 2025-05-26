@@ -1,6 +1,7 @@
 from pokeCommu import PokeCommu
 from pokemonData import PokemonData
 from ballBusiness import BallBusiness
+from pokemon import Pokemon
 
 import random
 
@@ -10,12 +11,15 @@ class PokeBusiness:
         self,
         catch_all=True,
         poke_type=None,
+        poke_weight=None,
+        greater=False,
         ball_type=None,
         partial=False,
         special=False,
     ):
         self.catch_all = catch_all
         self.poke_type = poke_type
+        self.poke_weight = poke_weight
         self.ball_type = ball_type
         self.partial = partial
         self.special = special
@@ -45,10 +49,8 @@ class PokeBusiness:
                 and not self.is_partial
                 and not (priority and self.special)
             ):
-                if self.poke_type:
-                    if not poke_data.has_type(self.poke_type) and is_in_inventory:
-                        print(f"{poke_data.en_name} is not {self.poke_type}")
-                        return None
+                if not self.check_pokemon_stats(poke_data, is_in_inventory):
+                    return None
 
                 elif is_in_inventory:
                     print(f"{poke_data.en_name} already caught")
@@ -80,3 +82,26 @@ class PokeBusiness:
                 return ball
             else:
                 return None
+
+    def check_pokemon_stats(self, pokemon: Pokemon, is_in_inventory=None) -> bool:
+        if not is_in_inventory:
+            is_in_inventory = self.pokeCommu.is_pokemon_in_inventory(pokemon)
+        if pokemon and is_in_inventory:
+            if self.poke_type is not None:
+                if not pokemon.has_type(self.poke_type):
+                    print(f"{pokemon.en_name} is not {self.poke_type}")
+                    return False
+            if self.poke_weight is not None:
+                if self.greater:
+                    if pokemon.weight <= self.poke_weight:
+                        print(
+                            f"{pokemon.en_name} weight is not greater than {self.poke_weight}"
+                        )
+                        return False
+                else:
+                    if pokemon.weight >= self.poke_weight:
+                        print(
+                            f"{pokemon.en_name} weight is not lighter to {self.poke_weight}"
+                        )
+                        return False
+        return True

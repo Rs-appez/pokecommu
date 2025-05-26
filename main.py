@@ -8,8 +8,10 @@ if __name__ == "__main__":
     cath_all = True
     partial = False
     special = False
+    greater = True
 
     poke_type = None
+    poke_weight = None
     ball_type = None
 
     for arg in args[1:]:
@@ -23,6 +25,13 @@ if __name__ == "__main__":
             case _ if arg.startswith("type="):
                 poke_type = arg[5:]
                 cath_all = False
+            case _ if arg.startswith("weight="):
+                try:
+                    poke_weight = float(arg[7:])
+                    cath_all = False
+                except ValueError:
+                    print(f"Invalid weight value: {arg[7:]}")
+                    sys.exit(1)
             case _ if arg.startswith("ball="):
                 ball_type = arg[5:]
             case "partial":
@@ -31,6 +40,10 @@ if __name__ == "__main__":
             case "special":
                 cath_all = False
                 special = True
+            case "lt":
+                greater = False
+            case "gt":
+                greater = True
             case _:
                 print(f"Invalid argument: {arg}")
                 sys.exit(1)
@@ -38,9 +51,11 @@ if __name__ == "__main__":
     pkb = PokeBusiness(
         catch_all=cath_all,
         poke_type=poke_type,
+        poke_weight=poke_weight,
         ball_type=ball_type,
         partial=partial,
         special=special,
+        greater=greater,
     )
 
     bot = TwitchBot(pkb)
