@@ -39,6 +39,7 @@ class TradeBusiness:
         if pokemon:
             poke_data = self.pokeCommu.trade_pokemon(pokemon["id"])
             if poke_data:
+                print(f"TRADED : {poke_data['name']} id {poke_data['id']} lvl {poke_data['lvl']} avgIV {poke_data['avgIV']}")
                 print(
                     f"GET : {poke_data['name']} id {poke_data['id']} lvl {poke_data['lvl']} avgIV {poke_data['avgIV']}"
                 )
