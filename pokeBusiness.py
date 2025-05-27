@@ -84,20 +84,20 @@ class PokeBusiness:
     def check_pokemon_stats(self, pokemon: Pokemon) -> bool:
         if pokemon:
             if self.poke_type is not None:
-                if not pokemon.has_type(self.poke_type):
-                    print(f"{pokemon.en_name} is not {self.poke_type}")
-                    return False
+                if pokemon.has_type(self.poke_type):
+                    print(f"{pokemon.en_name} is {self.poke_type}")
+                    return True
             if self.poke_weight is not None:
                 if self.greater:
-                    if pokemon.weight <= self.poke_weight:
+                    if pokemon.weight > self.poke_weight:
                         print(
-                            f"{pokemon.en_name} weight is not greater than {self.poke_weight}"
+                            f"{pokemon.en_name} weight is greather than {self.poke_weight}"
                         )
-                        return False
+                        return True
                 else:
-                    if pokemon.weight >= self.poke_weight:
+                    if pokemon.weight < self.poke_weight:
                         print(
-                            f"{pokemon.en_name} weight is not lighter to {self.poke_weight}"
+                            f"{pokemon.en_name} weight is lighter than {self.poke_weight}"
                         )
-                        return False
-        return True
+                        return True
+        return False
