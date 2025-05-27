@@ -1,6 +1,8 @@
 from pokeCommu import PokeCommu
 from pokemonData import PokemonData
+from pokemon import Pokemon
 
+from typing import List
 
 class TradeBusiness:
     def __init__(
@@ -173,7 +175,7 @@ class TradeBusiness:
             seen.add(id)
         return None
 
-    def __get_all_pokemons_by_id(self, id):
+    def __get_all_pokemons_by_id(self, id) -> List[Pokemon]:
         return [
             pokemon
             for pokemon in self.pokeCommu.pokemons
