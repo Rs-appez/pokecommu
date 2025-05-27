@@ -41,7 +41,7 @@ class PokeCommu:
         self.refresh_all()
 
     def refresh_all(self):
-        if not (self.get_pokemon() and self.get_inventory()):
+        if not (self.load_pokemon() and self.load_inventory()):
             print("Error while refreshing")
             return False
         else:
@@ -49,7 +49,7 @@ class PokeCommu:
 
         return True
 
-    def get_pokemon(self):
+    def load_pokemon(self):
         response = requests.get(self.url_poke, headers=self.header)
         if response.status_code == 200:
             for pokemon in response.json()["allPokemon"]:
@@ -66,7 +66,7 @@ class PokeCommu:
         else:
             return False
 
-    def get_inventory(self):
+    def load_inventory(self):
         response = requests.get(self.url_inventory, headers=self.header)
         if response.status_code == 200:
             json_response = response.json()
@@ -107,7 +107,7 @@ class PokeCommu:
         if response.status_code == 200:
             print(f"Bought {amount} {item}")
             if refresh:
-                self.get_inventory()
+                self.load_inventory()
             return True
         return False
 
