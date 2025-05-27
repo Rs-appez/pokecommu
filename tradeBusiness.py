@@ -35,9 +35,7 @@ class TradeBusiness:
 
     def auto_trade(self):
         pokemon = self.__get_pokemon_to_trade()
-        print("pokemon : ", pokemon)
 
-        return
         if pokemon:
             poke_data = self.pokeCommu.trade_pokemon(pokemon["id"])
             if poke_data:
