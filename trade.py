@@ -23,12 +23,13 @@ if __name__ == "__main__":
     level = None
     speed = None
     hp = None
+    weight = None
     defSpe = None
     defense = None
     bst = None
 
     # sort args
-    sort = None
+    greater = True
     base = False
 
     for arg in args[1:]:
@@ -42,24 +43,54 @@ if __name__ == "__main__":
             case _ if arg.startswith("type="):
                 poke_type = arg[5:]
             case _ if arg.startswith("level="):
-                level = arg[6:]
+                try:
+                    level = int(arg[6:])
+                except ValueError:
+                    print(f"Invalid level value: {arg[6:]}")
+                    sys.exit(1)
             case _ if arg.startswith("speed="):
-                speed = arg[6:]
+                try:
+                    speed = int(arg[6:])
+                except ValueError:
+                    print(f"Invalid speed value: {arg[6:]}")
+                    sys.exit(1)
+            case _ if arg.startswith("weight="):
+                try:
+                    weight = float(arg[7:])
+                except ValueError:
+                    print(f"Invalid weight value: {arg[7:]}")
+                    sys.exit(1)
             case _ if arg.startswith("def="):
-                defense = arg[4:]
+                try:
+                    defense = int(arg[4:])
+                except ValueError:
+                    print(f"Invalid defense value: {arg[4:]}")
+                    sys.exit(1)
             case _ if arg.startswith("defSpe="):
-                defSpe = arg[7:]
+                try:
+                    defSpe = int(arg[7:])
+                except ValueError:
+                    print(f"Invalid special defense value: {arg[7:]}")
+                    sys.exit(1)
             case _ if arg.startswith("hp="):
-                hp = arg[3:]
+                try:
+                    hp = int(arg[3:])
+                except ValueError:
+                    print(f"Invalid HP value: {arg[3:]}")
+                    sys.exit(1)
             case _ if arg.startswith("bst="):
-                bst = arg[4:]
+                try:
+                    bst = int(arg[4:])
+                except ValueError:
+                    print(f"Invalid BST value: {arg[4:]}")
+                    sys.exit(1)
 
             # sort args
             case _ if arg.startswith("sort="):
                 if arg[5:] not in ["lt", "gt"]:
                     print(f"Invalid argument: {arg}")
                     sys.exit(1)
-                sort = arg[5:]
+                greater = arg[5:] == "gt"
             case "base":
                 base = True
             case _:
@@ -71,7 +102,8 @@ if __name__ == "__main__":
         poke_type=poke_type,
         level=level,
         speed=speed,
-        sort=sort,
+        weight=weight,
+        greater=greater,
         hp=hp,
         bst=bst,
         defense=defense,
