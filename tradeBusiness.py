@@ -48,7 +48,6 @@ class TradeBusiness:
         else:
             print("No pokemon to trade")
 
-
     def __get_pokemon_to_trade(self) -> dict:
         pokemons = self.pokeCommu.pokemons
         pokemons.sort(key=lambda p: (p["baseStats"], p["avgIV"]))
