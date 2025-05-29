@@ -17,7 +17,7 @@ class TradeBusiness:
         bst: int = None,
         defense: int = None,
         defSpe: int = None,
-        base: bool =False,
+        base: bool = False,
     ):
         self.poke_type = poke_type
         self.level = level
@@ -39,7 +39,9 @@ class TradeBusiness:
         if pokemon:
             poke_data = self.pokeCommu.trade_pokemon(pokemon["id"])
             if poke_data:
-                print(f"TRADED : {pokemon['name']} id {pokemon['id']} lvl {pokemon['lvl']} avgIV {pokemon['avgIV']}")
+                print(
+                    f"TRADED : {pokemon['name']} id {pokemon['id']} lvl {pokemon['lvl']} avgIV {pokemon['avgIV']}"
+                )
                 print(
                     f"GET : {poke_data['name']} id {poke_data['id']} lvl {poke_data['lvl']} avgIV {poke_data['avgIV']}"
                 )
@@ -61,17 +63,19 @@ class TradeBusiness:
             order = pokemon.get("order")
             data = self.pokemon_data.get_pokemon(order, "num")
 
-            if id in duplicated_pokemons:
-                if id in valid_pokemons:
-                    return pokemon_ids[id]
+            if id in duplicated_pokemons and id in valid_pokemons:
+                return pokemon_ids[id]
 
             if data:
-                if id not in duplicated_pokemons:
-                    duplicated_pokemons.add(id)
-
                 if self.__is_pokemon_valid(pokemon, data):
                     valid_pokemons.add(id)
                     pokemon_ids[id] = pokemon
+
+                if id not in duplicated_pokemons:
+                    duplicated_pokemons.add(id)
+
+                elif id in valid_pokemons:
+                    return pokemon_ids[id]
 
     def __is_pokemon_valid(self, pokemon: dict, data: Pokemon) -> bool:
         if self.poke_type and not data.has_type(self.poke_type):
