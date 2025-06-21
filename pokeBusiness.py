@@ -12,6 +12,7 @@ class PokeBusiness:
         catch_all=True,
         poke_type=None,
         poke_weight=None,
+        poke_generation=None,
         greater=False,
         ball_type=None,
         partial=False,
@@ -20,6 +21,7 @@ class PokeBusiness:
         self.catch_all = catch_all
         self.poke_type = poke_type
         self.poke_weight = poke_weight
+        self.poke_generation = poke_generation
         self.ball_type = ball_type
         self.greater = greater
         self.partial = partial
@@ -100,4 +102,8 @@ class PokeBusiness:
                             f"{pokemon.en_name} weight is lighter than {self.poke_weight}"
                         )
                         return True
+            if self.poke_generation is not None:
+                if pokemon.generation == self.poke_generation:
+                    print(f"{pokemon.en_name} is from generation {self.poke_generation}")
+                    return True
         return False

@@ -22,6 +22,7 @@ if __name__ == "__main__":
 
     poke_type = None
     poke_weight = None
+    poke_generation = None
     ball_type = None
 
     for arg in args[1:]:
@@ -47,6 +48,13 @@ if __name__ == "__main__":
                 except ValueError:
                     print(f"Invalid weight value: {arg[7:]}")
                     sys.exit(1)
+            case _ if arg.startswith("gen="):
+                try:
+                    poke_generation = int(arg[4:])
+                    cath_all = False
+                except ValueError:
+                    print(f"Invalid generation value: {arg[4:]}")
+                    sys.exit(1)
             case _ if arg.startswith("ball="):
                 ball_type = arg[5:]
             case "partial":
@@ -67,6 +75,7 @@ if __name__ == "__main__":
         catch_all=cath_all,
         poke_type=poke_type,
         poke_weight=poke_weight,
+        poke_generation=poke_generation,
         ball_type=ball_type,
         partial=partial,
         special=special,
