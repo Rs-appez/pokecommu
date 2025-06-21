@@ -1,3 +1,4 @@
+#!venv/bin/python3
 from itertools import chain
 from decouple import config
 import requests
@@ -157,3 +158,7 @@ class PokeCommu:
             self.buy_item("ultra_ball", 20, True)
         if self.cash >= 10000:
             self.buy_item("ultra_ball", 10, True)
+
+
+if __name__ == "__main__":
+    pokeCommu = PokeCommu()
