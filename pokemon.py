@@ -26,6 +26,7 @@ class Pokemon:
         self.spe_form = spe_form
         self.pcg = pcg
 
+        self.generation = 0
         self.fr_types = []
         self.en_types = []
         self.stats = []
@@ -69,6 +70,7 @@ class Pokemon:
             self.fr_name = pokemon["name_fr"]
             self.en_name = pokemon["name_en"]
 
+            self.generation = pokemon["generation"]
             self.stats = pokemon["stats"]
             self.height = pokemon["height"]
             self.weight = pokemon["weight"]
@@ -135,6 +137,7 @@ class Pokemon:
 
         pokemon = {
             "id": int(pokemon_data["pokedex_id"]),
+            "generation": int(pokemon_data["generation"]),
             "name_fr": name_fr,
             "name_en": name_en,
             "types": types,
