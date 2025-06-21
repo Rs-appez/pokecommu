@@ -1,3 +1,4 @@
+#!venv/bin/python3
 import requests
 from unidecode import unidecode
 
@@ -147,3 +148,28 @@ class Pokemon:
         }
         self.db.save_pokemon(pokemon)
         return pokemon
+
+
+if __name__ == "__main__":
+    import sys
+
+    if len(sys.argv) < 2:
+        print("Usage: python pokemon.py [pokemon_id]")
+        sys.exit(1)
+
+    try:
+        pokemon_id = int(sys.argv[1])
+    except ValueError:
+        print(f"Invalid pokemon ID: {sys.argv[1]}")
+        sys.exit(1)
+
+    pokemon_id = sys.argv[1]
+    pokemon = Pokemon(id=pokemon_id)
+
+    if pokemon.id == 0:
+        print(f"Pokemon '{pokemon_id}' not found.")
+    else:
+        print(f"Pokemon found: {pokemon}")
+        print(
+            f"ID: {pokemon.id}, Generation: {pokemon.generation}, Types: {pokemon.fr_types}, Stats: {pokemon.stats}, Height: {pokemon.height}, Weight: {pokemon.weight}"
+        )
