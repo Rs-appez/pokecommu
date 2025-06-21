@@ -11,8 +11,8 @@ class PokeCommu:
     url_trainer = url + "trainer/"
     url_shop = url + "shop/"
 
-    url_poke = url_trainer + "pokemon/"
-    url_inventory = url_trainer + "inventory/v2/"
+    url_poke = url_trainer + "pokemon/v2/"
+    url_inventory = url_trainer + "inventory/v3/"
     url_trade = url_trainer + "wonder-trade/"
 
     url_purchase = url_shop + "purchase/"
@@ -131,16 +131,16 @@ class PokeCommu:
         return False
 
     def check_ball_in_inventary(self, ball) -> bool:
-        if [b for b in self.inventory if b["sprite_name"] == ball]:
-            ball = [b for b in self.inventory if b["sprite_name"] == ball][0]
+        if [b for b in self.inventory if b["name"] == ball]:
+            ball = [b for b in self.inventory if b["name"] == ball][0]
             if ball["amount"] > 0:
                 return True
 
         return False
 
     def remove_ball_from_inventory(self, ball) -> bool:
-        if [b for b in self.inventory if b["sprite_name"] == ball]:
-            ball = [b for b in self.inventory if b["sprite_name"] == ball][0]
+        if [b for b in self.inventory if b["name"] == ball]:
+            ball = [b for b in self.inventory if b["name"] == ball][0]
             if ball["amount"] > 0:
                 ball["amount"] -= 1
                 return True
@@ -148,8 +148,8 @@ class PokeCommu:
         return False
 
     def __auto_buy_ultraball(self):
-        if [b for b in self.inventory if b["sprite_name"] == "ultra_ball"]:
-            ball = [b for b in self.inventory if b["sprite_name"]
+        if [b for b in self.inventory if b["name"] == "ultra_ball"]:
+            ball = [b for b in self.inventory if b["name"]
                     == "ultra_ball"][0]
             if ball["amount"] > 20:
                 return
