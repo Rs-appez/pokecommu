@@ -15,6 +15,7 @@ class PokemonDB:
             "pokemon",
             self.metadata,
             Column("id", Integer, primary_key=True),
+            Column("generation", Integer),
             Column("name_fr", String),
             Column("name_en", String),
             Column("types", String),
@@ -29,6 +30,7 @@ class PokemonDB:
     def save_pokemon(self, pokemon):
         query = sqlalchemy.insert(self.pokemon).values(
             id=pokemon["id"],
+            generation=pokemon["generation"],
             name_fr=pokemon["name_fr"],
             name_en=pokemon["name_en"],
             types=json.dumps(pokemon["types"]),  # Convert to JSON string
