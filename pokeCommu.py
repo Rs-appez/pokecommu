@@ -55,7 +55,7 @@ class PokeCommu:
         if response.status_code == 200:
             for pokemon in response.json()["allPokemon"]:
                 pokemon["name"] = pokemon["name"].lower()
-                if "egg" in pokemon["name"].split(" "):
+                if "egg" in pokemon["name"].split("-"):
                     self.eggs.append(pokemon)
                 elif pokemon["locked"]:
                     self.pokemons_locked.append(pokemon)
