@@ -45,7 +45,12 @@ class Pokemon:
 
     def get_pcg_name(self) -> str:
         name = self.en_name
-        name = name.replace("'", "’").replace("-f", "♀").replace("-m", "♂")
+        name = (
+            name.replace("'", "’")
+            .replace("-f", "♀")
+            .replace("-m", "♂")
+            .replace("é", "e")
+        )
 
         if self.reg_form:
             name = f"{self.reg_form.capitalize()} {name}"
