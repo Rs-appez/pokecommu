@@ -25,7 +25,7 @@ class Pokemon:
 
         self.reg_form = reg_form
         self.spe_form = spe_form
-        self.pcg = pcg
+        self.pcg: bool = pcg
 
         self.generation = 0
         self.fr_types = []
@@ -53,7 +53,7 @@ class Pokemon:
         )
 
         if self.reg_form:
-            name = f"{self.reg_form.capitalize()} {name}"
+            name = f"{self.reg_form.capitalize()[:3]} {name}"
         if self.spe_form:
             name = f"{name} ({self.spe_form.capitalize()})"
         if self.pcg:
@@ -72,7 +72,7 @@ class Pokemon:
             pokemon = None
 
         if pokemon:
-            self.id = pokemon["id"]
+            self.id = pokemon["pokemon_id"]
             self.fr_name = pokemon["name_fr"]
             self.en_name = pokemon["name_en"]
 
@@ -99,7 +99,7 @@ class Pokemon:
         pokemon_name = pokemon_name.replace("♀", "-f").replace("♂", "-m")
         pokemon_name = pokemon_name.replace("’", "'")
 
-        pokemon = self.db.get_pokemon(pokemon_name, lang)
+        pokemon = self.db.get_pokemon(pokemon_name, lang, self.reg_form)
 
         if pokemon:
             return pokemon
@@ -108,7 +108,7 @@ class Pokemon:
             return self.__get_pokemon_from_api(pokemon_name)
 
     def __get_pokemon_data_id(self):
-        pokemon = self.db.get_pokemon_id(self.id)
+        pokemon = self.db.get_pokemon_id(self.id, self.reg_form)
 
         if pokemon:
             return pokemon
@@ -117,18 +117,30 @@ class Pokemon:
             return self.__get_pokemon_from_api(str(self.id))
 
     def __get_pokemon_from_api(self, pokemon_name):
-        print(f"Fetch data from the API for {pokemon_name}")
+        print(
+            f"Fetch data from the API for {self.reg_form or ''} {pokemon_name}")
 
         pokemon_name = pokemon_name.replace(" ", "")
-        response = requests.get(self.api_url + pokemon_name)
+        url = self.api_url + pokemon_name
+        if self.reg_form:
+            url += f"/{self.reg_form}"
+
+        response = requests.get(url)
 
         print("Pokemon fetched")
         if response.status_code == 200:
-            return self.__save_pokemon(response.json())
+            pokemon = response.json()
+            if self.reg_form:
+                pokemon["name"]["fr"], pokemon["name"]["en"] = self.__get_clean_name()
+            return self.__save_pokemon(pokemon, self.reg_form)
         else:
             return None
 
-    def __save_pokemon(self, pokemon_data):
+    def __get_clean_name(self) -> tuple[str, str]:
+        normal_region = Pokemon(id=self.id)
+        return (normal_region.fr_name, normal_region.en_name)
+
+    def __save_pokemon(self, pokemon_data, region=None):
         name_fr = pokemon_data["name"]["fr"].replace(
             "♀", "-f").replace("♂", "-m")
         name_en = pokemon_data["name"]["en"].replace(
@@ -142,7 +154,8 @@ class Pokemon:
         types = [unidecode(type["name"]) for type in pokemon_data["types"]]
 
         pokemon = {
-            "id": int(pokemon_data["pokedex_id"]),
+            "pokemon_id": int(pokemon_data["pokedex_id"]),
+            "region": region,
             "generation": int(pokemon_data["generation"]),
             "name_fr": name_fr,
             "name_en": name_en,
@@ -169,7 +182,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     pokemon_id = sys.argv[1]
-    pokemon = Pokemon(id=pokemon_id)
+    pokemon = Pokemon(id=pokemon_id, reg_form="galar")
 
     if pokemon.id == 0:
         print(f"Pokemon '{pokemon_id}' not found.")

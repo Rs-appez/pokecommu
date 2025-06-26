@@ -14,7 +14,8 @@ class PokemonDB:
         self.pokemon = sqlalchemy.Table(
             "pokemon",
             self.metadata,
-            Column("id", Integer, primary_key=True),
+            Column("id", Integer, primary_key=True, autoincrement=True),
+            Column("pokemon_id", Integer),
             Column("generation", Integer),
             Column("name_fr", String),
             Column("name_en", String),
@@ -22,6 +23,7 @@ class PokemonDB:
             Column("stats", String),
             Column("height", Integer),
             Column("weight", Integer),
+            Column("region", String, nullable=True),
         )
 
         # Create the table if it doesn't exist
@@ -29,7 +31,8 @@ class PokemonDB:
 
     def save_pokemon(self, pokemon):
         query = sqlalchemy.insert(self.pokemon).values(
-            id=pokemon["id"],
+            pokemon_id=pokemon["pokemon_id"],
+            region=pokemon["region"],
             generation=pokemon["generation"],
             name_fr=pokemon["name_fr"],
             name_en=pokemon["name_en"],
@@ -41,8 +44,7 @@ class PokemonDB:
         self.connection.execute(query)
         self.connection.commit()
 
-    def get_pokemon(self, name, lang):
-
+    def get_pokemon(self, name, lang, region=None):
         if lang == "fr":
             name_column = self.pokemon.c.name_fr
         elif lang == "en":
@@ -50,9 +52,14 @@ class PokemonDB:
         else:
             return None
 
-        query = sqlalchemy.select(self.pokemon).where(
-            func.lower(name_column) == func.lower(name)
-        )
+        conditions = [func.lower(name_column) == func.lower(name)]
+        if region is not None:
+            conditions.append(func.lower(self.pokemon.c.region)
+                              == func.lower(region))
+        else:
+            conditions.append(self.pokemon.c.region.is_(None))
+        query = sqlalchemy.select(self.pokemon).where(*conditions)
+
         result = self.connection.execute(query).fetchone()
         if result:
             result_dict = dict(result._mapping)
@@ -70,8 +77,14 @@ class PokemonDB:
         result = self.connection.execute(query).fetchall()
         return [dict(row._mapping) for row in result]
 
-    def get_pokemon_id(self, id):
-        query = sqlalchemy.select(self.pokemon).where(self.pokemon.c.id == id)
+    def get_pokemon_id(self, id, region=None):
+        conditions = [self.pokemon.c.pokemon_id == id]
+        if region is not None:
+            conditions.append(func.lower(self.pokemon.c.region)
+                              == func.lower(region))
+        else:
+            conditions.append(self.pokemon.c.region.is_(None))
+        query = sqlalchemy.select(self.pokemon).where(*conditions)
         result = self.connection.execute(query).fetchone()
         if result:
             result_dict = dict(result._mapping)
@@ -86,9 +99,7 @@ class PokemonDB:
 
 
 class TypeDB:
-
     def __init__(self):
-
         self.engine = sqlalchemy.create_engine("sqlite:///pokemon.db")
         self.connection = self.engine.connect()
         self.metadata = sqlalchemy.MetaData()

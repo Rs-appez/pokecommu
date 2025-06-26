@@ -5,6 +5,12 @@ import re
 
 class PokemonData:
     regional_forms = ["alo", "gal", "his", "sin"]
+    regions = {
+        "alo": "alola",
+        "gal": "galar",
+        "his": "hisui",
+        "sin": "sinnoh",
+    }
 
     def get_pokemon(self, pokemon, lang) -> Pokemon | None:
         pokemon_object = None
@@ -43,7 +49,7 @@ class PokemonData:
         name_split = pokemon.split(" ")
         for form in self.regional_forms:
             if name_split[0] == form:
-                return form
+                return self.regions[form]
 
     def __get_spe_form(self, pokemon):
         form = re.search(r"\(.*?\)", pokemon)
