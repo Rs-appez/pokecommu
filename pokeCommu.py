@@ -13,6 +13,7 @@ class PokeCommu:
     url_shop = url + "shop/"
 
     url_poke = url_trainer + "pokemon/v2/"
+    url_poke_v3 = url_trainer + "pokemon/v3/"
     url_inventory = url_trainer + "inventory/v3/"
     url_trade = url_trainer + "wonder-trade/"
 
@@ -78,6 +79,16 @@ class PokeCommu:
             return True
         else:
             return False
+
+    def get_pokemon(self, pokemon_id) -> dict | None:
+        response = requests.get(
+            self.url_poke_v3 + str(pokemon_id) + "/", headers=self.header
+        )
+        if response.status_code == 200:
+            poke_data = response.json()
+            return poke_data
+        else:
+            return None
 
     def trade_pokemon(self, pokemon_id):
         response = requests.post(
@@ -150,8 +161,7 @@ class PokeCommu:
 
     def __auto_buy_ultraball(self):
         if [b for b in self.inventory if b["name"] == "ultra_ball"]:
-            ball = [b for b in self.inventory if b["name"]
-                    == "ultra_ball"][0]
+            ball = [b for b in self.inventory if b["name"] == "ultra_ball"][0]
             if ball["amount"] > 20:
                 return
         if self.cash >= 20000:
