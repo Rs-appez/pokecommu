@@ -162,7 +162,9 @@ class TradeBusiness:
         return True
 
     def __trade_allowed(self, pokemon: dict) -> bool:
-        if not pokemon.get("tradeable", True):
-            print(f"You need to wait {pokemon['tradeable']} to trade")
-            return False
+        poke = self.pokeCommu.get_pokemon(pokemon["id"])
+        if poke:
+            if poke.get("tradeable") != "null":
+                print("You are on cooldown !")
+                return False
         return True
