@@ -36,7 +36,7 @@ class TradeBusiness:
     def auto_trade(self):
         pokemon = self.__get_pokemon_to_trade()
 
-        if pokemon:
+        if pokemon and self.__trade_allowed(pokemon):
             poke_data = self.pokeCommu.trade_pokemon(pokemon["id"])
             if poke_data:
                 print(
@@ -159,4 +159,10 @@ class TradeBusiness:
             else:
                 if stat >= self.bst:
                     return False
+        return True
+
+    def __trade_allowed(self, pokemon: dict) -> bool:
+        if not pokemon.get("tradeable", True):
+            print(f"You need to wait {pokemon['tradeable']} to trade")
+            return False
         return True
