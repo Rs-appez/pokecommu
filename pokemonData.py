@@ -24,6 +24,7 @@ class PokemonData:
             reg_form = self.__get_reg_form(pokemon)
             if reg_form:
                 pokemon = pokemon.replace(reg_form, "", 1)
+            region = self.regions.get(reg_form, None)
 
             spe_form = self.__get_spe_form(pokemon)
             if spe_form:
@@ -34,10 +35,10 @@ class PokemonData:
             pokemon = pokemon.strip()
 
             if lang == "fr":
-                pokemon_object = Pokemon(name_fr=pokemon, reg_form=reg_form)
+                pokemon_object = Pokemon(name_fr=pokemon, reg_form=region)
             elif lang == "en":
                 pokemon_object = Pokemon(
-                    name_en=pokemon, reg_form=reg_form, spe_form=spe_form, pcg=pcg
+                    name_en=pokemon, reg_form=region, spe_form=spe_form, pcg=pcg
                 )
 
         elif type(pokemon) is int:
@@ -49,7 +50,7 @@ class PokemonData:
         name_split = pokemon.split(" ")
         for form in self.regional_forms:
             if name_split[0] == form:
-                return self.regions[form]
+                return form
 
     def __get_spe_form(self, pokemon):
         form = re.search(r"\(.*?\)", pokemon)
