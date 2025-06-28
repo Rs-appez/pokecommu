@@ -164,7 +164,7 @@ class TradeBusiness:
     def __trade_allowed(self, pokemon: dict) -> bool:
         poke = self.pokeCommu.get_pokemon(pokemon["id"])
         if poke:
-            if poke.get("tradable") != "null":
+            if poke.get("tradable") is not None:
                 print("You are on cooldown !")
                 return False
         return True
