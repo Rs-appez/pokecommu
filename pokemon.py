@@ -131,13 +131,15 @@ class Pokemon:
         if response.status_code == 200:
             pokemon = response.json()
             if self.reg_form:
-                pokemon["name"]["fr"], pokemon["name"]["en"] = self.__get_clean_name()
+                pokemon["name"]["fr"], pokemon["name"]["en"] = self.__get_clean_name(
+                    pokemon["pokedex_id"]
+                )
             return self.__save_pokemon(pokemon, self.reg_form)
         else:
             return None
 
-    def __get_clean_name(self) -> tuple[str, str]:
-        normal_region = Pokemon(id=self.id)
+    def __get_clean_name(self, id: int) -> tuple[str, str]:
+        normal_region = Pokemon(id=id)
         return (normal_region.fr_name, normal_region.en_name)
 
     def __save_pokemon(self, pokemon_data, region=None):
