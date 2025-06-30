@@ -117,8 +117,7 @@ class Pokemon:
             return self.__get_pokemon_from_api(str(self.id))
 
     def __get_pokemon_from_api(self, pokemon_name):
-        print(
-            f"Fetch data from the API for {self.reg_form or ''} {pokemon_name}")
+        print(f"Fetch data from the API for {self.reg_form or ''} {pokemon_name}")
 
         pokemon_name = pokemon_name.replace(" ", "")
         url = self.api_url + pokemon_name
@@ -143,15 +142,11 @@ class Pokemon:
         return (normal_region.fr_name, normal_region.en_name)
 
     def __save_pokemon(self, pokemon_data, region=None):
-        name_fr = pokemon_data["name"]["fr"].replace(
-            "♀", "-f").replace("♂", "-m")
-        name_en = pokemon_data["name"]["en"].replace(
-            "♀", "-f").replace("♂", "-m")
+        name_fr = pokemon_data["name"]["fr"].replace("♀", "-f").replace("♂", "-m")
+        name_en = pokemon_data["name"]["en"].replace("♀", "-f").replace("♂", "-m")
 
-        height = float(pokemon_data["height"].replace(
-            " m", "").replace(",", "."))
-        weight = float(pokemon_data["weight"].replace(
-            " kg", "").replace(",", "."))
+        height = float(pokemon_data["height"].replace(" m", "").replace(",", "."))
+        weight = float(pokemon_data["weight"].replace(" kg", "").replace(",", "."))
 
         types = [unidecode(type["name"]) for type in pokemon_data["types"]]
 
