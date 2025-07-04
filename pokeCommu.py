@@ -22,15 +22,6 @@ class PokeCommu:
     token = config("PCG_TOKEN")
     header = {"Authorization": token}
 
-    pokemon_exceptions = [
-        "unown",
-        "vivillon",
-        "deerling",
-        "flogres",
-        "furfrou",
-        "sawsbuck",
-    ]
-
     def __init__(self):
         self.pokemons = []
         self.pokemons_locked = []
@@ -125,8 +116,6 @@ class PokeCommu:
 
     def is_pokemon_in_inventory(self, pokemon: Pokemon) -> bool:
         poke_name = pokemon.get_pcg_name()
-        if poke_name in self.pokemon_exceptions:
-            return False
 
         if any(
             poke["name"] == poke_name
