@@ -46,20 +46,19 @@ class Pokemon:
     def get_pcg_name(self) -> str:
         name = self.en_name
         name = (
-            name.replace("'", "’")
-            .replace("-f", "♀")
-            .replace("-m", "♂")
+            name.replace("'", "")
+            .replace("’", "")
             .replace("é", "e")
         )
 
         if self.reg_form:
-            name = f"{self.reg_form.capitalize()[:3]} {name}"
+            name = f"{name}-{self.reg_form}"
         if self.spe_form:
-            name = f"{name} ({self.spe_form.capitalize()})"
+            name = f"{name}-{self.spe_form}"
         if self.pcg:
-            name = f"PCG {name}"
+            name = f"{name}-pcg"
 
-        return name
+        return name.lower()
 
     def __get_pokemon(self):
         if not self.id == 0:

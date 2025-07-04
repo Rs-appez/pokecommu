@@ -124,7 +124,7 @@ class PokeCommu:
         return False
 
     def is_pokemon_in_inventory(self, pokemon: Pokemon) -> bool:
-        poke_name = pokemon.get_pcg_name().lower()
+        poke_name = pokemon.get_pcg_name()
         if poke_name in self.pokemon_exceptions:
             return False
 
@@ -136,7 +136,7 @@ class PokeCommu:
         return False
 
     def is_shiny_in_inventory(self, pokemon: Pokemon) -> bool:
-        poke_name = pokemon.get_pcg_name().lower()
+        poke_name = pokemon.get_pcg_name()
 
         if any(poke["name"] == poke_name for poke in self.pokemons_shiny):
             return True
@@ -172,3 +172,8 @@ class PokeCommu:
 
 if __name__ == "__main__":
     pokeCommu = PokeCommu()
+    for pokemon in pokeCommu.pokemons_locked:
+        # if "unown" in pokemon["name"]:
+        #     print(pokemon)
+        if "pcg" in pokemon["name"]:
+            print(pokemon)
