@@ -1,4 +1,3 @@
-#!venv/bin/python3
 from itertools import chain
 from decouple import config
 import requests
