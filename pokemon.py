@@ -48,6 +48,7 @@ class Pokemon:
         name = (
             name.replace("'", "")
             .replace("’", "")
+            .replace(".", "")
             .replace(" ", "-")
             .replace("é", "e")
             .replace("è", "e")

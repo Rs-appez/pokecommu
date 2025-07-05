@@ -160,8 +160,8 @@ class PokeCommu:
 
 if __name__ == "__main__":
     pokeCommu = PokeCommu()
-    for pokemon in pokeCommu.pokemons_locked:
+    for pokemon in pokeCommu.pokemons:
         # if "unown" in pokemon["name"]:
         #     print(pokemon)
-        if "pcg" in pokemon["name"]:
+        if "mime" in pokemon["name"]:
             print(pokemon)
