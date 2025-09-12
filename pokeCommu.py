@@ -15,6 +15,7 @@ class PokeCommu:
     url_poke_v3 = url_trainer + "pokemon/v3/"
     url_inventory = url_trainer + "inventory/v3/"
     url_trade = url_trainer + "wonder-trade/"
+    url_pokedex = url_trainer + "pokedex/v2/"
 
     url_purchase = url_shop + "purchase/"
 
@@ -25,6 +26,7 @@ class PokeCommu:
         self.pokemons = []
         self.pokemons_locked = []
         self.pokemons_shiny = []
+        self.pokedex = {}
         self.eggs = []
         self.inventory = []
 
@@ -70,6 +72,19 @@ class PokeCommu:
         else:
             return False
 
+    def load_pokedex(self):
+        response = requests.get(
+            self.url_pokedex,
+            headers=self.header,
+        )
+        if response.status_code == 200:
+            pokedex_json = response.json()
+            for pokemon in pokedex_json["dex"]:
+                self.pokedex[pokemon["name"]] = pokemon["c"]
+
+            return True
+        else:
+            return False
     def get_pokemon(self, pokemon_id) -> dict | None:
         response = requests.get(
             self.url_poke_v3 + str(pokemon_id) + "/", headers=self.header
