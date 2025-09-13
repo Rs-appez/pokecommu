@@ -2,6 +2,7 @@ from pokeCommu import PokeCommu
 from pokemonData import PokemonData
 from ballBusiness import BallBusiness
 from pokemon import Pokemon
+from utils_colors import get_bool_color, reset_color, get_color, Color
 
 import random
 
@@ -34,20 +35,32 @@ class PokeBusiness:
     def catch_pokemon(self, pokemon, priority=False):
         poke_data: Pokemon = self.pokemon_data.get_pokemon(pokemon, "en")
 
-        print(f"Priority : {priority}")
+        print(f"🌟 Priority 🌟 : {get_bool_color(priority)}{priority}{reset_color()}")
 
         if poke_data:
             is_in_inventary = self.pokeCommu.is_pokemon_in_inventory(poke_data)
-            print(f"Pokemon in inventory : {is_in_inventary}")
+            print(
+                f"Pokemon in inventory : {get_bool_color(is_in_inventary)}{
+                    is_in_inventary
+                }{reset_color()}"
+            )
             is_in_pokedex = self.pokeCommu.is_pokemon_in_pokedex(poke_data)
-            print(f"Pokemon in pokedex : {is_in_pokedex}")
+            print(
+                f"Pokemon in pokedex : {get_bool_color(is_in_pokedex)}{is_in_pokedex}{
+                    reset_color()
+                }"
+            )
 
             is_in_possession: bool = is_in_inventary and is_in_pokedex
 
             # sometime bypass if partial is set
             if self.partial:
                 if random.randint(0, 100) < 33:
-                    print(f"Partial catch {poke_data.en_name}")
+                    print(
+                        f"{get_color(Color.MAGENTA)}Partial catch {poke_data.en_name}{
+                            reset_color()
+                        }"
+                    )
                     self.is_partial = True
 
             # Check if the pokemon is already caught when not catching all
@@ -57,7 +70,11 @@ class PokeBusiness:
                 and not (priority and self.special)
             ):
                 if not self.check_pokemon_stats(poke_data) and is_in_possession:
-                    print(f"{poke_data.en_name} already caught")
+                    print(
+                        f"{get_color(Color.GREEN)}{poke_data.en_name} already caught{
+                            reset_color()
+                        }"
+                    )
                     return None
 
             self.is_partial = False
@@ -67,10 +84,16 @@ class PokeBusiness:
                 and self.ballBusiness.check_ball_in_inventary(f"{self.ball_type}_ball")
                 and not (priority and self.special)
             )
-            print("use_custom_ball : ", use_custom_ball)
+            print(
+                f"use_custom_ball : {get_bool_color(use_custom_ball)}{use_custom_ball}{
+                    reset_color()
+                }"
+            )
 
             use_best_ball = not use_custom_ball or not is_in_possession
-            print("use_best_ball : ", use_best_ball)
+            print(
+                f"use_best_ball : {get_bool_color(use_best_ball)}{use_best_ball}{reset_color()}"
+            )
 
             ball = (
                 self.ballBusiness.find_best_ball(poke_data)
