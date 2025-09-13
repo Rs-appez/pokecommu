@@ -9,30 +9,30 @@ import random
 class PokeBusiness:
     def __init__(
         self,
-        catch_all=True,
-        poke_type=None,
-        poke_weight=None,
-        poke_generation=None,
-        greater=False,
-        ball_type=None,
-        partial=False,
-        special=False,
+        catch_all: bool = True,
+        poke_type: str = None,
+        poke_weight: float = None,
+        poke_generation: int = None,
+        greater: bool = False,
+        ball_type: str = None,
+        partial: bool = False,
+        special: bool = False,
     ):
-        self.catch_all = catch_all
-        self.poke_type = poke_type
-        self.poke_weight = poke_weight
-        self.poke_generation = poke_generation
-        self.ball_type = ball_type
-        self.greater = greater
-        self.partial = partial
-        self.special = special
-        self.is_partial = False
-        self.pokemon_data = PokemonData()
-        self.pokeCommu = PokeCommu()
-        self.ballBusiness = BallBusiness(self.pokeCommu)
+        self.catch_all: bool = catch_all
+        self.poke_type: str = poke_type
+        self.poke_weight: float = poke_weight
+        self.poke_generation: int = poke_generation
+        self.ball_type: str = ball_type
+        self.greater: bool = greater
+        self.partial: bool = partial
+        self.special: bool = special
+        self.is_partial: bool = False
+        self.pokemon_data: PokemonData = PokemonData()
+        self.pokeCommu: PokeCommu = PokeCommu()
+        self.ballBusiness: BallBusiness = BallBusiness(self.pokeCommu)
 
     def catch_pokemon(self, pokemon, priority=False):
-        poke_data = self.pokemon_data.get_pokemon(pokemon, "en")
+        poke_data: Pokemon = self.pokemon_data.get_pokemon(pokemon, "en")
 
         print(f"Priority : {priority}")
 
@@ -104,6 +104,8 @@ class PokeBusiness:
                         return True
             if self.poke_generation is not None:
                 if pokemon.generation == self.poke_generation:
-                    print(f"{pokemon.en_name} is from generation {self.poke_generation}")
+                    print(
+                        f"{pokemon.en_name} is from generation {self.poke_generation}"
+                    )
                     return True
         return False
