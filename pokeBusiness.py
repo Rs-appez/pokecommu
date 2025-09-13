@@ -37,10 +37,12 @@ class PokeBusiness:
         print(f"Priority : {priority}")
 
         if poke_data:
-            is_in_inventory = self.pokeCommu.is_pokemon_in_inventory(
-                poke_data
-            ) and self.pokeCommu.is_pokemon_in_pokedex(poke_data)
-            print(f"Pokemon in inventory : {is_in_inventory}")
+            is_in_inventary = self.pokeCommu.is_pokemon_in_inventory(poke_data)
+            print(f"Pokemon in inventory : {is_in_inventary}")
+            is_in_pokedex = self.pokeCommu.is_pokemon_in_pokedex(poke_data)
+            print(f"Pokemon in pokedex : {is_in_pokedex}")
+
+            is_in_possession: bool = is_in_inventary and is_in_pokedex
 
             # sometime bypass if partial is set
             if self.partial:
@@ -54,7 +56,7 @@ class PokeBusiness:
                 and not self.is_partial
                 and not (priority and self.special)
             ):
-                if not self.check_pokemon_stats(poke_data) and is_in_inventory:
+                if not self.check_pokemon_stats(poke_data) and is_in_possession:
                     print(f"{poke_data.en_name} already caught")
                     return None
 
@@ -67,7 +69,7 @@ class PokeBusiness:
             )
             print("use_custom_ball : ", use_custom_ball)
 
-            use_best_ball = not use_custom_ball or not is_in_inventory
+            use_best_ball = not use_custom_ball or not is_in_possession
             print("use_best_ball : ", use_best_ball)
 
             ball = (
