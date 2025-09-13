@@ -162,9 +162,7 @@ cython_debug/
 #.idea/
 
 pokemon.db
-inventory.json
-pokemon.json
-test.json
+*.json
 t
 get_token.sh
 get_token.html
