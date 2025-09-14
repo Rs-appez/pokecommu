@@ -11,6 +11,7 @@ class PokeBusiness:
     def __init__(
         self,
         catch_all: bool = True,
+        hard_pokedex: bool = False,
         poke_type: str = None,
         poke_weight: float = None,
         poke_generation: int = None,
@@ -20,6 +21,7 @@ class PokeBusiness:
         special: bool = False,
     ):
         self.catch_all: bool = catch_all
+        self.hard_pokedex: bool = hard_pokedex
         self.poke_type: str = poke_type
         self.poke_weight: float = poke_weight
         self.poke_generation: int = poke_generation
@@ -51,7 +53,9 @@ class PokeBusiness:
                 }"
             )
 
-            is_in_possession: bool = is_in_inventary and is_in_pokedex
+            is_in_possession: bool = is_in_inventary and (
+                is_in_pokedex or self.hard_pokedex
+            )
 
             # sometime bypass if partial is set
             if self.partial:

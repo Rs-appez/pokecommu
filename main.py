@@ -5,17 +5,21 @@ from pokeBusiness import PokeBusiness
 
 help_args = [
     ("all=<true|false>", "Catch all pokemon (default true)"),
+    ("hardpokedex=<true|false>", "Catch only pokemon not in special pokedex (default false)"),
     ("type=<type>", "Type of the pokemon"),
     ("weight=<weight>", "Weight of the pokemon"),
     ("ball=<ball_type>", "Type of the ball to use"),
+    ("gen=<generation>", "Generation of the pokemon"),
     ("partial", "Catch partial pokemon (default false)"),
     ("special", "Catch special pokemon (default false)"),
     ("gt,lt", "Use greater/less than for weight comparison (default greater than)"),
+    ("help", "Show this help message"),
 ]
 
 if __name__ == "__main__":
     args = sys.argv
     cath_all = True
+    hard_pokedex = False
     partial = False
     special = False
     greater = True
@@ -35,6 +39,12 @@ if __name__ == "__main__":
             case _ if arg.startswith("all="):
                 if arg[4:].lower() in ["true", "false"]:
                     cath_all = arg[4:].lower() == "true"
+                else:
+                    print(f"Invalid argument: {arg}")
+                    sys.exit(1)
+            case _ if arg.startswith("hardpokedex="):
+                if arg[12:].lower() in ["true", "false"]:
+                    hard_pokedex = arg[12:].lower() == "true"
                 else:
                     print(f"Invalid argument: {arg}")
                     sys.exit(1)
@@ -73,6 +83,7 @@ if __name__ == "__main__":
 
     pkb = PokeBusiness(
         catch_all=cath_all,
+        hard_pokedex=hard_pokedex,
         poke_type=poke_type,
         poke_weight=poke_weight,
         poke_generation=poke_generation,
