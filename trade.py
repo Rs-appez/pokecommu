@@ -10,9 +10,11 @@ help_args = [
     ("def=<defense>", "Defense of the pokemon"),
     ("defSpe=<defense>", "Special Defense of the pokemon"),
     ("hp=<hp>", "HP of the pokemon"),
+    ("weight=<weight>", "Weight of the pokemon"),
     ("bst=<bst>", "BST of the pokemon"),
     ("sort=<sort>", "Ordering sort : gt/lt (default lt)"),
     ("base", "Base stats only"),
+    ("help", "Show this help message"),
 ]
 
 if __name__ == "__main__":
