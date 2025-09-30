@@ -5,7 +5,10 @@ from pokeBusiness import PokeBusiness
 
 help_args = [
     ("all=<true|false>", "Catch all pokemon (default true)"),
-    ("hardpokedex=<true|false>", "Catch only pokemon not in special pokedex (default false)"),
+    (
+        "hardpokedex=<true|false>",
+        "Catch only pokemon not in special pokedex (default false)",
+    ),
     ("type=<type>", "Type of the pokemon"),
     ("weight=<weight>", "Weight of the pokemon"),
     ("ball=<ball_type>", "Type of the ball to use"),
@@ -15,6 +18,13 @@ help_args = [
     ("gt,lt", "Use greater/less than for weight comparison (default greater than)"),
     ("help", "Show this help message"),
 ]
+
+
+def display_help():
+    print("Usage: python main.py [args]\nArgs:\n")
+    for arg, desc in help_args:
+        print(f"  {arg:<20} {desc}")
+
 
 if __name__ == "__main__":
     args = sys.argv
@@ -32,9 +42,7 @@ if __name__ == "__main__":
     for arg in args[1:]:
         match arg:
             case "help" | "-h" | "--help" | "-help":
-                print("Usage: python main.py [args]\nArgs:\n")
-                for arg, desc in help_args:
-                    print(f"  {arg:<20} {desc}")
+                display_help()
                 sys.exit(0)
             case _ if arg.startswith("all="):
                 if arg[4:].lower() in ["true", "false"]:
@@ -79,6 +87,7 @@ if __name__ == "__main__":
                 greater = True
             case _:
                 print(f"Invalid argument: {arg}")
+                display_help()
                 sys.exit(1)
 
     pkb = PokeBusiness(
