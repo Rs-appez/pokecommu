@@ -3,7 +3,7 @@ import threading
 import re
 import websocket
 
-from pokeBusiness import PokeBusiness
+from business.pokeBusiness import PokeBusiness
 
 
 class TwitchBot:

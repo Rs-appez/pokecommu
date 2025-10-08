@@ -1,7 +1,7 @@
 #!venv/bin/python3
 import sys
 
-from tradeBusiness import TradeBusiness
+from business.tradeBusiness import TradeBusiness
 
 help_args = [
     ("type=<type>", "Type of the pokemon"),

@@ -1,8 +1,8 @@
 from pokeCommu import PokeCommu
-from pokemonData import PokemonData
-from ballBusiness import BallBusiness
-from pokemon import Pokemon
-from utils_colors import get_bool_color, reset_color, get_color, Color
+from models.pokemonData import PokemonData
+from business.ballBusiness import BallBusiness
+from models.pokemon import Pokemon
+from utils.utils_colors import get_bool_color, reset_color, get_color, Color
 
 import random
 

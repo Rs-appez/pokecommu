@@ -1,8 +1,6 @@
 from pokeCommu import PokeCommu
-from pokemonData import PokemonData
-from pokemon import Pokemon
-
-from typing import List
+from models.pokemonData import PokemonData
+from models.pokemon import Pokemon
 
 
 class TradeBusiness:
@@ -40,10 +38,14 @@ class TradeBusiness:
             poke_data = self.pokeCommu.trade_pokemon(pokemon["id"])
             if poke_data:
                 print(
-                    f"TRADED : {pokemon['name']} id {pokemon['id']} lvl {pokemon['lvl']} avgIV {pokemon['avgIV']}"
+                    f"TRADED : {pokemon['name']} id {pokemon['id']} lvl {
+                        pokemon['lvl']
+                    } avgIV {pokemon['avgIV']}"
                 )
                 print(
-                    f"GET : {poke_data['name']} id {poke_data['id']} lvl {poke_data['lvl']} avgIV {poke_data['avgIV']}"
+                    f"GET : {poke_data['name']} id {poke_data['id']} lvl {
+                        poke_data['lvl']
+                    } avgIV {poke_data['avgIV']}"
                 )
             else:
                 print("Trade failed")

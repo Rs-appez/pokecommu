@@ -1,4 +1,4 @@
-from pokemon import Pokemon
+from models.pokemon import Pokemon
 
 import re
 

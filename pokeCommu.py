@@ -2,7 +2,7 @@ from itertools import chain
 from decouple import config
 import requests
 
-from pokemon import Pokemon
+from models.pokemon import Pokemon
 
 
 class PokeCommu:

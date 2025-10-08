@@ -1,7 +1,7 @@
 #!venv/bin/python3
 import sys
-from twitchBot import TwitchBot
-from pokeBusiness import PokeBusiness
+from bots.twitchBot import TwitchBot
+from business.pokeBusiness import PokeBusiness
 
 help_args = [
     ("all=<true|false>", "Catch all pokemon (default true)"),
