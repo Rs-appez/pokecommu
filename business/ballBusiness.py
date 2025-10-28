@@ -5,8 +5,9 @@ from pokeCommu import PokeCommu
 
 
 class BallBusiness:
-    def __init__(self, pokeCommu: PokeCommu):
+    def __init__(self, pokeCommu: PokeCommu, event: bool = False):
         self.pokeCommu = pokeCommu
+        self.event = event
 
     def find_best_ball(self, pokemon):
         # Check if the pokemon is already caught
@@ -20,6 +21,7 @@ class BallBusiness:
                 return best_ball
 
         checks = [
+            lambda : self.__check_event_ball(pokemon.en_types),
             self.__check_time_ball,
             lambda: self.__check_weight_ball(pokemon.weight),
             lambda: self.__check_type_ball(pokemon.en_types),
@@ -127,6 +129,14 @@ class BallBusiness:
                     self.wait()
                     return best_ball
 
+        return None
+
+    def __check_event_ball(self, types):
+        if not self.event:
+            return None
+        for type in types:
+            if type == "Bug":
+                return "sport_ball"
         return None
 
     def __check_stats_ball(self, stats):

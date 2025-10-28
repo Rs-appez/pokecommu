@@ -32,7 +32,7 @@ class PokeBusiness:
         self.is_partial: bool = False
         self.pokemon_data: PokemonData = PokemonData()
         self.pokeCommu: PokeCommu = PokeCommu()
-        self.ballBusiness: BallBusiness = BallBusiness(self.pokeCommu)
+        self.ballBusiness: BallBusiness = BallBusiness(self.pokeCommu, special)
 
     def catch_pokemon(self, pokemon, priority=False):
         poke_data: Pokemon = self.pokemon_data.get_pokemon(pokemon, "en")
