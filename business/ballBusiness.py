@@ -21,7 +21,7 @@ class BallBusiness:
                 return best_ball
 
         checks = [
-            lambda : self.__check_event_ball(pokemon.en_types),
+            lambda: self.__check_event_ball(pokemon.en_types),
             self.__check_time_ball,
             lambda: self.__check_weight_ball(pokemon.weight),
             lambda: self.__check_type_ball(pokemon.en_types),
@@ -134,10 +134,14 @@ class BallBusiness:
     def __check_event_ball(self, types):
         if not self.event:
             return None
+        ball = None
+
         for type in types:
             if type == "Bug":
-                return "sport_ball"
-        return None
+                ball = "sport_ball"
+                break
+
+        return ball if (not ball and self.check_ball_in_inventary(ball)) else None
 
     def __check_stats_ball(self, stats):
         if stats["vit"] > 100:
