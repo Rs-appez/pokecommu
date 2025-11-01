@@ -1,5 +1,5 @@
+from models.pokemonData import PokemonDataMapper
 from pokeCommu import PokeCommu
-from models.pokemonData import PokemonData
 from business.ballBusiness import BallBusiness
 from models.pokemon import Pokemon
 from utils.utils_colors import get_bool_color, reset_color, get_color, Color
@@ -30,23 +30,22 @@ class PokeBusiness:
         self.partial: bool = partial
         self.special: bool = special
         self.is_partial: bool = False
-        self.pokemon_data: PokemonData = PokemonData()
         self.pokeCommu: PokeCommu = PokeCommu()
         self.ballBusiness: BallBusiness = BallBusiness(self.pokeCommu, special)
 
-    def catch_pokemon(self, pokemon, priority=False):
-        poke_data: Pokemon = self.pokemon_data.get_pokemon(pokemon, "en")
+    def catch_pokemon(self, pokemon_data, priority=False):
+        pokemon: Pokemon = PokemonDataMapper.get_pokemon_from_chat(pokemon_data, "en")
 
         print(f"🌟 Priority 🌟 : {get_bool_color(priority)}{priority}{reset_color()}")
 
-        if poke_data:
-            is_in_inventary = self.pokeCommu.is_pokemon_in_inventory(poke_data)
+        if pokemon:
+            is_in_inventary = self.pokeCommu.is_pokemon_in_inventory(pokemon)
             print(
                 f"Pokemon in inventory : {get_bool_color(is_in_inventary)}{
                     is_in_inventary
                 }{reset_color()}"
             )
-            is_in_pokedex = self.pokeCommu.is_pokemon_in_pokedex(poke_data)
+            is_in_pokedex = self.pokeCommu.is_pokemon_in_pokedex(pokemon)
             print(
                 f"Pokemon in pokedex : {get_bool_color(is_in_pokedex)}{is_in_pokedex}{
                     reset_color()
@@ -61,7 +60,7 @@ class PokeBusiness:
             if self.partial:
                 if random.randint(0, 100) < 33:
                     print(
-                        f"{get_color(Color.MAGENTA)}Partial catch {poke_data.en_name}{
+                        f"{get_color(Color.MAGENTA)}Partial catch {pokemon.en_name}{
                             reset_color()
                         }"
                     )
@@ -73,9 +72,9 @@ class PokeBusiness:
                 and not self.is_partial
                 and not (priority and self.special)
             ):
-                if not self.check_pokemon_stats(poke_data) and is_in_possession:
+                if not self.check_pokemon_stats(pokemon) and is_in_possession:
                     print(
-                        f"{get_color(Color.GREEN)}{poke_data.en_name} already caught{
+                        f"{get_color(Color.GREEN)}{pokemon.en_name} already caught{
                             reset_color()
                         }"
                     )
@@ -100,7 +99,7 @@ class PokeBusiness:
             )
 
             ball = (
-                self.ballBusiness.find_best_ball(poke_data)
+                self.ballBusiness.find_best_ball(pokemon)
                 if use_best_ball
                 else f"{self.ball_type}ball"
             )

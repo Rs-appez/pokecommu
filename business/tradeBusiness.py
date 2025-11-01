@@ -1,5 +1,4 @@
 from pokeCommu import PokeCommu
-from models.pokemonData import PokemonData
 from models.pokemon import Pokemon
 
 
@@ -28,7 +27,6 @@ class TradeBusiness:
         self.defSpe = defSpe
         self.base = base
 
-        self.pokemon_data = PokemonData()
         self.pokeCommu = PokeCommu()
 
     def auto_trade(self):
@@ -63,7 +61,7 @@ class TradeBusiness:
         for pokemon in pokemons:
             id = pokemon.get("pokedexId")
             order = pokemon.get("order")
-            data = self.pokemon_data.get_pokemon(order, "num")
+            data = Pokemon(id=order)
 
             if id in duplicated_pokemons and id in valid_pokemons:
                 return pokemon_ids[id]
@@ -164,6 +162,8 @@ class TradeBusiness:
         return True
 
     def __trade_allowed(self, pokemon: dict) -> bool:
+        return True
+        # Obsolete cooldown check
         poke = self.pokeCommu.get_pokemon(pokemon["id"])
         if poke:
             if poke.get("tradable") is not None:
