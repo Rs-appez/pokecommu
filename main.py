@@ -15,6 +15,7 @@ help_args = [
     ("gen=<generation>", "Generation of the pokemon"),
     ("partial", "Catch partial pokemon (default false)"),
     ("special", "Catch special pokemon (default false)"),
+    ("economic", "Only send pokecheck (default false)"),
     ("gt,lt", "Use greater/less than for weight comparison (default greater than)"),
     ("help", "Show this help message"),
 ]
@@ -32,6 +33,7 @@ if __name__ == "__main__":
     hard_pokedex = False
     partial = False
     special = False
+    economic = False
     greater = True
 
     poke_type = None
@@ -81,6 +83,8 @@ if __name__ == "__main__":
             case "special":
                 cath_all = False
                 special = True
+            case "economic":
+                economic = True
             case "lt":
                 greater = False
             case "gt":
@@ -100,6 +104,7 @@ if __name__ == "__main__":
         partial=partial,
         special=special,
         greater=greater,
+        economic=economic,
     )
 
     bot = TwitchBot(pkb)

@@ -19,6 +19,7 @@ class PokeBusiness:
         ball_type: str = None,
         partial: bool = False,
         special: bool = False,
+        economic: bool = False,
     ):
         self.catch_all: bool = catch_all
         self.hard_pokedex: bool = hard_pokedex
@@ -29,6 +30,7 @@ class PokeBusiness:
         self.greater: bool = greater
         self.partial: bool = partial
         self.special: bool = special
+        self.is_economic: bool = economic
         self.is_partial: bool = False
         self.pokeCommu: PokeCommu = PokeCommu()
         self.ballBusiness: BallBusiness = BallBusiness(self.pokeCommu, special)
@@ -93,7 +95,9 @@ class PokeBusiness:
                 }"
             )
 
-            use_best_ball = not use_custom_ball or not is_in_possession
+            use_best_ball = (
+                not use_custom_ball or not is_in_possession
+            ) and not self.is_economic
             print(
                 f"use_best_ball : {get_bool_color(use_best_ball)}{use_best_ball}{reset_color()}"
             )

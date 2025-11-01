@@ -83,6 +83,10 @@ class TwitchBot:
                     print(pokemon_name)
                     ball = self.pkb.catch_pokemon(pokemon_name, priority)
                     if ball:
+                        if self.pkb.is_economic:
+                            print("No catching because economic mode is on")
+                            self.__send_message("!pokecheck")
+                            return
                         self.__send_message(f"!pokecatch {ball}")
 
     def __send_message(self, message):
