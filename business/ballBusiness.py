@@ -22,7 +22,7 @@ class BallBusiness:
                 return best_ball
             if best_ball := self.__check_duplicate_ball():
                 return best_ball
-            if best_ball := self.__check_event_ball(pokemon.en_types):
+            if best_ball := self.__check_buddy_ball(pokemon.en_types):
                 return best_ball
 
         checks = [
