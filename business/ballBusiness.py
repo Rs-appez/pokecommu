@@ -1,6 +1,7 @@
 import asyncio
 import random
 
+from models.pokemon import Pokemon
 from pokeCommu import PokeCommu
 
 
@@ -9,9 +10,11 @@ class BallBusiness:
         self.pokeCommu = pokeCommu
         self.event = event
 
-    def find_best_ball(self, pokemon):
+    def find_best_ball(self, pokemon: Pokemon) -> str | None:
         # Check if the pokemon is already caught
         if self.pokeCommu.is_pokemon_in_inventory(pokemon):
+            if best_ball := self.__check_event_ball(pokemon.en_types):
+                return best_ball
             if not self.pokeCommu.is_shiny_in_inventory(pokemon):
                 if best_ball := self.__check_cherish_ball():
                     return best_ball
@@ -19,15 +22,17 @@ class BallBusiness:
                 return best_ball
             if best_ball := self.__check_duplicate_ball():
                 return best_ball
+            if best_ball := self.__check_event_ball(pokemon.en_types):
+                return best_ball
 
         checks = [
-            lambda: self.__check_event_ball(pokemon.en_types),
             self.__check_time_ball,
             lambda: self.__check_weight_ball(pokemon.weight),
             lambda: self.__check_type_ball(pokemon.en_types),
             lambda: self.__check_stats_ball(pokemon.stats),
             self.__check_ultra_ball,
             self.__check_drop_ball,
+            self.__check_buddy_ball(pokemon.en_types),
             self.__check_low_ball,
         ]
 
@@ -196,6 +201,20 @@ class BallBusiness:
 
         if self.check_ball_in_inventary("premier_ball"):
             best_ball = " "
+            self.wait()
+            return best_ball
+        return None
+
+    def __check_buddy_ball(self, types):
+        def has_buddy_type():
+            buddy: Pokemon = self.pokeCommu.poke_buddy
+            for t in types:
+                if buddy.has_type(t):
+                    return True
+            return False
+
+        if self.check_ball_in_inventary("friend_ball") and has_buddy_type():
+            best_ball = "friendball"
             self.wait()
             return best_ball
         return None
