@@ -23,7 +23,7 @@ class TwitchBot:
 
     def __connect(self):
         self.ws = websocket.WebSocketApp(
-            f"wss://irc-ws.chat.twitch.tv:443",
+            "wss://irc-ws.chat.twitch.tv:443",
             on_message=self.__on_message,
             on_error=self.__on_error,
             on_close=self.__on_close,
