@@ -12,7 +12,7 @@ class PokemonDataMapper:
     }
 
     @classmethod
-    def get_pokemon_from_chat(cls, pokemon, lang) -> Pokemon | None:
+    def get_pokemon_from_chat(cls, pokemon_name : str, lang : str) -> Pokemon | None:
         def get_reg_form(p):
             name_split = p.split(" ")
             for form in cls.regions.keys():
@@ -24,7 +24,7 @@ class PokemonDataMapper:
             if form:
                 return form.group(0)[1:-1]
 
-        pokemon = pokemon.lower()
+        pokemon = pokemon_name.lower()
 
         if reg_form := get_reg_form(pokemon):
             pokemon = pokemon.replace(reg_form, "", 1)

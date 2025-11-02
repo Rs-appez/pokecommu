@@ -19,6 +19,9 @@ class Pokemon:
         spe_form: str = None,
         pcg: bool = False,
     ):
+        if not any([name_fr, name_en, id]):
+            raise ValueError("At least one of name_fr, name_en or id must be provided")
+
         self.fr_name = name_fr
         self.en_name = name_en
         self.id = id
@@ -66,25 +69,25 @@ class Pokemon:
 
     def __get_pokemon(self):
         if not self.id == 0:
-            pokemon = self.__get_pokemon_data_id()
+            pokemon_data = self.__get_pokemon_data_id()
         elif self.fr_name is not None:
-            pokemon = self.__get_pokemon_data("fr")
+            pokemon_data = self.__get_pokemon_data("fr")
         elif self.en_name is not None:
-            pokemon = self.__get_pokemon_data("en")
+            pokemon_data = self.__get_pokemon_data("en")
         else:
-            pokemon = None
+            pokemon_data = None
 
-        if pokemon:
-            self.id = pokemon["pokemon_id"]
-            self.fr_name = pokemon["name_fr"]
-            self.en_name = pokemon["name_en"]
+        if pokemon_data:
+            self.id = pokemon_data["pokemon_id"]
+            self.fr_name = pokemon_data["name_fr"]
+            self.en_name = pokemon_data["name_en"]
 
-            self.generation = pokemon["generation"]
-            self.stats = pokemon["stats"]
-            self.height = pokemon["height"]
-            self.weight = pokemon["weight"]
+            self.generation = pokemon_data["generation"]
+            self.stats = pokemon_data["stats"]
+            self.height = pokemon_data["height"]
+            self.weight = pokemon_data["weight"]
 
-            self.fr_types = pokemon["types"]
+            self.fr_types = pokemon_data["types"]
 
             for type in self.fr_types:
                 type_data = self.type_db.get_type(type)
@@ -102,19 +105,19 @@ class Pokemon:
         pokemon_name = pokemon_name.replace("♀", "-f").replace("♂", "-m")
         pokemon_name = pokemon_name.replace("’", "'")
 
-        pokemon = self.db.get_pokemon(pokemon_name, lang, self.reg_form)
+        pokemon_data = self.db.get_pokemon(pokemon_name, lang, self.reg_form)
 
-        if pokemon:
-            return pokemon
+        if pokemon_data:
+            return pokemon_data
         else:
             pokemon_name = unidecode(pokemon_name)
             return self.__get_pokemon_from_api(pokemon_name)
 
-    def __get_pokemon_data_id(self):
-        pokemon = self.db.get_pokemon_id(self.id, self.reg_form)
+    def __get_pokemon_data_id(self) -> dict | None:
+        pokemon_data = self.db.get_pokemon_id(self.id, self.reg_form)
 
-        if pokemon:
-            return pokemon
+        if pokemon_data:
+            return pokemon_data
 
         else:
             return self.__get_pokemon_from_api(str(self.id))
@@ -169,9 +172,9 @@ class Pokemon:
 
 
 if __name__ == "__main__":
-
     pokemon_id = 5
     pokemon = Pokemon(id=pokemon_id)
+
 
     if pokemon.id == 0:
         print(f"Pokemon '{pokemon_id}' not found.")
@@ -184,3 +187,8 @@ if __name__ == "__main__":
                 pokemon.weight
             }"
         )
+
+    pokemon_name = "Pikachu"
+    pokemon = Pokemon(name_en=pokemon_name)
+
+    print(f"Pokemon found: {pokemon}")

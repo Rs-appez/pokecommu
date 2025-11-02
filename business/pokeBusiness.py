@@ -31,12 +31,11 @@ class PokeBusiness:
         self.partial: bool = partial
         self.special: bool = special
         self.is_economic: bool = economic
-        self.is_partial: bool = False
         self.pokeCommu: PokeCommu = PokeCommu()
         self.ballBusiness: BallBusiness = BallBusiness(self.pokeCommu, special)
 
-    def catch_pokemon(self, pokemon_data, priority=False):
-        pokemon: Pokemon = PokemonDataMapper.get_pokemon_from_chat(pokemon_data, "en")
+    def catch_pokemon(self, pokemon_name : str, priority=False):
+        pokemon: Pokemon = PokemonDataMapper.get_pokemon_from_chat(pokemon_name, "en")
 
         print(f"🌟 Priority 🌟 : {get_bool_color(priority)}{priority}{reset_color()}")
 
@@ -59,6 +58,7 @@ class PokeBusiness:
             )
 
             # sometime bypass if partial is set
+            is_partial = False
             if self.partial:
                 if random.randint(0, 100) < 33:
                     print(
@@ -66,12 +66,12 @@ class PokeBusiness:
                             reset_color()
                         }"
                     )
-                    self.is_partial = True
+                    is_partial = True
 
             # Check if the pokemon is already caught when not catching all
             if (
                 not self.catch_all
-                and not self.is_partial
+                and not is_partial
                 and not (priority and self.special)
             ):
                 if not self.check_pokemon_stats(pokemon) and is_in_possession:
@@ -81,8 +81,6 @@ class PokeBusiness:
                         }"
                     )
                     return None
-
-            self.is_partial = False
 
             use_custom_ball = (
                 self.ball_type
