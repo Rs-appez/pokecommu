@@ -46,22 +46,21 @@ class BallBusiness:
         return self.pokeCommu.remove_ball_from_inventory(ball)
 
     def __check_cherish_ball(self):
+        best_ball = None
         # 80%
         if self.check_ball_in_inventary("ultra_cherish_ball"):
             best_ball = "ultracherishball"
-            self.wait()
-            return best_ball
         # 55%
-        if self.check_ball_in_inventary("great_cherish_ball"):
+        elif self.check_ball_in_inventary("great_cherish_ball"):
             best_ball = "greatcherishball"
-            self.wait()
-            return best_ball
         # 30%
-        if self.check_ball_in_inventary("cherish_ball"):
+        elif self.check_ball_in_inventary("cherish_ball"):
             best_ball = "cherishball"
+
+        if best_ball:
             self.wait()
-            return best_ball
-        return None
+
+        return best_ball
 
     def __check_drop_ball(self):
         # 55%
@@ -92,18 +91,19 @@ class BallBusiness:
         return None
 
     def __check_weight_ball(self, weight):
+        best_ball = None
         if weight > 204.8:
             if self.check_ball_in_inventary("heavy_ball"):
                 best_ball = "heavyball"
-                self.wait()
-                return best_ball
 
-        if weight <= 9.9:
+        elif weight <= 9.9:
             if self.check_ball_in_inventary("feather_ball"):
                 best_ball = "featherball"
-                self.wait()
-                return best_ball
-        return None
+
+        if best_ball:
+            self.wait()
+
+        return best_ball
 
     def __check_type_ball(self, types):
         type_ball_mapping = {
@@ -149,19 +149,19 @@ class BallBusiness:
         return ball if (not ball and self.check_ball_in_inventary(ball)) else None
 
     def __check_stats_ball(self, stats):
+        best_ball = None
         if stats["vit"] > 100:
             if self.check_ball_in_inventary("fast_ball"):
                 best_ball = "fastball"
-                self.wait()
-                return best_ball
 
-        if stats["hp"] > 100:
+        if not best_ball and stats["hp"] > 100:
             if self.check_ball_in_inventary("heal_ball"):
                 best_ball = "healball"
-                self.wait()
-                return best_ball
 
-        return None
+        if best_ball:
+            self.wait()
+
+        return best_ball
 
     def __check_ultra_ball(self):
         if self.check_ball_in_inventary("ultra_ball"):
@@ -171,39 +171,32 @@ class BallBusiness:
         return None
 
     def __check_low_ball(self):
+        best_ball = None
         # 55%
         if self.check_ball_in_inventary("great_ball"):
             best_ball = "greatball"
-            self.wait()
-            return best_ball
 
-        if self.check_ball_in_inventary("luxury_ball"):
+        elif self.check_ball_in_inventary("luxury_ball"):
             best_ball = "luxuryball"
-            self.wait()
-            return best_ball
 
         # 40%
-        if self.check_ball_in_inventary("level_ball"):
+        elif self.check_ball_in_inventary("level_ball"):
             best_ball = "levelball"
-            self.wait()
-            return best_ball
 
         # 30%
-        if self.check_ball_in_inventary("clone_ball"):
+        elif self.check_ball_in_inventary("clone_ball"):
             best_ball = "cloneball"
-            self.wait()
-            return best_ball
 
-        if self.check_ball_in_inventary("poke_ball"):
+        elif self.check_ball_in_inventary("poke_ball"):
             best_ball = " "
-            self.wait()
-            return best_ball
 
-        if self.check_ball_in_inventary("premier_ball"):
+        elif self.check_ball_in_inventary("premier_ball"):
             best_ball = " "
+
+        if best_ball:
             self.wait()
-            return best_ball
-        return None
+
+        return best_ball
 
     def __check_buddy_ball(self, types):
         def has_buddy_type():
