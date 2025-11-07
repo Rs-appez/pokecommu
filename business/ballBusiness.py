@@ -10,10 +10,10 @@ class BallBusiness:
         self.pokeCommu = pokeCommu
         self.event = event
 
-    def find_best_ball(self, pokemon: Pokemon) -> str | None:
+    def find_best_ball(self, pokemon: Pokemon, is_event: bool = False) -> str | None:
         # Check if the pokemon is already caught
         if self.pokeCommu.is_pokemon_in_inventory(pokemon):
-            if best_ball := self.__check_event_ball(pokemon.en_types):
+            if best_ball := self.__check_event_ball(pokemon.en_types, is_event):
                 return best_ball
             if not self.pokeCommu.is_shiny_in_inventory(pokemon):
                 if best_ball := self.__check_cherish_ball():
@@ -136,17 +136,23 @@ class BallBusiness:
 
         return None
 
-    def __check_event_ball(self, types):
-        if not self.event:
+    def __check_event_ball(self, types, is_event: bool):
+        if not self.event or not is_event:
+            print("No event ball")
             return None
-        ball = None
+
+        best_ball = None
 
         for type in types:
             if type == "Bug":
-                ball = "sport_ball"
-                break
+                if self.check_ball_in_inventary("sport_ball"):
+                    best_ball = "sportball"
+                    break
 
-        return ball if (not ball and self.check_ball_in_inventary(ball)) else None
+        if best_ball:
+            self.wait()
+
+        return best_ball
 
     def __check_stats_ball(self, stats):
         best_ball = None

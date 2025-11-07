@@ -34,7 +34,7 @@ class PokeBusiness:
         self.pokeCommu: PokeCommu = PokeCommu()
         self.ballBusiness: BallBusiness = BallBusiness(self.pokeCommu, special)
 
-    def catch_pokemon(self, pokemon_name : str, priority=False):
+    def catch_pokemon(self, pokemon_name: str, priority=False):
         pokemon: Pokemon = PokemonDataMapper.get_pokemon_from_chat(pokemon_name, "en")
 
         print(f"🌟 Priority 🌟 : {get_bool_color(priority)}{priority}{reset_color()}")
@@ -101,7 +101,7 @@ class PokeBusiness:
             )
 
             ball = (
-                self.ballBusiness.find_best_ball(pokemon)
+                self.ballBusiness.find_best_ball(pokemon, priority)
                 if use_best_ball
                 else f"{self.ball_type}ball"
             )
