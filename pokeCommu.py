@@ -29,8 +29,8 @@ class PokeCommu:
         self.pokemons = []
         self.pokemons_locked = []
         self.pokemons_shiny = []
-        self.pokedex = {}
         self.eggs = []
+        self.pokedex = {}
         self.inventory = []
 
         self.poke_buddy: Pokemon | None = None
