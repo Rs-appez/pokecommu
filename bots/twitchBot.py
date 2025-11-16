@@ -80,6 +80,8 @@ class TwitchBot:
                             pokemon_name += m + " "
                         else:
                             break
+
+                    pokemon_name = pokemon_name.strip()
                     print(pokemon_name)
                     ball = self.pkb.catch_pokemon(pokemon_name, priority)
                     if ball:
