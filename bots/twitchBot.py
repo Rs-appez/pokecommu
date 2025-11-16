@@ -83,6 +83,14 @@ class TwitchBot:
 
                     pokemon_name = pokemon_name.strip()
                     print(pokemon_name)
+                    if pokemon_name == "Unidentified Ghost":
+                        if self.pkb.pokeCommu.check_ball_in_inventary("ultra_ball"):
+                            self.__send_message("!pokecatch ultraball")
+                            return
+
+                        self.__send_message("!pokecheck")
+                        return
+
                     ball = self.pkb.catch_pokemon(pokemon_name, priority)
                     if ball:
                         if self.pkb.is_economic:
