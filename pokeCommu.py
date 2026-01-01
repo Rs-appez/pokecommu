@@ -74,14 +74,20 @@ class PokeCommu:
 
     def load_pokemons_pkl(self):
         with self.pokemon_lock:
-            with open("pkl/pokemons.pkl", "rb") as file:
-                self.pokemons = pickle.load(file)
-            with open("pkl/pokemons_locked.pkl", "rb") as file:
-                self.pokemons_locked = pickle.load(file)
-            with open("pkl/pokemons_shiny.pkl", "rb") as file:
-                self.pokemons_shiny = pickle.load(file)
-            with open("pkl/eggs.pkl", "rb") as file:
-                self.eggs = pickle.load(file)
+            try:
+                with open("pkl/pokemons.pkl", "rb") as file:
+                    self.pokemons = pickle.load(file)
+                with open("pkl/pokemons_locked.pkl", "rb") as file:
+                    self.pokemons_locked = pickle.load(file)
+                with open("pkl/pokemons_shiny.pkl", "rb") as file:
+                    self.pokemons_shiny = pickle.load(file)
+                with open("pkl/eggs.pkl", "rb") as file:
+                    self.eggs = pickle.load(file)
+            except FileNotFoundError:
+                self.pokemons = []
+                self.pokemons_locked = []
+                self.pokemons_shiny = []
+                self.eggs = []
 
     def load_pokemons(self, pokemons_data: dict):
         with self.pokemon_lock:
@@ -132,8 +138,11 @@ class PokeCommu:
 
     def load_inventory_pkl(self):
         with self.inventory_lock:
-            with open("pkl/inventory.pkl", "rb") as file:
-                self.inventory = pickle.load(file)
+            try:
+                with open("pkl/inventory.pkl", "rb") as file:
+                    self.inventory = pickle.load(file)
+            except FileNotFoundError:
+                self.inventory = []
 
     def load_inventory(self, inventory_data: dict):
         with self.inventory_lock:
@@ -173,8 +182,11 @@ class PokeCommu:
 
     def load_pokedex_pkl(self):
         with self.pokedex_lock:
-            with open("pkl/pokedex.pkl", "rb") as file:
-                self.pokedex = pickle.load(file)
+            try:
+                with open("pkl/pokedex.pkl", "rb") as file:
+                    self.pokedex = pickle.load(file)
+            except FileNotFoundError:
+                self.pokedex = {}
 
     def _save_pokedex(self):
         with open("pkl/pokedex.pkl", "wb") as file:
