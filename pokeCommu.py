@@ -41,7 +41,7 @@ class PokeCommu:
 
         self.cash = 0
 
-        self.pekemon_lock = Lock()
+        self.pokemon_lock = Lock()
         self.inventory_lock = Lock()
         self.pokedex_lock = Lock()
 
@@ -73,7 +73,7 @@ class PokeCommu:
             return True
 
     def load_pokemons_pkl(self):
-        with self.pekemon_lock:
+        with self.pokemon_lock:
             with open("pkl/pokemons.pkl", "rb") as file:
                 self.pokemons = pickle.load(file)
             with open("pkl/pokemons_locked.pkl", "rb") as file:
@@ -84,7 +84,7 @@ class PokeCommu:
                 self.eggs = pickle.load(file)
 
     def load_pokemons(self, pokemons_data: dict):
-        with self.pekemon_lock:
+        with self.pokemon_lock:
             for pokemon in pokemons_data["allPokemon"]:
                 if pokemon["isLoanPokemon"]:
                     continue
@@ -191,7 +191,7 @@ class PokeCommu:
             return None
 
     def trade_pokemon(self, pokemon_id):
-        with self.pekemon_lock:
+        with self.pokemon_lock:
             response = requests.post(
                 self.url_trade + str(pokemon_id) + "/", headers=self.header
             )
@@ -224,7 +224,7 @@ class PokeCommu:
         return False
 
     def is_pokemon_in_inventory(self, pokemon: Pokemon) -> bool:
-        with self.pekemon_lock:
+        with self.pokemon_lock:
             poke_name = pokemon.get_pcg_name()
 
             if poke_name in self.exeptions_pokemons:
@@ -245,7 +245,7 @@ class PokeCommu:
             return self.pokedex.get(poke_name, False)
 
     def is_shiny_in_inventory(self, pokemon: Pokemon) -> bool:
-        with self.pekemon_lock:
+        with self.pokemon_lock:
             poke_name = pokemon.get_pcg_name()
 
             if any(poke["name"] == poke_name for poke in self.pokemons_shiny):
