@@ -3,6 +3,8 @@ import sys
 from bots.twitchBot import TwitchBot
 from business.pokeBusiness import PokeBusiness
 
+from proxy import PokeTwitchProxy
+
 help_args = [
     ("all=<true|false>", "Catch all pokemon (default true)"),
     (
@@ -107,4 +109,11 @@ if __name__ == "__main__":
         economic=economic,
     )
 
-    bot = TwitchBot(pkb)
+    proxy = PokeTwitchProxy(pkb)
+    try:
+        bot = TwitchBot(pkb)
+        proxy.start()
+
+    except KeyboardInterrupt:
+        print("Exiting...")
+        sys.exit(0)
