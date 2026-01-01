@@ -114,6 +114,8 @@ if __name__ == "__main__":
         bot = TwitchBot(pkb)
         proxy.start()
 
-    except KeyboardInterrupt:
+    finally:
+        print("Saving data...")
+        pkb.pokeCommu.save_all()
         print("Exiting...")
         sys.exit(0)
