@@ -2,6 +2,7 @@ from decouple import config
 import threading
 import re
 import websocket
+import signal
 
 from business.pokeBusiness import PokeBusiness
 
@@ -15,11 +16,20 @@ class TwitchBot:
         self.pkb = pkb
         self.session_id = None
         self.ws = None
+        self.running = True
 
+        signal.signal(signal.SIGINT, self.__signal_handler)
         self.__start()
 
     def __start(self):
         threading.Thread(target=self.__connect, name="Bot").start()
+
+    def __signal_handler(self, sig, frame):
+        self.running = False
+        if self.ws:
+            self.ws.close()
+        print("Bot leave the chat...")
+        exit(0)
 
     def __connect(self):
         self.ws = websocket.WebSocketApp(
@@ -32,6 +42,9 @@ class TwitchBot:
         self.ws.run_forever()
 
     def __on_message(self, ws, message):
+        if not self.running:
+            return
+
         if message.startswith("PING"):
             print("PING")
             ws.send("PONG\n")
