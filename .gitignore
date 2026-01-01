@@ -164,3 +164,9 @@ cython_debug/
 pokemon.db
 *.json
 scripts/
+pkl/eggs.pkl
+pkl/inventory.pkl
+pkl/pokedex.pkl
+pkl/pokemons.pkl
+pkl/pokemons_locked.pkl
+pkl/pokemons_shiny.pkl
