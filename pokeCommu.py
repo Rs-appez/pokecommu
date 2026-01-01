@@ -1,10 +1,10 @@
-import datetime
 import json
+import pickle
 from itertools import chain
+from threading import Lock
 
 import requests
 from decouple import config
-from threading import Lock
 
 from models.pokemon import Pokemon
 from models.pokemonData import PokemonDataMapper
@@ -48,30 +48,14 @@ class PokeCommu:
         self.refresh_all()
 
     def refresh_all(self):
-        if not (
-            self.load_pokemon_json()
-            and self.load_inventory_json()
-            and self.load_pokedex_json()
-        ):
-            print("Error while refreshing")
-            return False
+        self.load_pokemons_pkl()
+        self.load_inventory_pkl()
+        self.load_pokedex_pkl()
 
-        return True
-
-    def save_pokemons_json(self):
-        with open("json/pokemons.json", "w") as file:
-            pokemons_data = {"allPokemon": []}
-            with self.pekemon_lock:
-                pokemons_data["allPokemon"].extend(self.pokemons)
-                pokemons_data["allPokemon"].extend(self.pokemons_locked)
-                pokemons_data["allPokemon"].extend(self.pokemons_shiny)
-                pokemons_data["allPokemon"].extend(self.eggs)
-
-            json.dump(pokemons_data, file, indent=4)
-
-        print(
-            f"[{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Pokemons saved to json/pokemons.json"
-        )
+    def save_all(self):
+        self._save_pokemons()
+        self._save_inventory()
+        self._save_pokedex()
 
     def load_pokemon_api(self):
         response = requests.get(self.url_poke, headers=self.header)
@@ -87,6 +71,17 @@ class PokeCommu:
             pokemons = json.load(file)
             self.load_pokemons(pokemons)
             return True
+
+    def load_pokemons_pkl(self):
+        with self.pekemon_lock:
+            with open("pkl/pokemons.pkl", "rb") as file:
+                self.pokemons = pickle.load(file)
+            with open("pkl/pokemons_locked.pkl", "rb") as file:
+                self.pokemons_locked = pickle.load(file)
+            with open("pkl/pokemons_shiny.pkl", "rb") as file:
+                self.pokemons_shiny = pickle.load(file)
+            with open("pkl/eggs.pkl", "rb") as file:
+                self.eggs = pickle.load(file)
 
     def load_pokemons(self, pokemons_data: dict):
         with self.pekemon_lock:
@@ -109,6 +104,16 @@ class PokeCommu:
                     else:
                         self.pokemons.append(pokemon)
 
+    def _save_pokemons(self):
+        with open("pkl/pokemons.pkl", "wb") as file:
+            pickle.dump(self.pokemons, file)
+        with open("pkl/pokemons_locked.pkl", "wb") as file:
+            pickle.dump(self.pokemons_locked, file)
+        with open("pkl/pokemons_shiny.pkl", "wb") as file:
+            pickle.dump(self.pokemons_shiny, file)
+        with open("pkl/eggs.pkl", "wb") as file:
+            pickle.dump(self.eggs, file)
+
     def load_inventory_api(self):
         response = requests.get(self.url_inventory, headers=self.header)
         print("response : ", response.status_code, response.text)
@@ -125,12 +130,21 @@ class PokeCommu:
             self.load_inventory(inventory)
             return True
 
+    def load_inventory_pkl(self):
+        with self.inventory_lock:
+            with open("pkl/inventory.pkl", "rb") as file:
+                self.inventory = pickle.load(file)
+
     def load_inventory(self, inventory_data: dict):
         with self.inventory_lock:
             self.cash = inventory_data["cash"]
             for ball in inventory_data["allItems"]:
                 if ball["type"] == 2:
                     self.inventory.append(ball)
+
+    def _save_inventory(self):
+        with open("pkl/inventory.pkl", "wb") as file:
+            pickle.dump(self.inventory, file)
 
     def load_pokedex_api(self):
         response = requests.get(
@@ -156,6 +170,15 @@ class PokeCommu:
         with self.pokedex_lock:
             for pokemon in pokedex_data["dex"]:
                 self.pokedex[pokemon["name"]] = pokemon["c"]
+
+    def load_pokedex_pkl(self):
+        with self.pokedex_lock:
+            with open("pkl/pokedex.pkl", "rb") as file:
+                self.pokedex = pickle.load(file)
+
+    def _save_pokedex(self):
+        with open("pkl/pokedex.pkl", "wb") as file:
+            pickle.dump(self.pokedex, file)
 
     def get_pokemon(self, pokemon_id) -> dict | None:
         response = requests.get(
