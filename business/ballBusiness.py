@@ -32,7 +32,7 @@ class BallBusiness:
             lambda: self.__check_stats_ball(pokemon.stats),
             self.__check_ultra_ball,
             self.__check_drop_ball,
-            self.__check_buddy_ball(pokemon.en_types),
+            lambda: self.__check_buddy_ball(pokemon.en_types),
             self.__check_low_ball,
         ]
 
