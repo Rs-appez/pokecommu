@@ -138,7 +138,6 @@ class BallBusiness:
 
     def __check_event_ball(self, types, is_event: bool):
         if not self.event or not is_event:
-            print("No event ball")
             return None
 
         best_ball = None
