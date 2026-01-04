@@ -91,6 +91,7 @@ class PokeCommu:
 
     def load_pokemons(self, pokemons_data: dict):
         with self.pokemon_lock:
+            self.pokemons = []
             for pokemon in pokemons_data["allPokemon"]:
                 if pokemon["isLoanPokemon"]:
                     continue
@@ -141,11 +142,13 @@ class PokeCommu:
             try:
                 with open("pkl/inventory.pkl", "rb") as file:
                     self.inventory = pickle.load(file)
+
             except FileNotFoundError:
                 self.inventory = []
 
     def load_inventory(self, inventory_data: dict):
         with self.inventory_lock:
+            self.inventory = []
             self.cash = inventory_data["cash"]
             for ball in inventory_data["allItems"]:
                 if ball["type"] == 2:
@@ -177,6 +180,7 @@ class PokeCommu:
 
     def load_pokedex(self, pokedex_data: dict):
         with self.pokedex_lock:
+            self.pokedex = {}
             for pokemon in pokedex_data["dex"]:
                 self.pokedex[pokemon["name"]] = pokemon["c"]
 
@@ -268,10 +272,9 @@ class PokeCommu:
         with self.inventory_lock:
             if [b for b in self.inventory if b["name"] == ball]:
                 ball = [b for b in self.inventory if b["name"] == ball][0]
-                if ball["amount"] > 0:
-                    return True
+                return ball["amount"]
 
-            return False
+            return 0
 
     def remove_ball_from_inventory(self, ball) -> bool:
         with self.inventory_lock:
