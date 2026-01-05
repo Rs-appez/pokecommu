@@ -6,7 +6,7 @@ from business.pokeBusiness import PokeBusiness
 from proxy import PokeTwitchProxy
 
 help_args = [
-    ("all=<true|false>", "Catch all pokemon (default true)"),
+    ("all=<true|false>", "Catch all pokemon (default false)"),
     (
         "hardpokedex=<true|false>",
         "Catch only pokemon not in special pokedex (default false)",
@@ -31,7 +31,7 @@ def display_help():
 
 if __name__ == "__main__":
     args = sys.argv
-    cath_all = True
+    cath_all = False
     hard_pokedex = False
     partial = False
     special = False
