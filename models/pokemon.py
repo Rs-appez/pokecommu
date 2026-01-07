@@ -25,11 +25,13 @@ class Pokemon:
         self.fr_name = name_fr
         self.en_name = name_en
         self.id = id
+        self.db_id = None
 
         self.reg_form = reg_form
         self.spe_form = spe_form
         self.pcg: bool = pcg
 
+        self.tier = None
         self.generation = 0
         self.fr_types = []
         self.en_types = []
@@ -79,6 +81,7 @@ class Pokemon:
 
         if pokemon_data:
             self.id = pokemon_data["pokemon_id"]
+            self.db_id = pokemon_data["id"]
             self.fr_name = pokemon_data["name_fr"]
             self.en_name = pokemon_data["name_en"]
 
@@ -86,6 +89,7 @@ class Pokemon:
             self.stats = pokemon_data["stats"]
             self.height = pokemon_data["height"]
             self.weight = pokemon_data["weight"]
+            self.tier = pokemon_data.get("tier", None)
 
             self.fr_types = pokemon_data["types"]
 
@@ -170,11 +174,15 @@ class Pokemon:
         self.db.save_pokemon(pokemon)
         return pokemon
 
+    def save_tier(self, tier: str):
+        print(f"Saving tier '{tier}' for Pokemon {self.en_name}")
+        self.tier = tier
+        self.db.update_pokemon_tier(self.db_id, tier)
+
 
 if __name__ == "__main__":
     pokemon_id = 5
     pokemon = Pokemon(id=pokemon_id)
-
 
     if pokemon.id == 0:
         print(f"Pokemon '{pokemon_id}' not found.")

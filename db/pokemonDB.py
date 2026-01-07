@@ -24,6 +24,7 @@ class PokemonDB:
             Column("height", Integer),
             Column("weight", Integer),
             Column("region", String, nullable=True),
+            Column("tier", String, nullable=True),
         )
 
         # Create the table if it doesn't exist
@@ -44,6 +45,16 @@ class PokemonDB:
         self.connection.execute(query)
         self.connection.commit()
 
+    def update_pokemon_tier(self, id: int, tier: str):
+        query = (
+            sqlalchemy.update(self.pokemon)
+            .where(self.pokemon.c.id == id)
+            .values(tier=tier)
+        )
+
+        self.connection.execute(query)
+        self.connection.commit()
+
     def get_pokemon(self, name, lang, region=None):
         if lang == "fr":
             name_column = self.pokemon.c.name_fr
@@ -54,8 +65,7 @@ class PokemonDB:
 
         conditions = [func.lower(name_column) == func.lower(name)]
         if region is not None:
-            conditions.append(func.lower(self.pokemon.c.region)
-                              == func.lower(region))
+            conditions.append(func.lower(self.pokemon.c.region) == func.lower(region))
         else:
             conditions.append(self.pokemon.c.region.is_(None))
         query = sqlalchemy.select(self.pokemon).where(*conditions)
@@ -80,8 +90,7 @@ class PokemonDB:
     def get_pokemon_id(self, id, region=None):
         conditions = [self.pokemon.c.pokemon_id == id]
         if region is not None:
-            conditions.append(func.lower(self.pokemon.c.region)
-                              == func.lower(region))
+            conditions.append(func.lower(self.pokemon.c.region) == func.lower(region))
         else:
             conditions.append(self.pokemon.c.region.is_(None))
         query = sqlalchemy.select(self.pokemon).where(*conditions)
