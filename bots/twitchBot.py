@@ -5,6 +5,7 @@ import websocket
 import signal
 
 from business.pokeBusiness import PokeBusiness
+from models.pokemonData import PokemonDataMapper
 
 
 class TwitchBot:
@@ -81,6 +82,9 @@ class TwitchBot:
                 if "A wild" in message:
                     self.__catch_pokemon(message)
 
+                elif "Pokémon: " in message and "- Tier: " in message:
+                    self.__save_pokemon_tier(message)
+
     def __catch_pokemon(self, message: str) -> None:
         priority = False
         if "TwitchLit" not in message:
@@ -112,6 +116,14 @@ class TwitchBot:
                 self.__send_message("!pokecheck")
                 return
             self.__send_message(f"!pokecatch {ball}")
+
+    def __save_pokemon_tier(self, message: str) -> None:
+        r = re.search(r"Pokémon: (.*) - Tier: ([^-]+)", message)
+        if r:
+            pokemon_name, tier = r.groups()
+            pokemon = PokemonDataMapper.get_pokemon_from_chat(pokemon_name, "en")
+            if pokemon and not pokemon.tier:
+                pokemon.save_tier(tier.strip())
 
     def __send_message(self, message):
         if self.ws:
