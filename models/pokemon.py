@@ -171,7 +171,7 @@ class Pokemon:
             "height": height,
             "weight": weight,
         }
-        pokemon.db_id = self.db.save_pokemon(pokemon)
+        pokemon["id"] = self.db.save_pokemon(pokemon)
         return pokemon
 
     def save_tier(self, tier: str):
