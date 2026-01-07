@@ -15,6 +15,7 @@ class PokeBusiness:
         poke_type: str = None,
         poke_weight: float = None,
         poke_generation: int = None,
+        poke_tier: chr = None,
         greater: bool = False,
         ball_type: str = None,
         partial: bool = False,
@@ -26,6 +27,7 @@ class PokeBusiness:
         self.poke_type: str = poke_type
         self.poke_weight: float = poke_weight
         self.poke_generation: int = poke_generation
+        self.poke_tier: chr = poke_tier
         self.ball_type: str = ball_type
         self.greater: bool = greater
         self.partial: bool = partial
@@ -139,5 +141,9 @@ class PokeBusiness:
                     print(
                         f"{pokemon.en_name} is from generation {self.poke_generation}"
                     )
+                    return True
+            if self.poke_tier is not None:
+                if pokemon.tier == self.poke_tier:
+                    print(f"{pokemon.en_name} is tier {self.poke_tier}")
                     return True
         return False

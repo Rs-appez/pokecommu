@@ -15,6 +15,7 @@ help_args = [
     ("weight=<weight>", "Weight of the pokemon"),
     ("ball=<ball_type>", "Type of the ball to use"),
     ("gen=<generation>", "Generation of the pokemon"),
+    ("tier=<tier>", "Tier of the pokemon"),
     ("partial", "Catch partial pokemon (default false)"),
     ("special", "Catch special pokemon (default false)"),
     ("economic", "Only send pokecheck (default false)"),
@@ -41,6 +42,7 @@ if __name__ == "__main__":
     poke_type = None
     poke_weight = None
     poke_generation = None
+    poke_tier = None
     ball_type = None
 
     for arg in args[1:]:
@@ -69,6 +71,15 @@ if __name__ == "__main__":
                     cath_all = False
                 except ValueError:
                     print(f"Invalid weight value: {arg[7:]}")
+                    sys.exit(1)
+            case _ if arg.startswith("tier="):
+                try:
+                    if len(arg[5:]) != 1:
+                        raise ValueError()
+                    poke_tier = arg[5].upper()
+                    cath_all = False
+                except ValueError:
+                    print(f"Invalid tier value: {arg[5:]}")
                     sys.exit(1)
             case _ if arg.startswith("gen="):
                 try:
@@ -102,6 +113,7 @@ if __name__ == "__main__":
         poke_type=poke_type,
         poke_weight=poke_weight,
         poke_generation=poke_generation,
+        poke_tier=poke_tier,
         ball_type=ball_type,
         partial=partial,
         special=special,
