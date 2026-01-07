@@ -79,38 +79,39 @@ class TwitchBot:
 
             if username == "pokemoncommunitygame" and self.pkb:
                 if "A wild" in message:
-                    priority = False
-                    if "TwitchLit" not in message:
-                        priority = True
-                    print("Un pokémon sauvage apparaît")
+                    self.__catch_pokemon(message)
 
-                    pokemon_name = ""
-                    message_array = message.split(" ")[4:]
+    def __catch_pokemon(self, message: str) -> None:
+        priority = False
+        if "TwitchLit" not in message:
+            priority = True
+        print("Un pokémon sauvage apparaît")
 
-                    # handle spaces in pokemon names
-                    for m in message_array:
-                        if m != "appears":
-                            pokemon_name += m + " "
-                        else:
-                            break
+        pokemon_name = ""
+        message_array = message.split(" ")[4:]
 
-                    pokemon_name = pokemon_name.strip()
-                    print(pokemon_name)
-                    if pokemon_name == "Unidentified Ghost":
-                        if self.pkb.pokeCommu.check_ball_in_inventary("ultra_ball"):
-                            self.__send_message("!pokecatch ultraball")
-                            return
+        # handle spaces in pokemon names
+        for m in message_array:
+            if m != "appears":
+                pokemon_name += m + " "
+            else:
+                break
 
-                        self.__send_message("!pokecheck")
-                        return
+        pokemon_name = pokemon_name.strip()
+        print(pokemon_name)
+        if pokemon_name == "Unidentified Ghost":
+            if self.pkb.pokeCommu.check_ball_in_inventary("ultra_ball"):
+                self.__send_message("!pokecatch ultraball")
 
-                    ball = self.pkb.catch_pokemon(pokemon_name, priority)
-                    if ball:
-                        if self.pkb.is_economic:
-                            print("No catching because economic mode is on")
-                            self.__send_message("!pokecheck")
-                            return
-                        self.__send_message(f"!pokecatch {ball}")
+            return
+
+        ball = self.pkb.catch_pokemon(pokemon_name, priority)
+        if ball:
+            if self.pkb.is_economic:
+                print("No catching because economic mode is on")
+                self.__send_message("!pokecheck")
+                return
+            self.__send_message(f"!pokecatch {ball}")
 
     def __send_message(self, message):
         if self.ws:
