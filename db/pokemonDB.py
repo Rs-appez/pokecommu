@@ -30,7 +30,7 @@ class PokemonDB:
         # Create the table if it doesn't exist
         self.metadata.create_all(self.engine)
 
-    def save_pokemon(self, pokemon):
+    def save_pokemon(self, pokemon) -> int :
         query = sqlalchemy.insert(self.pokemon).values(
             pokemon_id=pokemon["pokemon_id"],
             region=pokemon["region"],
@@ -42,8 +42,9 @@ class PokemonDB:
             height=pokemon["height"],
             weight=pokemon["weight"],
         )
-        self.connection.execute(query)
+        result = self.connection.execute(query)
         self.connection.commit()
+        return result.inserted_primary_key[0]
 
     def update_pokemon_tier(self, id: int, tier: str):
         query = (
