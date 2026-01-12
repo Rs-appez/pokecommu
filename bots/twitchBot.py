@@ -15,7 +15,6 @@ class TwitchBot:
 
     def __init__(self, pkb: PokeBusiness):
         self.pkb = pkb
-        self.session_id = None
         self.ws = None
         self.running = True
 
