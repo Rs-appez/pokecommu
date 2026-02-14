@@ -1,8 +1,10 @@
-from decouple import config
-import threading
 import re
-import websocket
 import signal
+import threading
+from datetime import datetime
+
+import websocket
+from decouple import config
 
 from business.pokeBusiness import PokeBusiness
 from models.pokemonData import PokemonDataMapper
@@ -59,6 +61,7 @@ class TwitchBot:
     def __on_close(self, ws, close_status_code, close_msg):
         print(f"code : {close_status_code}")
         print(f"msg : {close_msg}")
+        print(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         print("### closed ###")
 
     def __on_open(self, ws):
