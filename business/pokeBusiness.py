@@ -123,6 +123,10 @@ class PokeBusiness:
                 if pokemon.has_type(self.poke_type):
                     print(f"{pokemon.en_name} is {self.poke_type}")
                     return True
+                if self.poke_type == "mono":
+                    if len(pokemon.en_types) == 1:
+                        print(f"{pokemon.en_name} is mono type")
+                        return True
             if self.poke_weight is not None:
                 if self.greater:
                     if pokemon.weight > self.poke_weight:
