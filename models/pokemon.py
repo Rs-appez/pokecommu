@@ -8,7 +8,7 @@ from db.pokemonDB import PokemonDB, TypeDB
 class Pokemon:
     db = PokemonDB()
     type_db = TypeDB()
-    api_url = "https://tyradex.vercel.app/api/v1/pokemon/"
+    api_url = "https://tyradex.app/api/v1/pokemon/"
 
     def __init__(
         self,
