@@ -299,14 +299,9 @@ class PokeCommu:
 
 if __name__ == "__main__":
     pokeCommu = PokeCommu()
-    pikachu = Pokemon(name_en="pikachu")
-    vulpix_aloa = Pokemon(name_en="vulpix", reg_form="alola")
-    vulpix = Pokemon(name_en="vulpix")
+    dewpider = Pokemon(name_en="Dewpider")
 
-    print(pokeCommu.is_pokemon_in_pokedex(pikachu))
-    print(pokeCommu.is_pokemon_in_pokedex(vulpix_aloa))
-    print(pokeCommu.is_pokemon_in_pokedex(vulpix))
-
+    print(pokeCommu.is_pokemon_in_inventory(dewpider))
     # pokeCommu.load_inventory()
     # for pokemon in pokeCommu.pokemons:
     #     # if "unown" in pokemon["name"]:
